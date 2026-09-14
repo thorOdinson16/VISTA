@@ -59,10 +59,36 @@ Key settings (all prefixed `VISTA_`):
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `VISTA_LLM_PROVIDER` | `rule-based` | `rule-based`, `openai`, `anthropic`, `ollama` |
-| `VISTA_DETECTOR_MODE` | `synthetic` | `synthetic` demo detector or `real` YOLO |
+| `VISTA_DETECTOR_MODE` | `real` | `real` YOLO ONNX (required for real footage) or `synthetic` (demo/tests) |
 | `VISTA_YOLO_MODEL_PATH` | *(empty)* | explicit ONNX path; else first `data/models/*.onnx` |
+| `VISTA_YOLO_CLASS_NAMES_PATH` | *(empty)* | custom class names (JSON list or one per line) |
+| `VISTA_DETECTOR_LABEL_MAP` | *(empty)* | JSON raw→canonical label map override |
+| `VISTA_DETECTOR_LABELS` | canonical list | open-vocab text labels (comma-separated) |
+| `VISTA_OPENVOCAB_MODEL` | `yolov8s-worldv2.pt` | YOLO-World weights |
 | `VISTA_SEMANTIC_RETRIEVAL_THRESHOLD` | `0.85` | min cosine similarity for semantic match |
 | `VISTA_SAMPLING_STRATEGY` | `adaptive` | `adaptive`, `fixed`, `all` |
+| `VISTA_SCENE_CHANGE_MOTION_GATE` | `2.0` | flow magnitude above which camera motion suppresses scene-change |
+| `VISTA_SALIENCY_FALLBACK` | `false` | opt-in: propose persistent unclassified regions when the detector finds nothing |
+| `VISTA_SALIENCY_MIN_AREA` | `600` | min region area (source px) for a saliency proposal |
+
+### Detector modes
+
+`VISTA_DETECTOR_MODE=real` (the default) uses a YOLO ONNX model via
+`cv2.dnn`. If no model is present, ingestion **fails with an explicit error**
+rather than silently substituting the synthetic demo detector — the active
+detector is always reported in the UI and `/api/status`. `synthetic` is only
+for the generated demo and tests.
+
+### Unknown objects (opt-in)
+
+With `VISTA_SALIENCY_FALLBACK=true`, if the configured detector matches
+nothing on a frame VISTA may propose *persistent, non-border* MOG2 regions as
+`object` (unclassified) — only when the camera is not moving and the region
+survives two sampled frames. This is off by default because MOG2 assumes a
+static camera and can produce false objects on handheld footage. When off,
+asking **"what is shown in the video?"** returns an honest "no configured
+objects detected" plus a representative frame. Unrecognized content is never
+given a fabricated label.
 
 The app works fully offline with `rule-based` + `synthetic` (the default):
 query parsing falls back to deterministic rules and answering to grounded
@@ -73,18 +99,66 @@ answers, and semantic object retrieval.
 
 ## Real detector (YOLO via cv2.dnn)
 
-1. Export a YOLO model to ONNX:
+`VISTA_DETECTOR_MODE=real` is the default. Fetch a model once:
 
-   ```powershell
-   uv sync --group detection
-   uv run python scripts/export_onnx.py --model yolov8s --out data/models/yolov8s.onnx
-   ```
+```powershell
+uv sync --group detection
+uv run python scripts/fetch_model.py --model yolov8s   # or yolov8n
+```
 
-2. Set `VISTA_DETECTOR_MODE=real` in `.env` (and optionally
-   `VISTA_YOLO_MODEL_PATH`).
+This writes `data/models/yolov8s.onnx`, which VISTA auto-discovers. Verify
+the detector actually runs:
 
-With `real` selected and no model present, VISTA warns and falls back to
-the synthetic detector.
+```powershell
+uv run python scripts/verify_detector.py --source path/to/image_or_video.mp4
+```
+
+`real` mode with no model is an **explicit error**, never a silent fallback
+to the synthetic detector. The synthetic detector is only used with
+`VISTA_DETECTOR_MODE=synthetic` (the demo video and the test suite).
+
+> The decoder supports YOLOv8/v11 detection exports (`4 + C` columns, no
+> objectness) and performs class-aware NMS. Custom models need a
+> class-names file via `VISTA_YOLO_CLASS_NAMES_PATH`.
+
+### Detector modes
+
+| Mode | Backend | Use |
+| --- | --- | --- |
+| `real` (default) | YOLO ONNX via `cv2.dnn` | everyday COCO objects |
+| `openvocab` | Ultralytics YOLO-World | arbitrary text labels (coin, shelf, …) |
+| `hybrid` | `real`, fall back to `openvocab` | best coverage; slower |
+| `synthetic` | ColorDetector | demo video + tests only |
+
+Open-vocabulary labels come from `VISTA_DETECTOR_LABELS` (comma-separated);
+YOLO-World weights are fetched on first use into the Ultralytics cache.
+
+### Canonical vocabulary & label mapping
+
+Detector labels are mapped to one canonical vocabulary
+(`backend/app/perception/vocabulary.py`) so query terms, stored categories
+and detector output agree: e.g. COCO `book` → `notebook`,
+`dining table` → `desk`, `cup` → `mug`. Queries containing synonyms
+("book", "table") resolve to the canonical objects. Override the raw→canonical
+map with `VISTA_DETECTOR_LABEL_MAP` (JSON). Unmapped labels pass through
+unchanged — an unknown detection is never silently renamed.
+
+### Detection benchmark
+
+```powershell
+uv run python scripts/benchmark_detection.py --gt data/bench/gt.json
+```
+
+Ground-truth JSON:
+
+```json
+{ "images": [
+  { "path": "data/bench/0001.jpg",
+    "boxes": [ { "label": "person", "bbox": [x1, y1, x2, y2] } ] }
+] }
+```
+
+Reports precision/recall/mAP@0.5 per class.
 
 ---
 
