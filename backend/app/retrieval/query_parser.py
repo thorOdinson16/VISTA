@@ -9,20 +9,7 @@ from pydantic import BaseModel, Field
 
 from ..llm.base import LLMProvider
 from ..llm.providers import RuleBasedProvider
-
-_CATEGORIES = [
-    "notebook",
-    "book",
-    "mug",
-    "cup",
-    "backpack",
-    "laptop",
-    "phone",
-    "cell phone",
-    "person",
-    "chair",
-    "tool",
-]
+from ..perception.vocabulary import query_terms
 
 _ANCHOR_EVENTS = {
     "disappeared": "disappeared",
@@ -39,7 +26,7 @@ _PARSER_PROMPT = (
     "Convert the user's question about a video archive into a JSON query plan.\n"
     "\n"
     "Return ONLY valid JSON with this schema:\n"
-    '{"query_type": "locate|history|actor|event|change|state|general",\n'
+    '{"query_type": "locate|history|actor|event|change|state|describe|general",\n'
     ' "target_category": "<category or null>",\n'
     ' "attributes": ["<adjective>"],\n'
     ' "relationship": "<moved|picked_up|placed|carried|approached|null>",\n'
@@ -48,8 +35,8 @@ _PARSER_PROMPT = (
     '              "anchor_event_end": "<event or null>",\n'
     '              "start": null, "end": null}}\n'
     "\n"
-    "Object categories: notebook, mug, cup, backpack, laptop, phone, person,\n"
-    "chair, tool, book.\n"
+    "Use canonical categories: notebook, mug, backpack, laptop, phone, person,\n"
+    "chair, bottle, tool, desk, shelf, coin, tablet.\n"
     "\n"
     "Question: __QUERY__"
 )
@@ -88,8 +75,14 @@ def _mk(
 
 
 class QueryParser:
-    def __init__(self, llm: LLMProvider | None = None) -> None:
+    def __init__(
+        self,
+        llm: LLMProvider | None = None,
+        vocabulary: list[tuple[str, str]] | None = None,
+    ) -> None:
         self.llm = llm or RuleBasedProvider()
+        # (term, canonical) pairs, longest first, from the shared vocabulary.
+        self._terms = vocabulary if vocabulary is not None else query_terms()
 
     def parse(self, query: str) -> QueryPlan:
         plan = self._llm_parse(query)
@@ -106,10 +99,11 @@ class QueryParser:
         except (ValueError, TypeError, json.JSONDecodeError):
             return None
 
-    @staticmethod
-    def _rule_parse(query: str) -> QueryPlan:
+    def _rule_parse(self, query: str) -> QueryPlan:
         q = query.lower()
-        category = next((c for c in _CATEGORIES if c in q), None)
+        category = next(
+            (canonical for term, canonical in self._terms if term in q), None
+        )
         attributes = [a for a in ("red", "blue", "green", "black", "white") if a in q]
         temporal = QueryParser._parse_temporal(q)
 
@@ -123,6 +117,17 @@ class QueryParser:
             return _mk("actor", category, attributes, temporal, rel)
         if "where" in q or "last seen" in q or "when" in q:
             return _mk("locate", category, attributes, temporal)
+        if (
+            "what is shown" in q
+            or "what's shown" in q
+            or "what do you see" in q
+            or "what can you see" in q
+            or "describe" in q
+            or "what is in the video" in q
+            or "what's in the video" in q
+            or "tell me about" in q
+        ):
+            return _mk("describe", category, attributes, temporal)
         if "history" in q or "what happened" in q:
             return _mk("history", category, attributes, temporal)
         if "change" in q:

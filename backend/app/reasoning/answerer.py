@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from ..llm.base import LLMProvider
 from ..llm.providers import RuleBasedProvider
 from ..memory.models import EventRecord, EventType
+from ..pipeline.pipeline import POSTER_FRAME
 from ..retrieval.query_parser import QueryPlan
 from ..retrieval.retriever import RetrievalResult
 
@@ -57,6 +58,8 @@ class Answer(BaseModel):
     confidence: float = 0.0
     evidence_refs: list[str] = Field(default_factory=list)
     timeline: list[TimelineEntry] = Field(default_factory=list)
+    # Representative scene frame ("here is the frame"), shown by the UI.
+    poster: str | None = None
 
 
 class Answerer:
@@ -99,8 +102,9 @@ class Answerer:
             "event": self._event,
             "change": self._change,
             "state": self._state,
-            "general": self._history,
-        }.get(plan.query_type, self._history)
+            "describe": self._describe_scene,
+            "general": self._describe_scene,
+        }.get(plan.query_type, self._describe_scene)
         return handler(plan, result, evidence_refs)
 
     def _describe(self, event: EventRecord) -> str:
@@ -242,6 +246,61 @@ class Answerer:
             observed=observed,
             confidence=result.confidence,
             evidence_refs=evidence_refs,
+        )
+
+    @staticmethod
+    def _poster_url() -> str:
+        return f"/evidence/{POSTER_FRAME}"
+
+    def _object_summary_label(self, obj) -> str:
+        if obj.category == "object":
+            return "an unclassified object"
+        return self._entity_label(obj.object_id)
+
+    def _describe_scene(self, plan, result, evidence_refs) -> Answer:
+        objects = result.objects
+        if not objects:
+            category = plan.target_category
+            subject = f"the {category}" if category else "any configured object"
+            return Answer(
+                text=(
+                    f"No configured objects were detected for {subject}. "
+                    "The active detector does not match this footage; "
+                    "here is a representative frame."
+                ),
+                confidence=0.0,
+                evidence_refs=evidence_refs,
+                poster=self._poster_url(),
+            )
+
+        parts: list[str] = []
+        observed: list[str] = []
+        for obj in objects:
+            label = self._object_summary_label(obj)
+            if obj.first_seen is not None and obj.last_seen is not None:
+                parts.append(f"{label} ({obj.first_seen:.1f}-{obj.last_seen:.1f}s)")
+                observed.append(
+                    f"{label} is visible from {obj.first_seen:.1f}s "
+                    f"to {obj.last_seen:.1f}s."
+                )
+            else:
+                parts.append(label)
+            color = obj.attributes.get("color") if obj.attributes else None
+            if color:
+                observed.append(f"{label} is {color}.")
+
+        text = "I can see: " + "; ".join(parts) + "."
+        facts = getattr(result, "facts", None) or []
+        if facts:
+            fact_labels = [self._fact_label(f) for f in facts]
+            text += " " + " ".join(f"{label}." for label in fact_labels)
+            observed.extend(fact_labels)
+        return Answer(
+            text=text,
+            observed=observed,
+            confidence=result.confidence,
+            evidence_refs=evidence_refs,
+            poster=self._poster_url(),
         )
 
     def _actor(self, plan, result, evidence_refs) -> Answer:

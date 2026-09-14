@@ -92,6 +92,7 @@ class Retriever:
             "event": self._event,
             "change": self._change,
             "state": self._state,
+            "describe": self._describe,
             "general": self._general,
         }.get(plan.query_type, self._general)(plan)
 
@@ -436,6 +437,29 @@ class Retriever:
             events=events,
             evidence=evidence,
             confidence=self._mean_confidence([e.confidence for e in events]),
+        )
+
+    def _describe(self, plan: QueryPlan) -> RetrievalResult:
+        """Summarize what is visible: all objects, scene facts, evidence."""
+        objects = self._match_objects(plan.target_category, plan.attributes)
+        state = self.memory.scene_memory.latest()
+        facts: list[dict] = []
+        if state is not None:
+            for rel in state.spatial_relationships:
+                parsed = self._parse_spatial(rel)
+                if parsed is not None:
+                    facts.append(parsed)
+        evidence = []
+        for obj in objects:
+            rec = self.evidence.for_object_last(obj)
+            if rec is not None:
+                evidence.append(rec)
+        return RetrievalResult(
+            objects=objects,
+            evidence=evidence,
+            facts=facts,
+            facts_time=state.timestamp if state is not None else None,
+            confidence=self._mean_confidence([o.confidence for o in objects]),
         )
 
     def _general(self, plan: QueryPlan) -> RetrievalResult:
