@@ -12,17 +12,30 @@ _MOTION_WIDTH = 320
 
 
 class MotionAnalyzer:
-    """Estimate motion between consecutive frames and detect scene change."""
+    """Estimate motion between consecutive frames and detect scene change.
 
-    def __init__(self, width: int = _MOTION_WIDTH) -> None:
+    MOG2 reports the entire frame as foreground on its first call because
+    the background model is still empty. ``foreground`` therefore returns a
+    score of 0.0 for the first ``warmup_frames`` calls (while still training
+    the model) so a cold start can never be mistaken for a scene change.
+    """
+
+    def __init__(
+        self, width: int = _MOTION_WIDTH, warmup_frames: int = 3
+    ) -> None:
         self.width = width
+        self.warmup_frames = max(1, warmup_frames)
+        self.last_flow_magnitude = 0.0
         self._prev_gray: np.ndarray | None = None
+        self._foreground_calls = 0
         self._bg_subtractor = cv2.createBackgroundSubtractorMOG2(
             history=500, varThreshold=36, detectShadows=False
         )
 
     def reset(self) -> None:
         self._prev_gray = None
+        self.last_flow_magnitude = 0.0
+        self._foreground_calls = 0
         self._bg_subtractor = cv2.createBackgroundSubtractorMOG2(
             history=500, varThreshold=36, detectShadows=False
         )
@@ -52,10 +65,15 @@ class MotionAnalyzer:
         # norm over all pixels), so a single threshold works across
         # resolutions.
         magnitude = float(np.mean(np.linalg.norm(flow, axis=2)))
+        self.last_flow_magnitude = magnitude
         self._prev_gray = gray
         return magnitude, flow
 
     def foreground(self, image: np.ndarray) -> tuple[np.ndarray, float]:
         mask = self._bg_subtractor.apply(self._small(image))
+        self._foreground_calls += 1
+        if self._foreground_calls <= self.warmup_frames:
+            # Cold-start frames are not a scene change.
+            return mask, 0.0
         change_score = float(np.count_nonzero(mask)) / float(mask.size)
         return mask, change_score

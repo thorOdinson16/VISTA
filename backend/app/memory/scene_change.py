@@ -26,21 +26,45 @@ class SceneChangeDetector:
         baseline_alpha: float = 0.1,
         min_confidence: float = 0.5,
         max_confidence: float = 1.0,
+        motion_gate: float = 2.0,
     ) -> None:
         self.change_threshold = change_threshold
         self.persistence = max(1, persistence)
         self.baseline_alpha = baseline_alpha
         self.min_confidence = min_confidence
         self.max_confidence = max_confidence
+        # Above this mean optical-flow magnitude the camera itself is
+        # moving, so MOG2 foreground is unreliable: suppress emission and
+        # let the baseline track the scene.
+        self.motion_gate = motion_gate
         self._baseline: float | None = None
+        self._seen = 0
         self._streak = 0
         self._streak_start: tuple[int, float] | None = None
         self._events: list[EventRecord] = []
 
-    def observe(self, frame_id: int, timestamp: float, score: float) -> None:
+    def observe(
+        self,
+        frame_id: int,
+        timestamp: float,
+        score: float,
+        motion_magnitude: float = 0.0,
+    ) -> None:
         """Feed one foreground-ratio sample (0..1) for a decoded frame."""
+        self._seen += 1
         if self._baseline is None:
+            # First sample seeds the baseline; never an event on its own.
             self._baseline = score
+            return
+
+        if motion_magnitude > self.motion_gate:
+            # Global camera motion: not a scene *change*, just movement.
+            self._streak = 0
+            self._streak_start = None
+            self._baseline = (
+                (1.0 - self.baseline_alpha) * self._baseline
+                + self.baseline_alpha * score
+            )
             return
 
         delta = abs(score - self._baseline)
