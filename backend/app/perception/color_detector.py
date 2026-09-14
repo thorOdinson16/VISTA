@@ -24,6 +24,8 @@ DEFAULT_PALETTE: dict[str, tuple[tuple[int, int, int], tuple[int, int, int]]] = 
 class ColorDetector:
     """Detect solid-color objects via HSV segmentation and contours."""
 
+    name = "ColorDetector (synthetic)"
+
     def __init__(
         self,
         palette: (
