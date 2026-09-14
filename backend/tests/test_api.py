@@ -5,9 +5,12 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+import pytest
 from fastapi.testclient import TestClient
 
 from backend.app.api.main import SESSION, app
+from backend.app.config import settings
+from backend.app.pipeline.pipeline import build_default_detector
 
 
 def _make_video_bytes(frames: int = 60, fps: float = 30.0) -> bytes:
@@ -26,7 +29,10 @@ def _make_video_bytes(frames: int = 60, fps: float = 30.0) -> bytes:
         return path.read_bytes()
 
 
-def test_status_and_ingest_and_query():
+def test_status_and_ingest_and_query(monkeypatch):
+    # Tests run without a model/network: pin the deterministic synthetic
+    # detector. Production defaults to the real YOLO detector.
+    monkeypatch.setattr(settings, "detector_mode", "synthetic")
     client = TestClient(app)
     SESSION.reset()
 
@@ -59,3 +65,13 @@ def test_status_and_ingest_and_query():
 
     resp = client.get("/video")
     assert resp.status_code == 200
+
+
+def test_real_mode_without_model_raises():
+    with pytest.raises(ValueError, match="no YOLO ONNX model"):
+        build_default_detector(mode="real", models_dir="data/models_missing")
+
+
+def test_unknown_detector_mode_raises():
+    with pytest.raises(ValueError, match="Unknown detector mode"):
+        build_default_detector(mode="banana")

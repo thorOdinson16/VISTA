@@ -48,6 +48,21 @@ def test_sustained_plateau_does_not_repeat():
     assert len(detector.events()) == 1
 
 
+def test_global_camera_motion_suppresses_change():
+    detector = SceneChangeDetector(
+        change_threshold=0.15, persistence=2, motion_gate=2.0
+    )
+    detector.observe(0, 0.0, 0.02)
+    # Large foreground change but the camera is moving: no event.
+    for i in range(1, 5):
+        detector.observe(i, i * 0.1, 0.90, motion_magnitude=10.0)
+    assert detector.events() == []
+    # Once the camera settles, a sustained change is still detected.
+    for i in range(5, 8):
+        detector.observe(i, i * 0.1, 0.90, motion_magnitude=0.0)
+    assert len(detector.events()) == 1
+
+
 def test_gentle_drift_is_baseline_not_change():
     detector = SceneChangeDetector(
         change_threshold=0.15, persistence=2, baseline_alpha=0.2

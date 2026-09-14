@@ -50,3 +50,21 @@ def test_motion_analyzer():
     mask, score = analyzer.foreground(np.full((120, 160, 3), 255, np.uint8))
     assert mask.shape == (120, 160)
     assert 0.0 <= score <= 1.0
+
+
+def test_motion_foreground_warmup_returns_zero():
+    analyzer = MotionAnalyzer(warmup_frames=3)
+    static = np.full((120, 160, 3), 128, np.uint8)
+    scores = [analyzer.foreground(static)[1] for _ in range(4)]
+    assert scores[:3] == [0.0, 0.0, 0.0]
+    assert 0.0 <= scores[3] <= 1.0
+
+
+def test_motion_records_last_flow_magnitude():
+    analyzer = MotionAnalyzer()
+    analyzer.optical_flow(np.full((120, 160, 3), 128, np.uint8))
+    assert analyzer.last_flow_magnitude == 0.0
+    moving = np.zeros((120, 160, 3), np.uint8)
+    moving[:, 40:80] = 255
+    analyzer.optical_flow(moving)
+    assert analyzer.last_flow_magnitude > 0.0

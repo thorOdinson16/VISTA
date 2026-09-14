@@ -19,7 +19,7 @@ class FakeEmbedder:
         for text in texts:
             low = text.lower()
             vec = [0.0, 0.0, 0.0]
-            if "notebook" in low or "book" in low:
+            if "notebook" in low or "book" in low or "tablet" in low:
                 vec[0] = 1.0
             if "mug" in low:
                 vec[1] = 1.0
@@ -53,14 +53,23 @@ def _traj(points):
     ]
 
 
-def test_semantic_fallback_resolves_synonym_category():
+def test_synonym_resolves_structurally_to_canonical():
+    # "book" is a synonym of canonical "notebook"; no embedding needed.
     memory = build_memory()
     plan = QueryParser().parse("Where is the book?")
-    assert plan.target_category == "book"
-    # Structured matching finds no "book" object...
+    assert plan.target_category == "notebook"
+    result = Retriever(memory).retrieve(plan)
+    assert [o.object_id for o in result.objects] == ["n1"]
+
+
+def test_semantic_fallback_resolves_out_of_vocabulary_category():
+    memory = build_memory()
+    plan = QueryParser().parse("Where is the tablet?")
+    assert plan.target_category == "tablet"
+    # No tablet object exists, so structured matching is empty...
     structured = Retriever(memory).retrieve(plan)
     assert structured.objects == []
-    # ...but embeddings resolve it to the notebook.
+    # ...but embeddings resolve it to the visually-described notebook.
     retriever = Retriever(memory, llm=FakeEmbedder(), semantic_threshold=0.85)
     result = retriever.retrieve(plan)
     assert [o.object_id for o in result.objects] == ["n1"]
@@ -77,7 +86,7 @@ def test_explicit_attribute_filter_is_not_overridden():
 
 def test_no_embedding_provider_stays_structured():
     memory = build_memory()
-    plan = QueryParser().parse("Where is the book?")
+    plan = QueryParser().parse("Where is the tablet?")
     result = Retriever(memory).retrieve(plan)
     assert result.objects == []
 
