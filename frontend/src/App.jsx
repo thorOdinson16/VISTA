@@ -226,6 +226,13 @@ export default function App() {
             ? `Indexed: ${status.objects} objects, ${status.events} events`
             : "No video ingested yet."}
         </div>
+        {status.detector_mode && (
+          <div className="empty" style={{ marginTop: 4, fontSize: 12 }}>
+            Detector: {status.detector_name || status.detector_mode}
+            {status.detector_name ? ` (${status.detector_mode})` : ""}
+            {status.saliency_fallback ? " + saliency fallback" : ""}
+          </div>
+        )}
       </div>
 
       <div className="row">
@@ -331,6 +338,27 @@ export default function App() {
                       <li key={i}>{o}</li>
                     ))}
                   </ul>
+                </>
+              )}
+
+              {answer.answer.poster && (
+                <>
+                  <div className="section-label">Frame</div>
+                  <div className="evidence-grid">
+                    <div
+                      className="evidence-card"
+                      onClick={() => seek(0)}
+                      title="Representative frame"
+                    >
+                      <img
+                        src={answer.answer.poster}
+                        alt="scene frame"
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    </div>
+                  </div>
                 </>
               )}
 

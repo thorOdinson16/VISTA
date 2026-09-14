@@ -36,6 +36,9 @@ class StatusResponse(BaseModel):
     events: int = 0
     fps: float | None = None
     duration: float | None = None
+    detector_mode: str | None = None
+    detector_name: str | None = None
+    saliency_fallback: bool = False
 
 
 class TimelineResponse(BaseModel):

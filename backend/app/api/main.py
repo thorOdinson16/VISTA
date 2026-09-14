@@ -14,7 +14,8 @@ from fastapi.staticfiles import StaticFiles
 
 from ..config import settings
 from ..llm.factory import create_llm_from_settings
-from ..pipeline.pipeline import Pipeline, build_default_detector
+from ..perception.vocabulary import load_label_map
+from ..pipeline.pipeline import Pipeline, build_default_detector, detector_name
 from ..reasoning.answerer import Answerer
 from ..retrieval.query_parser import QueryParser
 from ..retrieval.retriever import Retriever
@@ -53,6 +54,9 @@ def status() -> StatusResponse:
         events=events,
         fps=SESSION.fps if SESSION.ready else None,
         duration=SESSION.duration,
+        detector_mode=SESSION.detector_mode or settings.detector_mode,
+        detector_name=SESSION.detector_name,
+        saliency_fallback=settings.saliency_fallback,
     )
 
 
@@ -64,22 +68,40 @@ async def ingest(file: Annotated[UploadFile, File()]) -> IngestResult:
     with video_path.open("wb") as out:
         shutil.copyfileobj(file.file, out)
 
-    detector = build_default_detector(
-        model_path=settings.yolo_model_path,
-        mode=settings.detector_mode,
-        models_dir=settings.models_dir,
-    )
+    try:
+        detector = build_default_detector(
+            model_path=settings.yolo_model_path,
+            mode=settings.detector_mode,
+            models_dir=settings.models_dir,
+            conf_threshold=settings.detection_confidence_threshold,
+            class_names_path=settings.yolo_class_names_path,
+            label_map=load_label_map(settings.detector_label_map),
+            labels=settings.detector_label_list,
+            openvocab_model=settings.openvocab_model,
+        )
+    except ValueError as exc:
+        video_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
     store_path = _UPLOAD_DIR / f"{video_path.stem}.db"
     pipeline = Pipeline(
         detector=detector,
         evidence_dir=_EVIDENCE_DIR,
         store_path=store_path,
+        saliency_fallback=settings.saliency_fallback,
+        saliency_min_area=settings.saliency_min_area,
+        saliency_min_overlap=settings.saliency_min_persistence_overlap,
+        scene_change_threshold=settings.scene_change_threshold,
+        scene_change_motion_gate=settings.scene_change_motion_gate,
     )
     try:
         result = pipeline.run(video_path)
     except ValueError as exc:
         video_path.unlink(missing_ok=True)
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    SESSION.detector_name = detector_name(detector)
+    SESSION.detector_mode = settings.detector_mode
 
     # The normal ingestion flow persists memory and writes evidence frames;
     # the session holds the source video with its real metadata (FPS, ...).

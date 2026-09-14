@@ -20,6 +20,8 @@ class VistaSession:
         self.memory: VisualMemory | None = None
         self.source_video: str | None = None
         self.video_info: VideoInfo | None = None
+        self.detector_mode: str | None = None
+        self.detector_name: str | None = None
 
     @property
     def ready(self) -> bool:
@@ -49,3 +51,5 @@ class VistaSession:
         self.memory = None
         self.source_video = None
         self.video_info = None
+        self.detector_mode = None
+        self.detector_name = None

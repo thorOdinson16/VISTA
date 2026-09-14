@@ -28,12 +28,26 @@ class Settings(BaseSettings):
     semantic_retrieval_threshold: float = 0.85
 
     # --- Detection ---
-    # "synthetic" (ColorDetector, deterministic tests/demo) or
-    # "real" (YOLO ONNX via cv2.dnn).
-    detector_mode: str = "synthetic"
+    # "real"    : YOLO ONNX via cv2.dnn (required for real footage)
+    # "synthetic": ColorDetector, deterministic tests + generated demo only
+    # A missing model in "real" mode is an explicit error, never a silent
+    # downgrade to the synthetic detector.
+    detector_mode: str = "real"
     yolo_model_path: str | None = None
+    yolo_class_names_path: str | None = None
+    # Optional JSON file mapping raw detector labels -> canonical categories.
+    detector_label_map: str | None = None
+    # Open-vocabulary (YOLO-World) text labels, comma-separated.
+    detector_labels: str = (
+        "notebook,desk,shelf,coin,mug,backpack,laptop,phone,person,chair,bottle,tablet"
+    )
+    openvocab_model: str = "yolov8s-worldv2.pt"
     model_size: str = "yolov8s"
     detection_confidence_threshold: float = 0.25
+
+    @property
+    def detector_label_list(self) -> list[str]:
+        return [s.strip() for s in self.detector_labels.split(",") if s.strip()]
 
     # --- Tracking ---
     tracking_iou_threshold: float = 0.3
@@ -43,6 +57,21 @@ class Settings(BaseSettings):
     # --- Frame sampling ---
     sampling_strategy: str = "adaptive"
     sampling_fps: float = 2.0
+
+    # --- Scene change ---
+    scene_change_threshold: float = 0.15
+    # Mean optical-flow magnitude above which the camera is considered to be
+    # moving and scene-change detection is suppressed.
+    scene_change_motion_gate: float = 2.0
+
+    # --- Generic unknown-object fallback ---
+    # When the configured detector finds nothing, propose persistent salient
+    # regions (MOG2 foreground) as unclassified "object" detections. Off by
+    # default: MOG2 assumes a static camera and produces false objects on
+    # handheld footage.
+    saliency_fallback: bool = False
+    saliency_min_area: int = 600
+    saliency_min_persistence_overlap: float = 0.1
 
     @property
     def uploads_dir(self) -> Path:
