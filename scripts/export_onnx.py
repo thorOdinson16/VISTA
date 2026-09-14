@@ -9,9 +9,28 @@ from __future__ import annotations
 
 import argparse
 import shutil
+import sys
 from pathlib import Path
 
-from ultralytics import YOLO
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+
+def export_model(
+    model_name: str = "yolov8s", imgsz: int = 640, out: str | None = None
+) -> Path:
+    """Export ``<model_name>.pt`` to ONNX and return the resulting path."""
+    from ultralytics import YOLO
+
+    model = YOLO(f"{model_name}.pt")
+    exported = Path(
+        model.export(format="onnx", imgsz=imgsz, dynamic=False, simplify=True)
+    )
+    if out:
+        dest = Path(out)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(exported), dest)
+        return dest
+    return exported
 
 
 def main() -> None:
@@ -21,18 +40,11 @@ def main() -> None:
     parser.add_argument("--out", default=None, help="destination path")
     args = parser.parse_args()
 
-    model = YOLO(f"{args.model}.pt")
-    exported = model.export(
-        format="onnx", imgsz=args.imgsz, dynamic=False, simplify=True
-    )
-
+    dest = export_model(args.model, args.imgsz, args.out)
     if args.out:
-        dest = Path(args.out)
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.move(str(exported), dest)
         print(f"Exported {args.model} -> {dest}")
     else:
-        print(f"Exported {args.model} -> {exported}")
+        print(f"Exported {args.model} -> {dest}")
 
 
 if __name__ == "__main__":
