@@ -96,6 +96,7 @@ class Owlv2Detector:
         model: str = "google/owlv2-base-patch16-ensemble",
         conf_threshold: float = 0.2,
         nms_iou: float = 0.5,
+        device: str | None = None,
     ) -> None:
         try:
             import torch
@@ -112,9 +113,16 @@ class Owlv2Detector:
         self.conf_threshold = conf_threshold
         self.nms_iou = nms_iou
         self._processor = Owlv2Processor.from_pretrained(model)
-        self._model = Owlv2ForObjectDetection.from_pretrained(model).eval()
+        # CUDA when present (local dev), CPU otherwise (e.g. Graviton).
+        self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+        self._model = (
+            Owlv2ForObjectDetection.from_pretrained(model).eval().to(self.device)
+        )
         self._texts = [[self.PROMPT.format(label) for label in self.labels]]
-        self.name = f"OWLv2 ({model.split('/')[-1]}, {len(self.labels)} labels)"
+        self.name = (
+            f"OWLv2 ({model.split('/')[-1]}, {len(self.labels)} labels, "
+            f"{self.device})"
+        )
 
     def detect(
         self, image, frame_id: int, timestamp: float
@@ -127,6 +135,7 @@ class Owlv2Detector:
         inputs = self._processor(
             text=self._texts, images=pil, return_tensors="pt"
         )
+        inputs = inputs.to(self.device)
         with self._torch.no_grad():
             outputs = self._model(**inputs)
         # OWLv2 pads to a square; boxes come back in padded-square pixels.
@@ -139,7 +148,7 @@ class Owlv2Detector:
 
         boxes, scores, labels = [], [], []
         for score, label, box in zip(
-            results["scores"], results["labels"], results["boxes"]
+            results["scores"].cpu(), results["labels"].cpu(), results["boxes"].cpu()
         ):
             x1, y1, x2, y2 = (float(v) for v in box.tolist())
             x1, x2 = max(0.0, x1), min(float(width), x2)
