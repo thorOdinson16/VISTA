@@ -54,6 +54,7 @@ def _run_pipeline(video_path: Path, labels: list[str]):
         label_map=load_label_map(settings.detector_label_map),
         labels=labels,
         openvocab_model=settings.openvocab_model,
+        owlv2_model=settings.owlv2_model,
     )
     store_path = _UPLOAD_DIR / f"{video_path.stem}.db"
     pipeline = Pipeline(
@@ -142,7 +143,7 @@ def query(request: QueryRequest) -> QueryResponse:
     target = (plan.target_category or "").strip().lower()
     if (
         target
-        and settings.detector_mode in ("openvocab", "hybrid")
+        and settings.detector_mode in ("openvocab", "owlv2", "hybrid")
         and SESSION.source_video
         and target not in _known_categories()
         and target not in SESSION.extra_labels

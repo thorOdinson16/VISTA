@@ -254,6 +254,7 @@ def build_default_detector(
     label_map: dict[str, str] | None = None,
     labels: list[str] | None = None,
     openvocab_model: str = "yolov8s-worldv2.pt",
+    owlv2_model: str = "google/owlv2-base-patch16-ensemble",
 ) -> object:
     """Build a detector for one of the explicit modes.
 
@@ -264,6 +265,8 @@ def build_default_detector(
       ``*.onnx`` in ``models_dir`` is used.
     * ``openvocab`` -- :class:`YoloWorldDetector` (Ultralytics YOLO-World)
       detecting the configured text ``labels`` (e.g. ``coin``, ``shelf``).
+    * ``owlv2`` -- :class:`Owlv2Detector` (OWLv2): slower, but far better
+      on small / thin / low-contrast objects than YOLO-World.
     * ``hybrid`` -- ``real`` first, falling back to ``openvocab`` when the
       primary finds nothing.
 
@@ -304,6 +307,15 @@ def build_default_detector(
         return _real()
     if mode == "openvocab":
         return _openvocab()
+    if mode == "owlv2":
+        from ..perception.openvocab import Owlv2Detector
+
+        return MappedDetector(
+            Owlv2Detector(
+                labels or [], model=owlv2_model, conf_threshold=conf_threshold
+            ),
+            mapper,
+        )
     if mode == "hybrid":
         from ..perception.openvocab import CompositeDetector
 

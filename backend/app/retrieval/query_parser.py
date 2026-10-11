@@ -101,16 +101,26 @@ class QueryParser:
 
     def _rule_parse(self, query: str) -> QueryPlan:
         q = query.lower()
-        category = next(
+        matched = next(
             (
-                canonical
+                (term, canonical)
                 for term, canonical in self._terms
                 if re.search(r"\b" + re.escape(term) + r"\b", q)
             ),
             None,
         )
-        if category is None:
-            category = extract_target_noun(q)
+        noun = extract_target_noun(q)
+        if matched is None:
+            category = noun
+        else:
+            term, category = matched
+            # "phone charger" must not collapse to the known term "phone".
+            if (
+                noun
+                and noun != term
+                and re.search(r"\b" + re.escape(term) + r"\b", noun)
+            ):
+                category = noun
         attributes = [a for a in ("red", "blue", "green", "black", "white") if a in q]
         temporal = QueryParser._parse_temporal(q)
 

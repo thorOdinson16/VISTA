@@ -42,6 +42,7 @@ class Settings(BaseSettings):
         "notebook,desk,shelf,coin,mug,backpack,laptop,phone,person,chair,bottle,tablet"
     )
     openvocab_model: str = "yolov8s-worldv2.pt"
+    owlv2_model: str = "google/owlv2-base-patch16-ensemble"
     model_size: str = "yolov8s"
     detection_confidence_threshold: float = 0.25
 
