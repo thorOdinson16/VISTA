@@ -102,8 +102,15 @@ class QueryParser:
     def _rule_parse(self, query: str) -> QueryPlan:
         q = query.lower()
         category = next(
-            (canonical for term, canonical in self._terms if term in q), None
+            (
+                canonical
+                for term, canonical in self._terms
+                if re.search(r"\b" + re.escape(term) + r"\b", q)
+            ),
+            None,
         )
+        if category is None:
+            category = extract_target_noun(q)
         attributes = [a for a in ("red", "blue", "green", "black", "white") if a in q]
         temporal = QueryParser._parse_temporal(q)
 
@@ -187,6 +194,45 @@ class QueryParser:
         if op == "none" and anchor is None:
             return None
         return TemporalSpec(op=op, anchor_event=anchor, anchor_event_end=anchor_end)
+
+
+_NOUN_PATTERNS = [
+    re.compile(
+        r"\b(?:where(?:'s| is| are| was| were)|find|locate|show me|"
+        r"when was|when did)\s+"
+        r"(?:(?:the|my|a|an|our|his|her|their)\s+)?([a-z][a-z \-]{1,30}?)"
+        r"(?:\s+(?:now|right now|last|before|after|during|on|in|at|"
+        r"near|go|get|put|placed|left|kept)\b|\s*[?.!]*$)"
+    ),
+]
+_COLOR_WORDS = {"red", "blue", "green", "black", "white"}
+_NOT_OBJECTS = {
+    "it", "that", "this", "everything", "anything", "something", "someone",
+    "he", "she", "they", "there", "here", "i", "you",
+}
+
+
+def extract_target_noun(q: str) -> str | None:
+    """Best-effort noun phrase for objects outside the known vocabulary.
+
+    Lets an open-vocabulary detector be asked for *anything* ("where is my
+    charger"): the phrase becomes the target category and the detector is
+    prompted with it on demand.
+    """
+    q = q.strip().lower()
+    for pattern in _NOUN_PATTERNS:
+        match = pattern.search(q)
+        if not match:
+            continue
+        phrase = match.group(1).strip(" -")
+        words = [
+            w
+            for w in phrase.split()
+            if w not in _NOT_OBJECTS and w not in _COLOR_WORDS
+        ]
+        if 0 < len(words) <= 3:
+            return " ".join(words)
+    return None
 
 
 def _strip_code_fence(text: str) -> str:

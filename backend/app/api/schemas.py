@@ -28,6 +28,7 @@ class QueryResponse(BaseModel):
     target_category: str | None = None
     answer: Answer
     evidence: list[dict[str, Any]] = Field(default_factory=list)
+    searched_on_demand: bool = False
 
 
 class StatusResponse(BaseModel):

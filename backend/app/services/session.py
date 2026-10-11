@@ -22,6 +22,9 @@ class VistaSession:
         self.video_info: VideoInfo | None = None
         self.detector_mode: str | None = None
         self.detector_name: str | None = None
+        # Labels requested by queries that were not in the configured
+        # vocabulary; the detector is re-prompted with them on demand.
+        self.extra_labels: list[str] = []
 
     @property
     def ready(self) -> bool:
@@ -53,3 +56,4 @@ class VistaSession:
         self.video_info = None
         self.detector_mode = None
         self.detector_name = None
+        self.extra_labels = []
