@@ -69,12 +69,15 @@ def load_label_map(path: str | Path | None) -> dict[str, str]:
 
 def query_terms(
     mapping: dict[str, str] | None = None,
+    extra_labels: list[str] | None = None,
 ) -> list[tuple[str, str]]:
     """Return ``(term, canonical)`` pairs, longest terms first.
 
     Includes canonical categories, their synonyms, and every raw label in
     the detector mapping (so asking for "book" or "dining table" resolves
-    to the canonical objects).
+    to the canonical objects). ``extra_labels`` are configured open-vocab
+    labels (e.g. ``wallet``) that map to themselves, so anything the
+    detector can find is also something a query can ask for.
     """
     terms: dict[str, str] = {}
     for canonical, synonyms in CANONICAL_SYNONYMS.items():
@@ -83,6 +86,10 @@ def query_terms(
             terms[synonym] = canonical
     for raw, canonical in (mapping or {}).items():
         terms.setdefault(raw, canonical)
+    for label in extra_labels or []:
+        key = label.strip().lower()
+        if key:
+            terms.setdefault(key, key)
     return sorted(terms.items(), key=lambda pair: -len(pair[0]))
 
 

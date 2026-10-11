@@ -14,7 +14,7 @@ from fastapi.staticfiles import StaticFiles
 
 from ..config import settings
 from ..llm.factory import create_llm_from_settings
-from ..perception.vocabulary import load_label_map
+from ..perception.vocabulary import load_label_map, query_terms
 from ..pipeline.pipeline import Pipeline, build_default_detector, detector_name
 from ..reasoning.answerer import Answerer
 from ..retrieval.query_parser import QueryParser
@@ -124,7 +124,13 @@ def query(request: QueryRequest) -> QueryResponse:
         raise HTTPException(status_code=400, detail="No video ingested yet")
 
     llm = create_llm_from_settings(settings)
-    plan = QueryParser(llm=llm).parse(request.question)
+    plan = QueryParser(
+        llm=llm,
+        vocabulary=query_terms(
+            load_label_map(settings.detector_label_map),
+            extra_labels=settings.detector_label_list,
+        ),
+    ).parse(request.question)
     retriever = Retriever(
         memory,
         source_video=SESSION.source_video or "",
