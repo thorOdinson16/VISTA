@@ -59,7 +59,8 @@ Key settings (all prefixed `VISTA_`):
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `VISTA_LLM_PROVIDER` | `rule-based` | `rule-based`, `openai`, `anthropic`, `ollama` |
-| `VISTA_DETECTOR_MODE` | `real` | `real` YOLO ONNX (required for real footage) or `synthetic` (demo/tests) |
+| `VISTA_DETECTOR_MODE` | `real` | `real` (COCO YOLO ONNX), `owlv2` (open-vocabulary, recommended), `openvocab` (YOLO-World), `hybrid`, or `synthetic` (demo/tests) |
+| `VISTA_OWLV2_MODEL` | `google/owlv2-base-patch16-ensemble` | OWLv2 weights (downloaded on first use, ~600 MB) |
 | `VISTA_YOLO_MODEL_PATH` | *(empty)* | explicit ONNX path; else first `data/models/*.onnx` |
 | `VISTA_YOLO_CLASS_NAMES_PATH` | *(empty)* | custom class names (JSON list or one per line) |
 | `VISTA_DETECTOR_LABEL_MAP` | *(empty)* | JSON raw→canonical label map override |
@@ -126,12 +127,71 @@ to the synthetic detector. The synthetic detector is only used with
 | Mode | Backend | Use |
 | --- | --- | --- |
 | `real` (default) | YOLO ONNX via `cv2.dnn` | everyday COCO objects |
-| `openvocab` | Ultralytics YOLO-World | arbitrary text labels (coin, shelf, …) |
+| `owlv2` | OWLv2 (`transformers`) | **recommended for real footage**: arbitrary text labels, works on small / thin / low-contrast objects (chargers, cables, coins) |
+| `openvocab` | Ultralytics YOLO-World | arbitrary text labels, faster but misses small or thin objects |
 | `hybrid` | `real`, fall back to `openvocab` | best coverage; slower |
 | `synthetic` | ColorDetector | demo video + tests only |
 
 Open-vocabulary labels come from `VISTA_DETECTOR_LABELS` (comma-separated);
 YOLO-World weights are fetched on first use into the Ultralytics cache.
+
+### Open-vocabulary detection with OWLv2 (recommended)
+
+COCO detectors only know 80 classes and will force anything else into the
+nearest one (a coin becomes a `clock`, a charger becomes a `phone`).
+`owlv2` detects whatever you name.
+
+```powershell
+uv sync --group dev --group detection --group owlv2
+```
+
+Create `.env` (it is gitignored, so every machine needs its own):
+
+```
+VISTA_DETECTOR_MODE=owlv2
+VISTA_DETECTOR_LABELS=coin,key,wallet,phone,phone charger,charging cable,mug,bottle,laptop,person
+VISTA_DETECTION_CONFIDENCE_THRESHOLD=0.2
+```
+
+Notes:
+
+- **Speed.** OWLv2 runs at ~2 s/frame on CPU and is several times faster on
+  a CUDA GPU. The detector uses CUDA automatically when available; the
+  active device is shown in the UI (`OWLv2 (…, cuda)`).
+- **First run** downloads the model (~600 MB) from Hugging Face.
+- **Why not YOLO-World?** On thin or low-contrast objects (a white charger
+  cable on a patterned sheet) YOLO-World scored ≤ 0.07 even with the exact
+  label; OWLv2 scored 0.6+.
+- **Confidence.** OWLv2 scores run lower than COCO YOLO; `0.2` is a good
+  starting point. Lower it to find faint objects, raise it to cut noise.
+
+#### Local GPU (CUDA) install
+
+The lockfile pins CPU PyTorch so the same install works on ARM/Graviton.
+To use a local NVIDIA GPU, install a CUDA build into the venv only:
+
+```powershell
+uv pip install "torch==2.13.0+cu130" --index-url https://download.pytorch.org/whl/cu130
+```
+
+Match the CUDA tag to your driver (`cu128` / `cu130`). Then run with the
+venv's interpreter, because `uv run` re-syncs the environment and will put
+the CPU build back:
+
+```powershell
+.venv\Scripts\python backend/run.py
+.venv\Scripts\python -m pytest
+```
+
+### Ask for anything (on-demand search)
+
+Queries are not limited to the configured label list. Ask
+"where is my charger?" and, if `charger` was never in the detector's
+vocabulary, VISTA adds it, re-scans the video once, and answers. The label
+is remembered for the session, so repeat questions are instant. The UI notes
+when a re-scan happened. Compound nouns are kept intact ("phone charger" is
+not reduced to "phone"). This applies to the `owlv2`, `openvocab` and
+`hybrid` modes.
 
 ### Canonical vocabulary & label mapping
 
