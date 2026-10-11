@@ -1,7 +1,7 @@
 """Open-target parsing: arbitrary nouns and word-boundary vocabulary match."""
 
-from app.perception.vocabulary import query_terms
-from app.retrieval.query_parser import QueryParser, extract_target_noun
+from backend.app.perception.vocabulary import query_terms
+from backend.app.retrieval.query_parser import QueryParser, extract_target_noun
 
 
 def test_unknown_noun_becomes_target():
