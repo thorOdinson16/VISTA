@@ -70,6 +70,16 @@ def _run_pipeline(video_path: Path, labels: list[str]):
     return pipeline.run(video_path), detector
 
 
+def _clear_evidence() -> None:
+    """Drop evidence images from the previous video.
+
+    Evidence files are keyed ``evt_N`` / ``obj_N`` / ``scene``, so a new video
+    would otherwise be shown mixed with stale frames from an earlier one.
+    """
+    for path in _EVIDENCE_DIR.glob("*.jpg"):
+        path.unlink(missing_ok=True)
+
+
 def _known_categories() -> set[str]:
     memory = SESSION.memory
     if memory is None:
@@ -104,6 +114,7 @@ async def ingest(file: Annotated[UploadFile, File()]) -> IngestResult:
         shutil.copyfileobj(file.file, out)
 
     SESSION.extra_labels = []
+    _clear_evidence()
     try:
         result, detector = _run_pipeline(video_path, settings.detector_label_list)
     except ValueError as exc:

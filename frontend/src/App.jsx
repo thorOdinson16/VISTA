@@ -233,12 +233,16 @@ export default function App() {
         .sort((a, b) => a.start_time - b.start_time)
     : [];
 
+  // Evidence names repeat across videos; key the URL to the current video so
+  // the browser never serves a cached frame from an earlier upload.
+  const evVersion = encodeURIComponent(status.video || "");
+
   function evidenceImage(ev) {
     if (ev.event_refs && ev.event_refs.length) {
-      return `/evidence/${ev.event_refs[0]}.jpg`;
+      return `/evidence/${ev.event_refs[0]}.jpg?v=${evVersion}`;
     }
     if (ev.object_refs && ev.object_refs.length) {
-      return `/evidence/${ev.object_refs[0]}.jpg`;
+      return `/evidence/${ev.object_refs[0]}.jpg?v=${evVersion}`;
     }
     return null;
   }
@@ -480,7 +484,7 @@ export default function App() {
                             title="Representative frame"
                           >
                             <img
-                              src={answer.answer.poster}
+                              src={`${answer.answer.poster}${answer.answer.poster.includes("?") ? "&" : "?"}v=${evVersion}`}
                               alt="scene frame"
                               onError={(e) => {
                                 e.target.style.display = "none";
@@ -598,7 +602,7 @@ export default function App() {
                   <div className="history">
                     <img
                       className="object-thumb"
-                      src={`/evidence/${selected.object_id}.jpg`}
+                      src={`/evidence/${selected.object_id}.jpg?v=${evVersion}`}
                       alt="object"
                       onError={(e) => {
                         e.target.style.display = "none";
