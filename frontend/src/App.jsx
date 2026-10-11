@@ -1,20 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-const CATEGORY_COLORS = {
-  person: "#ff6bcb",
-  notebook: "#ff5252",
-  book: "#ff5252",
-  mug: "#4c8dff",
-  cup: "#4c8dff",
-  backpack: "#3fb96f",
-  laptop: "#e0a53e",
-  "cell phone": "#9b6bff",
-  phone: "#9b6bff",
-  chair: "#7ad0c0",
-};
+// Restrained palette: every object reads as gold, with enough variation in
+// tone to tell neighbouring boxes apart.
+const TONES = ["#f3d97a", "#d4af37", "#e8c766", "#fff1c1", "#b8962e", "#f0e2b0"];
 
-function colorFor(category) {
-  return CATEGORY_COLORS[category] || "#4c8dff";
+function colorFor(category = "") {
+  let h = 0;
+  for (let i = 0; i < category.length; i++) h = (h * 31 + category.charCodeAt(i)) >>> 0;
+  return TONES[h % TONES.length];
 }
 
 function confClass(c) {
@@ -47,6 +40,27 @@ function boxAt(object, t, window = 1.5) {
   return best.bounding_box;
 }
 
+async function api(url, options) {
+  const r = await fetch(url, options);
+  let body = null;
+  try {
+    body = await r.json();
+  } catch {
+    /* non-JSON error body */
+  }
+  if (!r.ok) {
+    throw new Error((body && body.detail) || `Request failed (${r.status})`);
+  }
+  return body;
+}
+
+const SUGGESTIONS = [
+  "What is shown in the video?",
+  "Where is the coin?",
+  "Where is my phone?",
+  "What happened in the video?",
+];
+
 export default function App() {
   const [status, setStatus] = useState({
     objects: 0,
@@ -56,8 +70,11 @@ export default function App() {
     duration: null,
   });
   const [ingesting, setIngesting] = useState(false);
+  const [error, setError] = useState(null);
+  const [dragOver, setDragOver] = useState(false);
   const [question, setQuestion] = useState("");
   const [querying, setQuerying] = useState(false);
+  const [lastQuestion, setLastQuestion] = useState("");
   const [answer, setAnswer] = useState(null);
   const [timeline, setTimeline] = useState([]);
   const [objects, setObjects] = useState([]);
@@ -71,34 +88,31 @@ export default function App() {
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const fileRef = useRef(null);
 
   async function refreshStatus() {
-    const r = await fetch("/api/status");
-    const s = await r.json();
+    const s = await api("/api/status");
     setStatus(s);
     if (s.video) setVideoUrl(`/video?t=${Date.now()}`);
+    return s;
   }
 
-  async function refreshTimeline() {
-    const r = await fetch("/api/timeline");
-    const d = await r.json();
-    setTimeline(d.events || []);
-  }
-
-  async function refreshObjects() {
-    const r = await fetch("/api/objects");
-    const d = await r.json();
-    setObjects(d.objects || []);
-  }
-
-  async function refreshScene() {
-    const r = await fetch("/api/scene");
-    const d = await r.json();
-    setScene(d.state);
+  async function refreshMemory() {
+    const [tl, ob, sc] = await Promise.all([
+      api("/api/timeline"),
+      api("/api/objects"),
+      api("/api/scene"),
+    ]);
+    setTimeline(tl.events || []);
+    setObjects(ob.objects || []);
+    setScene(sc.state);
   }
 
   useEffect(() => {
-    refreshStatus();
+    // Restore an already-ingested session after a page refresh.
+    refreshStatus()
+      .then((s) => (s.video ? refreshMemory() : null))
+      .catch(() => {});
   }, []);
 
   // Draw bounding boxes whenever playback time, objects or video size change.
@@ -117,59 +131,82 @@ export default function App() {
     for (const object of objects) {
       const box = boxAt(object, currentTime);
       if (!box) continue;
-      ctx.strokeStyle = colorFor(object.category);
+      const color = colorFor(object.category);
+      const x = box.x_min * sx;
+      const y = box.y_min * sy;
+      const w = (box.x_max - box.x_min) * sx;
+      const h = (box.y_max - box.y_min) * sy;
+      ctx.strokeStyle = color;
       ctx.lineWidth = 2;
-      ctx.strokeRect(
-        box.x_min * sx,
-        box.y_min * sy,
-        (box.x_max - box.x_min) * sx,
-        (box.y_max - box.y_min) * sy
-      );
-      const label = `${object.category} ${object.object_id}`;
-      ctx.font = "12px sans-serif";
-      const w = ctx.measureText(label).width + 8;
-      ctx.fillStyle = colorFor(object.category);
-      ctx.fillRect(box.x_min * sx, box.y_min * sy - 16, w, 16);
-      ctx.fillStyle = "#0f1115";
-      ctx.fillText(label, box.x_min * sx + 4, box.y_min * sy - 4);
+      ctx.strokeRect(x, y, w, h);
+      const label = `${object.category} · ${object.object_id}`;
+      ctx.font = "600 11px Inter, sans-serif";
+      const tw = ctx.measureText(label).width + 12;
+      const ly = Math.max(0, y - 20);
+      ctx.fillStyle = color;
+      ctx.fillRect(x, ly, tw, 20);
+      ctx.fillStyle = "#0a0a0a";
+      ctx.fillText(label, x + 6, ly + 14);
     }
   }, [currentTime, objects, videoSize]);
 
-  async function onFile(e) {
-    const file = e.target.files[0];
+  async function ingest(file) {
     if (!file) return;
     setIngesting(true);
+    setError(null);
     setAnswer(null);
     setSelectedObject(null);
     setSelectedEvent(null);
-    const form = new FormData();
-    form.append("file", file);
-    await fetch("/api/ingest", { method: "POST", body: form });
-    await refreshStatus();
-    await refreshTimeline();
-    await refreshObjects();
-    await refreshScene();
-    setIngesting(false);
+    setSimilar([]);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      await api("/api/ingest", { method: "POST", body: form });
+      await refreshStatus();
+      await refreshMemory();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setIngesting(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
   }
 
-  async function ask() {
-    if (!question.trim()) return;
+  async function ask(text) {
+    const q = (text ?? question).trim();
+    if (!q || querying) return;
+    setQuestion(q);
+    setLastQuestion(q);
     setQuerying(true);
-    const r = await fetch("/api/query", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question }),
-    });
-    const d = await r.json();
-    setAnswer(d);
-    setQuerying(false);
+    setError(null);
+    try {
+      const d = await api("/api/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: q }),
+      });
+      setAnswer(d);
+      if (d.searched_on_demand) {
+        // Memory was rebuilt with the new vocabulary; sync the panels.
+        await refreshStatus();
+        await refreshMemory();
+      }
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setQuerying(false);
+    }
   }
 
   async function showSimilar(objectId) {
-    setSelectedObject(objectId);
-    const r = await fetch(`/api/similar?object_id=${encodeURIComponent(objectId)}`);
-    const d = await r.json();
-    setSimilar(d.similar || []);
+    try {
+      const d = await api(
+        `/api/similar?object_id=${encodeURIComponent(objectId)}`
+      );
+      setSimilar(d.similar || []);
+    } catch (e) {
+      setError(e.message);
+    }
   }
 
   function seek(t) {
@@ -189,8 +226,7 @@ export default function App() {
     setSimilar([]);
   }
 
-  const selected =
-    objects.find((o) => o.object_id === selectedObject) || null;
+  const selected = objects.find((o) => o.object_id === selectedObject) || null;
   const selectedEvents = selected
     ? timeline
         .filter((ev) => (selected.event_refs || []).includes(ev.event_id))
@@ -207,306 +243,415 @@ export default function App() {
     return null;
   }
 
+  const hasVideo = Boolean(status.video && videoUrl);
+  const span = status.duration && status.duration > 0 ? status.duration : 180;
+
+  function onDrop(e) {
+    e.preventDefault();
+    setDragOver(false);
+    ingest(e.dataTransfer.files && e.dataTransfer.files[0]);
+  }
+
+  const fileInput = (
+    <input
+      ref={fileRef}
+      className="file-input"
+      type="file"
+      accept="video/*"
+      onChange={(e) => ingest(e.target.files[0])}
+    />
+  );
+
   return (
     <div className="app">
-      <header>
-        <h1>VISTA</h1>
-        <div className="subtitle">
-          Visual Intelligence &amp; Spatial Temporal Archive
+      <header className="topbar">
+        <div className="brand">
+          <h1>VISTA</h1>
+          <span className="tagline">Visual Intelligence · Spatial Temporal Archive</span>
         </div>
-      </header>
-
-      <div className="panel">
-        <h2>Ingest</h2>
-        <input type="file" accept="video/*" onChange={onFile} disabled={ingesting} />
-        <div style={{ marginTop: 8 }} className="empty">
-          {ingesting
-            ? "Processing video..."
-            : status.video
-            ? `Indexed: ${status.objects} objects, ${status.events} events`
-            : "No video ingested yet."}
-        </div>
-        {status.detector_mode && (
-          <div className="empty" style={{ marginTop: 4, fontSize: 12 }}>
-            Detector: {status.detector_name || status.detector_mode}
-            {status.detector_name ? ` (${status.detector_mode})` : ""}
-            {status.saliency_fallback ? " + saliency fallback" : ""}
+        <div className="spacer" />
+        {hasVideo && !ingesting && (
+          <div className="chips">
+            <span className="chip">
+              <span className="pulse" />
+              <b>{status.detector_name || status.detector_mode}</b>
+            </span>
+            <span className="chip">
+              <b>{status.objects}</b> objects
+            </span>
+            <span className="chip">
+              <b>{status.events}</b> events
+            </span>
+            {status.duration ? (
+              <span className="chip">
+                <b>{fmtTime(status.duration)}</b>
+              </span>
+            ) : null}
           </div>
         )}
-      </div>
-
-      <div className="row">
-        <div className="panel">
-          <h2>Video</h2>
-          {videoUrl ? (
-            <div className="video-wrap">
-              <video
-                ref={videoRef}
-                src={videoUrl}
-                controls
-                onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
-                onLoadedMetadata={(e) =>
-                  setVideoSize({
-                    w: e.target.videoWidth,
-                    h: e.target.videoHeight,
-                  })
-                }
-              />
-              <canvas ref={canvasRef} className="overlay" />
-            </div>
-          ) : (
-            <div className="empty">Upload a video to begin.</div>
-          )}
-        </div>
-
-        <div className="panel">
-          <h2>Ask</h2>
-          <input
-            type="text"
-            placeholder='e.g. "Who moved the notebook?"'
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && ask()}
-          />
-          <button onClick={ask} disabled={querying} style={{ marginTop: 10 }}>
-            {querying ? "Thinking..." : "Ask"}
+        {hasVideo && !ingesting && (
+          <button className="btn-ghost" onClick={() => fileRef.current?.click()}>
+            New video
           </button>
-        </div>
-      </div>
+        )}
+        {fileInput}
+      </header>
 
-      {timeline.length > 0 && (
-        <div className="panel">
-          <h2>Timeline</h2>
-          <div className="timeline">
-            {timeline.map((ev, i) => {
-              const span =
-                status.duration && status.duration > 0 ? status.duration : 180;
-              const left = Math.min(99, (ev.start_time / span) * 100);
-              return (
-                <div
-                  key={i}
-                  className={`marker ${
-                    selectedEvent && selectedEvent.event_id === ev.event_id
-                      ? "marker-active"
-                      : ""
-                  }`}
-                  style={{ left: `${left}%` }}
-                  title={`${fmtTime(ev.start_time)} - ${ev.type}`}
-                  onClick={() => selectEvent(ev)}
-                />
-              );
-            })}
-          </div>
-          <div className="empty" style={{ marginTop: 8 }}>
-            {selectedEvent
-              ? `${fmtTime(selectedEvent.start_time)} — ${selectedEvent.type} (${selectedEvent.confidence.toFixed(2)})`
-              : "Click a marker to seek."}
+      {ingesting && (
+        <div className="hero">
+          <div className="processing">
+            <div className="spinner" />
+            <div>Building visual memory — detecting, tracking and indexing.</div>
           </div>
         </div>
       )}
 
-      <div className="row">
-        <div className="panel">
-          <h2>Answer</h2>
-          {answer ? (
-            <div>
-              <div className="answer-text">{answer.answer.text}</div>
-              <span className={`status-badge ${confClass(answer.answer.confidence)}`}>
-                confidence {(answer.answer.confidence * 100).toFixed(0)}%
-              </span>
-              <span className="tag">{answer.query_type}</span>
-              {answer.target_category && (
-                <span className="tag">{answer.target_category}</span>
-              )}
+      {!ingesting && !hasVideo && (
+        <div className="hero">
+          <h2>
+            Video that <em>remembers</em>.
+          </h2>
+          <p>
+            Drop in footage and ask where things are, what happened and when.
+            Every answer comes with the frame that proves it.
+          </p>
+          <div
+            className={`dropzone ${dragOver ? "drag" : ""}`}
+            onClick={() => fileRef.current?.click()}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragOver(true);
+            }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={onDrop}
+          >
+            <button className="btn-gold" type="button">
+              Choose a video
+            </button>
+            <div className="hint">or drag and drop it here</div>
+          </div>
+          {error && <div className="error">{error}</div>}
+        </div>
+      )}
 
-              {answer.answer.observed.length > 0 && (
-                <>
-                  <div className="section-label">Observed</div>
-                  <ul className="list">
-                    {answer.answer.observed.map((o, i) => (
-                      <li key={i}>{o}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
+      {!ingesting && hasVideo && (
+        <>
+          <div className="grid">
+            <div className="card">
+              <h2 className="card-title">Footage</h2>
+              <div className="stage">
+                <video
+                  ref={videoRef}
+                  src={videoUrl}
+                  controls
+                  onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
+                  onLoadedMetadata={(e) =>
+                    setVideoSize({
+                      w: e.target.videoWidth,
+                      h: e.target.videoHeight,
+                    })
+                  }
+                />
+                <canvas ref={canvasRef} className="overlay" />
+              </div>
 
-              {answer.answer.inferred.length > 0 && (
+              {timeline.length > 0 && (
                 <>
-                  <div className="section-label">Inferred</div>
-                  <ul className="list">
-                    {answer.answer.inferred.map((o, i) => (
-                      <li key={i}>{o}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              {answer.answer.poster && (
-                <>
-                  <div className="section-label">Frame</div>
-                  <div className="evidence-grid">
+                  <div className="timeline">
                     <div
-                      className="evidence-card"
-                      onClick={() => seek(0)}
-                      title="Representative frame"
-                    >
-                      <img
-                        src={answer.answer.poster}
-                        alt="scene frame"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
+                      className="playhead"
+                      style={{ left: `${Math.min(100, (currentTime / span) * 100)}%` }}
+                    />
+                    {timeline.map((ev, i) => (
+                      <div
+                        key={ev.event_id || i}
+                        className={`marker ${
+                          selectedEvent && selectedEvent.event_id === ev.event_id
+                            ? "marker-active"
+                            : ""
+                        }`}
+                        style={{ left: `${Math.min(99, (ev.start_time / span) * 100)}%` }}
+                        title={`${fmtTime(ev.start_time)} · ${ev.type}`}
+                        onClick={() => selectEvent(ev)}
                       />
-                    </div>
+                    ))}
+                  </div>
+                  <div className="timeline-caption">
+                    {selectedEvent
+                      ? `${fmtTime(selectedEvent.start_time)} — ${selectedEvent.type} · ${(
+                          selectedEvent.confidence * 100
+                        ).toFixed(0)}%`
+                      : `${timeline.length} events — select a marker to jump to it`}
                   </div>
                 </>
               )}
+            </div>
 
-              {answer.evidence.length > 0 && (
-                <>
-                  <div className="section-label">Evidence</div>
-                  <div className="evidence-grid">
-                    {answer.evidence.map((ev) => {
-                      const src = evidenceImage(ev);
-                      return (
-                        <div
-                          key={ev.evidence_id}
-                          className="evidence-card"
-                          onClick={() => seek(ev.timestamp_start)}
-                        >
-                          {src ? (
+            <div className="stack">
+              <div className="card">
+                <h2 className="card-title">Ask</h2>
+                <div className="ask">
+                  <input
+                    type="text"
+                    placeholder="Where is the coin?"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && ask()}
+                  />
+                  <button
+                    className="btn-gold"
+                    onClick={() => ask()}
+                    disabled={querying || !question.trim()}
+                  >
+                    {querying ? "…" : "Ask"}
+                  </button>
+                </div>
+                <div className="suggestions">
+                  {SUGGESTIONS.map((s) => (
+                    <button
+                      key={s}
+                      className="suggestion"
+                      disabled={querying}
+                      onClick={() => ask(s)}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+                {error && <div className="error">{error}</div>}
+              </div>
+
+              <div className="card">
+                <h2 className="card-title">Answer</h2>
+                {querying ? (
+                  <div className="processing" style={{ alignItems: "flex-start" }}>
+                    <div className="spinner" />
+                    <div>Searching the footage for “{lastQuestion}”…</div>
+                  </div>
+                ) : answer ? (
+                  <div>
+                    <p className="answer-text">{answer.answer.text}</p>
+                    <div className="meta-row">
+                      <span className={`badge ${confClass(answer.answer.confidence)}`}>
+                        {(answer.answer.confidence * 100).toFixed(0)}% confidence
+                      </span>
+                      <span className="badge">{answer.query_type}</span>
+                      {answer.target_category && (
+                        <span className="badge">{answer.target_category}</span>
+                      )}
+                    </div>
+
+                    {answer.searched_on_demand && (
+                      <div className="notice">
+                        “{answer.target_category}” wasn’t in the detector’s
+                        vocabulary, so VISTA re-scanned the video looking for it.
+                      </div>
+                    )}
+
+                    {answer.answer.observed.length > 0 && (
+                      <>
+                        <div className="section-label">Observed</div>
+                        <ul className="list">
+                          {answer.answer.observed.map((o, i) => (
+                            <li key={i}>{o}</li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+
+                    {answer.answer.inferred.length > 0 && (
+                      <>
+                        <div className="section-label">Inferred</div>
+                        <ul className="list">
+                          {answer.answer.inferred.map((o, i) => (
+                            <li key={i}>{o}</li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+
+                    {answer.answer.poster && (
+                      <>
+                        <div className="section-label">Frame</div>
+                        <div className="evidence-grid">
+                          <div
+                            className="evidence-card"
+                            onClick={() => seek(0)}
+                            title="Representative frame"
+                          >
                             <img
-                              src={src}
-                              alt="evidence"
+                              src={answer.answer.poster}
+                              alt="scene frame"
                               onError={(e) => {
                                 e.target.style.display = "none";
                               }}
                             />
-                          ) : (
-                            <div className="empty">frame {ev.frame_start}</div>
-                          )}
-                          <div className="meta">{fmtTime(ev.timestamp_start)}</div>
+                          </div>
                         </div>
-                      );
-                    })}
+                      </>
+                    )}
+
+                    {answer.evidence.length > 0 && (
+                      <>
+                        <div className="section-label">Evidence</div>
+                        <div className="evidence-grid">
+                          {answer.evidence.map((ev) => {
+                            const src = evidenceImage(ev);
+                            return (
+                              <div
+                                key={ev.evidence_id}
+                                className="evidence-card"
+                                onClick={() => seek(ev.timestamp_start)}
+                              >
+                                {src ? (
+                                  <img
+                                    src={src}
+                                    alt="evidence"
+                                    onError={(e) => {
+                                      e.target.style.display = "none";
+                                    }}
+                                  />
+                                ) : (
+                                  <div className="empty" style={{ padding: 12 }}>
+                                    frame {ev.frame_start}
+                                  </div>
+                                )}
+                                <span className="meta">{fmtTime(ev.timestamp_start)}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
                   </div>
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="empty">Ask a question about the video.</div>
-          )}
-        </div>
-
-        <div className="panel">
-          <h2>Objects</h2>
-          {objects.length > 0 ? (
-            <ul className="list">
-              {objects.map((o) => (
-                <li
-                  key={o.object_id}
-                  className={`object-item ${
-                    selectedObject === o.object_id ? "object-active" : ""
-                  }`}
-                  onClick={() => selectObject(o)}
-                >
-                  <span
-                    className="dot"
-                    style={{ background: colorFor(o.category) }}
-                  />
-                  <strong>{o.category}</strong>{" "}
-                  <span className="tag">{o.object_id}</span>
-                  <span className="tag">
-                    {(o.confidence * 100).toFixed(0)}%
-                  </span>
-                  <span className="tag">{o.trajectory.length} pts</span>
-                  {o.attributes && o.attributes.color && (
-                    <span className="tag">{o.attributes.color}</span>
-                  )}
-                  <button
-                    className="mini"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      showSimilar(o.object_id);
-                    }}
-                  >
-                    similar
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="empty">No objects yet.</div>
-          )}
-
-          {similar.length > 0 && (
-            <>
-              <div className="section-label">Visually similar</div>
-              <ul className="list">
-                {similar.map((s) => (
-                  <li key={s.object_id}>
-                    {s.object_id} <span className="tag">{s.score.toFixed(2)}</span>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          {scene && scene.spatial_relationships.length > 0 && (
-            <>
-              <div className="section-label">
-                Scene @ {fmtTime(scene.timestamp)}
+                ) : (
+                  <div className="empty">
+                    Ask about anything in the footage — objects don’t need to be
+                    on a fixed list.
+                  </div>
+                )}
               </div>
-              <ul className="list">
-                {scene.spatial_relationships.map((r, i) => (
-                  <li key={i}>{r}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      </div>
-
-      {selected && (
-        <div className="panel">
-          <h2>Object history — {selected.category} {selected.object_id}</h2>
-          <div className="row">
-            <div>
-              <img
-                className="object-thumb"
-                src={`/evidence/${selected.object_id}.jpg`}
-                alt="object"
-                onError={(e) => {
-                  e.target.style.display = "none";
-                }}
-              />
             </div>
-            <div>
-              <div className="section-label">
-                Events ({selectedEvents.length})
-              </div>
-              {selectedEvents.length > 0 ? (
+          </div>
+
+          <div className="grid-2">
+            <div className="card">
+              <h2 className="card-title">
+                Objects <span className="count">{objects.length}</span>
+              </h2>
+              {objects.length > 0 ? (
                 <ul className="list">
-                  {selectedEvents.map((ev) => (
+                  {objects.map((o) => (
                     <li
-                      key={ev.event_id}
-                      className="clickable"
-                      onClick={() => seek(ev.start_time)}
+                      key={o.object_id}
+                      className={`object-item ${
+                        selectedObject === o.object_id ? "object-active" : ""
+                      }`}
+                      onClick={() => selectObject(o)}
                     >
-                      {fmtTime(ev.start_time)} — {ev.type}{" "}
-                      <span className="tag">{ev.kind}</span>
-                      <span className="tag">
-                        {(ev.confidence * 100).toFixed(0)}%
-                      </span>
+                      <span className="dot" style={{ background: colorFor(o.category) }} />
+                      <strong>{o.category}</strong>
+                      <span className="tag">{o.object_id}</span>
+                      <span className="tag">{(o.confidence * 100).toFixed(0)}%</span>
+                      {o.attributes && o.attributes.color && (
+                        <span className="tag">{o.attributes.color}</span>
+                      )}
+                      <button
+                        className="mini"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          showSimilar(o.object_id);
+                        }}
+                      >
+                        similar
+                      </button>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <div className="empty">No linked events.</div>
+                <div className="empty">
+                  No objects detected. Ask for something specific and VISTA
+                  will go looking for it.
+                </div>
+              )}
+
+              {similar.length > 0 && (
+                <>
+                  <div className="section-label">Visually similar</div>
+                  <ul className="list">
+                    {similar.map((s) => (
+                      <li key={s.object_id}>
+                        {s.object_id} <span className="tag">{s.score.toFixed(2)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+
+            <div className="card">
+              {selected ? (
+                <>
+                  <h2 className="card-title">
+                    {selected.category} · {selected.object_id}
+                  </h2>
+                  <div className="history">
+                    <img
+                      className="object-thumb"
+                      src={`/evidence/${selected.object_id}.jpg`}
+                      alt="object"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
+                    <div>
+                      <div className="section-label" style={{ marginTop: 0 }}>
+                        Events ({selectedEvents.length})
+                      </div>
+                      {selectedEvents.length > 0 ? (
+                        <ul className="list">
+                          {selectedEvents.map((ev) => (
+                            <li
+                              key={ev.event_id}
+                              className="clickable"
+                              onClick={() => seek(ev.start_time)}
+                            >
+                              {fmtTime(ev.start_time)} — {ev.type}{" "}
+                              <span className="tag">{ev.kind}</span>{" "}
+                              <span className="tag">
+                                {(ev.confidence * 100).toFixed(0)}%
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="empty">No linked events.</div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2 className="card-title">
+                    Scene
+                    {scene ? <span className="count">@ {fmtTime(scene.timestamp)}</span> : null}
+                  </h2>
+                  {scene && scene.spatial_relationships.length > 0 ? (
+                    <ul className="list">
+                      {scene.spatial_relationships.map((r, i) => (
+                        <li key={i}>{r}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="empty">
+                      Select an object to see its history, or ask a question.
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
