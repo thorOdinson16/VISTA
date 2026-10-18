@@ -20,6 +20,7 @@ from ..reasoning.answerer import Answerer
 from ..retrieval.query_parser import QueryParser
 from ..retrieval.retriever import Retriever
 from ..services.session import VistaSession
+from ..storage import create_object_store
 from .schemas import (
     IngestResult,
     QueryRequest,
@@ -41,6 +42,9 @@ SESSION = VistaSession()
 settings.ensure_dirs()
 _UPLOAD_DIR = settings.uploads_dir
 _EVIDENCE_DIR = settings.evidence_dir
+STORE = create_object_store(
+    settings.storage, settings.s3_bucket, settings.s3_prefix, settings.aws_region
+)
 
 
 def _run_pipeline(video_path: Path, labels: list[str]):
@@ -68,6 +72,27 @@ def _run_pipeline(video_path: Path, labels: list[str]):
         scene_change_motion_gate=settings.scene_change_motion_gate,
     )
     return pipeline.run(video_path), detector
+
+
+def _mirror_to_store(video_path: Path) -> None:
+    """Copy the video, memory DB and evidence frames to durable object storage."""
+    session_id = video_path.stem
+    base = f"sessions/{session_id}"
+    STORE.delete_prefix(f"{base}/evidence")
+    STORE.put_file(video_path, f"{base}/{video_path.name}")
+    db = _UPLOAD_DIR / f"{session_id}.db"
+    if db.exists():
+        STORE.put_file(db, f"{base}/memory.db")
+    STORE.put_dir(_EVIDENCE_DIR, f"{base}/evidence", "*.jpg")
+
+
+def _compute_device() -> str | None:
+    try:
+        import torch
+
+        return "cuda" if torch.cuda.is_available() else "cpu"
+    except ImportError:
+        return "cpu"
 
 
 def _clear_evidence() -> None:
@@ -102,7 +127,14 @@ def status() -> StatusResponse:
         detector_mode=SESSION.detector_mode or settings.detector_mode,
         detector_name=SESSION.detector_name,
         saliency_fallback=settings.saliency_fallback,
+        storage=STORE.name,
+        device=_compute_device(),
     )
+
+
+@app.get("/api/health")
+def health() -> dict:
+    return {"ok": True}
 
 
 @app.post("/api/ingest", response_model=IngestResult)
@@ -124,6 +156,7 @@ async def ingest(file: Annotated[UploadFile, File()]) -> IngestResult:
     SESSION.detector_name = detector_name(detector)
     SESSION.detector_mode = settings.detector_mode
     SESSION.attach(result.memory, str(video_path), result.video_info)
+    _mirror_to_store(video_path)
 
     return IngestResult(
         video=str(video_path),
@@ -172,6 +205,7 @@ def query(request: QueryRequest) -> QueryResponse:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         SESSION.detector_name = detector_name(detector)
         SESSION.attach(result.memory, SESSION.source_video, result.video_info)
+        _mirror_to_store(Path(SESSION.source_video))
         memory = SESSION.memory
         searched = True
     retriever = Retriever(
@@ -256,3 +290,13 @@ _EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
 app.mount(
     "/evidence", StaticFiles(directory=str(_EVIDENCE_DIR)), name="evidence"
 )
+
+
+# Serve the built frontend from the API so one container hosts everything.
+# Registered last so /api, /video and /evidence take precedence.
+if settings.frontend_dir.is_dir():
+    app.mount(
+        "/",
+        StaticFiles(directory=str(settings.frontend_dir), html=True),
+        name="frontend",
+    )

@@ -17,6 +17,20 @@ class Settings(BaseSettings):
     # --- Paths ---
     data_dir: Path = Path("data")
 
+    # --- Storage ---
+    # "local": local disk only. "s3": also mirror video, memory DB and
+    # evidence frames to Amazon S3 (credentials from the AWS default chain).
+    storage: str = "local"
+    s3_bucket: str | None = None
+    s3_prefix: str = "vista"
+    aws_region: str | None = None
+
+    # --- Server ---
+    host: str = "127.0.0.1"
+    port: int = 8000
+    # Directory of the built frontend to serve from the API (single container).
+    frontend_dir: Path = Path("frontend/dist")
+
     # --- LLM ---
     llm_provider: str = "rule-based"
     openai_api_key: str | None = None

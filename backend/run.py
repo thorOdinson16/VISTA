@@ -14,9 +14,9 @@ def main() -> None:
     settings.ensure_dirs()
     uvicorn.run(
         "backend.app.api.main:app",
-        host="127.0.0.1",
-        port=8000,
-        reload=True,
+        host=settings.host,
+        port=settings.port,
+        reload=settings.host == "127.0.0.1",
     )
 
 

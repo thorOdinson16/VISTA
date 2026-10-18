@@ -40,6 +40,8 @@ class StatusResponse(BaseModel):
     detector_mode: str | None = None
     detector_name: str | None = None
     saliency_fallback: bool = False
+    storage: str | None = None
+    device: str | None = None
 
 
 class TimelineResponse(BaseModel):
