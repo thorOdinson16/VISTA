@@ -12,7 +12,7 @@ Ask your video where things are. Every answer comes with the frame that proves i
 
 ## Team
 
-**[YOU: names, roles, short bios and any competition history]**
+Solo entry: **Abhijna DS**, undergraduate at PES University, Bengaluru, India, interested in machine learning and computer vision. Designed and built everything: the OpenCV pipeline, tracking and memory, the verify agent, the AWS deployment, the evaluation and the interface. Has taken part in hackathons before. Contact: abhijnads16@gmail.com
 
 ## Competition paths
 
@@ -84,12 +84,11 @@ identities as suggestions that need review.
 ## Judge access
 
 The AWS deployment is torn down after the recording to save credits; it is rebuilt from the repo in about 10-15 minutes
-(`docs/AWS_DEPLOYMENT.md`). **[YOU: state "live screen-share on request" and a contact, or provide a live link if you keep
-the instance running]**
+(`docs/AWS_DEPLOYMENT.md`). For judging, a live screen-share is available on request: email abhijnads16@gmail.com and the instance is started from the repo scripts.
 
 ## Links
 
-- Code: **[YOU: repository URL and access]**
+- Code: https://github.com/thorOdinson16/VISTA (public)
 - Video (5 minutes or less, shows the team): **[YOU]**
 - Technical report: `docs/TECHNICAL_REPORT.md`
 - Architecture: `docs/architecture.png`, agent workflow: `docs/agent_workflow.png`

@@ -630,7 +630,7 @@ def report_md() -> str:
         "",
         "## 10. Team and reproducibility",
         "",
-        "Team: **[to be completed by the submitter: names and roles]**.",
+        "Team: solo entry by Abhijna DS (undergraduate, PES University, Bengaluru). Contact: abhijnads16@gmail.com.",
         "",
         "Reproduce: `docs/AWS_DEPLOYMENT.md` (infrastructure), `docs/BENCHMARK.md` (COOL benchmark), `docs/EVALUATION.md` "
         "(evaluations), `README.md` (local setup, tests: `uv run pytest`). Dependencies are pinned in `uv.lock`.",
