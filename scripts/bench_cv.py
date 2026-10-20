@@ -18,6 +18,7 @@ import json
 import os
 import platform
 import statistics
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -29,9 +30,17 @@ import numpy as np
 
 
 def cpu_model() -> str:
+    """Human-readable CPU name (lscpu covers Arm, where /proc/cpuinfo has none)."""
+    try:
+        out = subprocess.run(["lscpu"], capture_output=True, text=True, timeout=10).stdout
+        for line in out.splitlines():
+            if line.lower().startswith("model name"):
+                return line.split(":", 1)[1].strip()
+    except (OSError, subprocess.SubprocessError):
+        pass
     try:
         for line in Path("/proc/cpuinfo").read_text().splitlines():
-            if line.lower().startswith(("model name", "hardware")):
+            if line.lower().startswith("model name"):
                 return line.split(":", 1)[1].strip()
     except OSError:
         pass
