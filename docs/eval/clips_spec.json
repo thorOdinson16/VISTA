@@ -1,0 +1,22 @@
+{
+  "note": "Hand-verified by viewing 9 evenly spaced frames per clip; time windows are approximate (about +/-0.6 s). Small qualitative set, not a benchmark. The clips are the author's own footage and are not distributed; frames are intentionally not included because clip1 shows a printed photo of a person.",
+  "clips": {
+    "video_clip1.mp4": {
+      "duration_s": 4.6,
+      "contents": "desk scene: blue case, pink hole punch, bracelet, folded cloth, printed passport photo, black stand, black power adapter (about 2.3-4.6 s), laptop entering from the right (about 4.0 s onward)",
+      "checks": [
+        {"question": "Where is the laptop?", "expect": "found", "last_seen_between": [3.8, 4.7]},
+        {"question": "Where is the power adapter?", "expect": "found", "last_seen_between": [2.0, 4.7]},
+        {"question": "Where is the person?", "expect": "not_found", "why": "only a printed photo of a face is visible; a photograph of a person is not a person"}
+      ]
+    },
+    "video_clip2.mp4": {
+      "duration_s": 5.5,
+      "contents": "floral bedsheet with a white phone charger (adapter and cable) visible about 1.4-4.1 s",
+      "checks": [
+        {"question": "Where is the phone charger?", "expect": "found", "last_seen_between": [3.0, 4.5]},
+        {"question": "Where is the cat?", "expect": "not_found", "why": "negative control, no cat in the clip"}
+      ]
+    }
+  }
+}

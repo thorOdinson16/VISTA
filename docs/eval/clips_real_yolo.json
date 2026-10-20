@@ -1,0 +1,99 @@
+{
+  "detector_mode": "real",
+  "detector_labels": [
+    "coin",
+    "key",
+    "wallet",
+    "pen",
+    "remote",
+    "phone",
+    "phone charger",
+    "charging cable",
+    "power adapter",
+    "earbuds",
+    "glasses",
+    "watch",
+    "mug",
+    "bottle",
+    "notebook",
+    "laptop",
+    "backpack",
+    "person"
+  ],
+  "confidence_threshold": 0.2,
+  "summary": {
+    "passed": 2,
+    "total": 5
+  },
+  "results": [
+    {
+      "clip": "video_clip1.mp4",
+      "question": "Where is the laptop?",
+      "expect": "found",
+      "found": true,
+      "last_seen_s": 4.49,
+      "window": [
+        3.8,
+        4.7
+      ],
+      "passed": true,
+      "searched_on_demand": false,
+      "answer": "The laptop was last seen at 4.5s at (377, 233).",
+      "latency_s": 0.005
+    },
+    {
+      "clip": "video_clip1.mp4",
+      "question": "Where is the power adapter?",
+      "expect": "found",
+      "found": false,
+      "last_seen_s": null,
+      "window": [
+        2.0,
+        4.7
+      ],
+      "passed": false,
+      "searched_on_demand": false,
+      "answer": "I cannot determine where the power adapter was last seen from the available visual evidence.",
+      "latency_s": 0.003
+    },
+    {
+      "clip": "video_clip1.mp4",
+      "question": "Where is the person?",
+      "expect": "not_found",
+      "found": true,
+      "last_seen_s": 3.74,
+      "window": null,
+      "passed": false,
+      "searched_on_demand": false,
+      "answer": "The person was last seen at 3.7s at (58, 523). The person was last seen at 1.2s at (420, 52).",
+      "latency_s": 0.006
+    },
+    {
+      "clip": "video_clip2.mp4",
+      "question": "Where is the phone charger?",
+      "expect": "found",
+      "found": false,
+      "last_seen_s": null,
+      "window": [
+        3.0,
+        4.5
+      ],
+      "passed": false,
+      "searched_on_demand": false,
+      "answer": "I cannot determine where the phone charger was last seen from the available visual evidence.",
+      "latency_s": 0.005
+    },
+    {
+      "clip": "video_clip2.mp4",
+      "question": "Where is the cat?",
+      "expect": "not_found",
+      "found": false,
+      "last_seen_s": null,
+      "window": null,
+      "passed": true,
+      "searched_on_demand": false,
+      "answer": "I cannot determine where the cat was last seen from the available visual evidence.",
+      "latency_s": 0.004
+    }
+  ]
+}
