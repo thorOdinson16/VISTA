@@ -1,0 +1,170 @@
+{
+  "detector": "YOLO ONNX (yolov8n.onnx) +labels",
+  "detector_mode": "real",
+  "confidence_threshold": 0.25,
+  "sample_fps": 2.0,
+  "opencv": "5.1.0-dev",
+  "opencv_file": "/opt/cool/python_3.12/site-packages/cv2/__init__.py",
+  "sequences": [
+    {
+      "sequence": "MOT17-09-FRCNN",
+      "resolution": "1920x1080",
+      "source_fps": 30.0,
+      "frames": 525,
+      "frames_sampled": 95,
+      "processing_seconds": 17.86,
+      "throughput_fps": 29.4,
+      "tracking": {
+        "frames_scored": 95,
+        "gt_tracks": 26,
+        "gt_detections": 968,
+        "pred_detections": 751,
+        "mota": 0.5279,
+        "motp_iou": 0.81,
+        "idf1": 0.5387,
+        "precision": 0.8828,
+        "recall": 0.6849,
+        "id_switches": 64,
+        "false_positives": 88,
+        "false_negatives": 305,
+        "mostly_tracked": 0.3846,
+        "mostly_lost": 0.1538
+      },
+      "locate_grounding": {
+        "objects": 37,
+        "grounded": 22,
+        "grounding_accuracy": 0.5946,
+        "last_seen_median_error_s": 0.767,
+        "last_seen_matched_objects": 32
+      },
+      "objects_remembered": 59,
+      "events": 205,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 9.5s at (1471, 559). The person was last seen at 8.0s at (1820, 516). The person was last seen at 11.9s at (1840, 531). The person was last seen at 3.0s at (271, 558). The person was last seen at 13.5s at (1798, 451). The person was last seen at 1.0s at (1759, 566). The person was last seen at 0.8s at (1834, 530). The person was last seen at 7.2s at (236, 543). The person was last seen at 8.5s at (1613, 544). The person was last seen at 6.7s at (319, 561). The person was last seen at 5.0s at (1717, 531). The person was last seen at 15.5s at (1905, 533). The person was last seen at 14.7s at (1887, 531). The person was last seen at 10.0s at (1512, 533). The person was last seen at 5.0s at (306, 519). The person was last seen at 8.5s at (1020, 547). The person was last seen at 17.2s at (1357, 555). The person was last seen at 12.5s at (1858, 632). The person was last seen at 6.7s at (1060, 565). The person was last seen at 12.5s at (1842, 491). The person was last seen at 13.5s at (1863, 541). The person was last seen at 17.2s at (748, 576). The person was last seen at 8.0s at (557, 605). The person was last seen at 17.2s at (817, 569). The person was last seen at 16.7s at (1900, 529). The person was last seen at 15.7s at (32, 708). The person was last seen at 17.2s at (1625, 542). The person was last seen at 13.5s at (788, 574). The person was last seen at 17.2s at (1885, 503). The person was last seen at 15.7s at (582, 457). The person was last seen at 17.2s at (1685, 545). The person was last seen at 17.2s at (1419, 549). The person was last seen at 16.7s at (1701, 527). The person was last seen at 17.2s at (95, 644). The person was last seen at 17.0s at (1462, 547). The person was last seen at 17.2s at (155, 634). The person was last seen at 17.2s at (21, 610).",
+        "confidence": 0.617,
+        "latency_s": 0.2069
+      }
+    },
+    {
+      "sequence": "MOT17-02-FRCNN",
+      "resolution": "1920x1080",
+      "source_fps": 30.0,
+      "frames": 600,
+      "frames_sampled": 58,
+      "processing_seconds": 13.55,
+      "throughput_fps": 44.3,
+      "tracking": {
+        "frames_scored": 58,
+        "gt_tracks": 58,
+        "gt_detections": 1840,
+        "pred_detections": 520,
+        "mota": 0.1511,
+        "motp_iou": 0.8044,
+        "idf1": 0.2212,
+        "precision": 0.8192,
+        "recall": 0.2315,
+        "id_switches": 54,
+        "false_positives": 94,
+        "false_negatives": 1414,
+        "mostly_tracked": 0.1207,
+        "mostly_lost": 0.6379
+      },
+      "locate_grounding": {
+        "objects": 37,
+        "grounded": 24,
+        "grounding_accuracy": 0.6486,
+        "last_seen_median_error_s": 0.5,
+        "last_seen_matched_objects": 35
+      },
+      "objects_remembered": 64,
+      "events": 288,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 18.0s at (1854, 728). The person was last seen at 1.0s at (1463, 496). The person was last seen at 14.5s at (1169, 610). The person was last seen at 1.0s at (1568, 505). The person was last seen at 3.5s at (556, 593). The person was last seen at 19.5s at (1028, 553). The person was last seen at 17.3s at (1860, 560). The person was last seen at 14.2s at (1798, 645). The person was last seen at 11.0s at (1845, 626). The person was last seen at 4.5s at (972, 482). The person was last seen at 1.5s at (1812, 636). The person was last seen at 2.0s at (1561, 493). The person was last seen at 9.5s at (1141, 537). The person was last seen at 14.2s at (1289, 513). The person was last seen at 10.5s at (1856, 679). The person was last seen at 7.0s at (1210, 500). The person was last seen at 11.0s at (893, 515). The person was last seen at 19.5s at (567, 498). The person was last seen at 13.0s at (129, 614). The person was last seen at 14.5s at (1508, 689). The person was last seen at 19.5s at (1208, 562). The person was last seen at 16.2s at (35, 597). The person was last seen at 12.0s at (1558, 486). The person was last seen at 19.0s at (1868, 657). The person was last seen at 12.5s at (36, 628). The person was last seen at 19.5s at (1262, 573). The person was last seen at 19.5s at (1122, 558). The person was last seen at 19.5s at (1799, 735). The person was last seen at 17.3s at (1894, 648). The person was last seen at 17.5s at (37, 602). The person was last seen at 18.0s at (1145, 560). The person was last seen at 19.5s at (601, 497). The person was last seen at 19.5s at (714, 498). The person was last seen at 19.5s at (742, 497). The person was last seen at 19.5s at (644, 506). The person was last seen at 19.0s at (399, 518). The person was last seen at 19.5s at (680, 502).",
+        "confidence": 0.547,
+        "latency_s": 0.1173
+      }
+    },
+    {
+      "sequence": "MOT17-04-FRCNN",
+      "resolution": "1920x1080",
+      "source_fps": 30.0,
+      "frames": 1050,
+      "frames_sampled": 70,
+      "processing_seconds": 21.84,
+      "throughput_fps": 48.08,
+      "tracking": {
+        "frames_scored": 70,
+        "gt_tracks": 83,
+        "gt_detections": 3165,
+        "pred_detections": 1463,
+        "mota": 0.3586,
+        "motp_iou": 0.8139,
+        "idf1": 0.478,
+        "precision": 0.9023,
+        "recall": 0.4171,
+        "id_switches": 42,
+        "false_positives": 143,
+        "false_negatives": 1845,
+        "mostly_tracked": 0.1325,
+        "mostly_lost": 0.4699
+      },
+      "locate_grounding": {
+        "objects": 58,
+        "grounded": 41,
+        "grounding_accuracy": 0.7069,
+        "last_seen_median_error_s": 0.5,
+        "last_seen_matched_objects": 55
+      },
+      "objects_remembered": 79,
+      "events": 268,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 34.5s at (410, 615). The person was last seen at 19.5s at (897, 52). The person was last seen at 34.5s at (1758, 561). The person was last seen at 26.5s at (640, 690). The person was last seen at 34.5s at (926, 1010). The person was last seen at 21.0s at (373, 1039). The person was last seen at 22.5s at (1219, 1062). The person was last seen at 2.0s at (1896, 393). The person was last seen at 33.5s at (836, 223). The person was last seen at 18.5s at (1011, 49). The person was last seen at 20.5s at (287, 1052). The person was last seen at 34.5s at (1630, 710). The person was last seen at 3.5s at (234, 204). The person was last seen at 0.5s at (278, 470). The person was last seen at 34.5s at (399, 400). The person was last seen at 1.5s at (946, 285). The person was last seen at 22.5s at (1128, 1060). The person was last seen at 34.5s at (1737, 283). The person was last seen at 34.5s at (426, 1016). The person was last seen at 8.5s at (911, 188). The person was last seen at 34.5s at (261, 221). The person was last seen at 14.0s at (247, 250). The person was last seen at 5.5s at (727, 313). The person was last seen at 27.5s at (586, 204). The person was last seen at 34.5s at (613, 662). The person was last seen at 10.5s at (1352, 307). The person was last seen at 7.5s at (735, 78). The person was last seen at 4.5s at (244, 206). The person was last seen at 12.5s at (533, 169). The person was last seen at 12.0s at (495, 1046). The person was last seen at 19.0s at (950, 42). The person was last seen at 13.0s at (612, 1048). The person was last seen at 20.0s at (1900, 363). The person was last seen at 32.0s at (1335, 95). The person was last seen at 17.5s at (1801, 752). The person was last seen at 21.0s at (1607, 51). The person was last seen at 17.5s at (1624, 374). The person was last seen at 18.0s at (1903, 345). The person was last seen at 34.5s at (1880, 335). The person was last seen at 21.0s at (259, 210). The person was last seen at 18.0s at (1619, 78). The person was last seen at 19.0s at (329, 86). The person was last seen at 19.5s at (487, 198). The person was last seen at 29.0s at (721, 275). The person was last seen at 34.5s at (325, 412). The person was last seen at 34.5s at (311, 207). The person was last seen at 26.0s at (773, 104). The person was last seen at 34.5s at (969, 340). The person was last seen at 34.5s at (880, 352). The person was last seen at 34.5s at (329, 628). The person was last seen at 34.5s at (524, 407). The person was last seen at 31.0s at (1440, 63). The person was last seen at 34.5s at (1302, 246). The person was last seen at 34.5s at (1175, 687). The person was last seen at 34.5s at (1724, 774). The person was last seen at 32.5s at (488, 156). The person was last seen at 34.5s at (1503, 286). The person was last seen at 34.0s at (1785, 703).",
+        "confidence": 0.522,
+        "latency_s": 0.1903
+      }
+    },
+    {
+      "sequence": "MOT17-05-FRCNN",
+      "resolution": "640x480",
+      "source_fps": 14.0,
+      "frames": 837,
+      "frames_sampled": 349,
+      "processing_seconds": 42.97,
+      "throughput_fps": 19.48,
+      "tracking": {
+        "frames_scored": 349,
+        "gt_tracks": 132,
+        "gt_detections": 2870,
+        "pred_detections": 2240,
+        "mota": 0.4331,
+        "motp_iou": 0.7586,
+        "idf1": 0.4411,
+        "precision": 0.8098,
+        "recall": 0.6321,
+        "id_switches": 145,
+        "false_positives": 426,
+        "false_negatives": 1056,
+        "mostly_tracked": 0.2803,
+        "mostly_lost": 0.1818
+      },
+      "locate_grounding": {
+        "objects": 60,
+        "grounded": 21,
+        "grounding_accuracy": 0.35,
+        "last_seen_median_error_s": 1.214,
+        "last_seen_matched_objects": 54
+      },
+      "objects_remembered": 163,
+      "events": 970,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 27.2s at (608, 302). The person was last seen at 20.7s at (614, 249). The person was last seen at 3.0s at (481, 206). The person was last seen at 2.7s at (531, 220). The person was last seen at 1.0s at (338, 234). The person was last seen at 1.2s at (376, 207). The person was last seen at 3.0s at (280, 227). The person was last seen at 28.2s at (198, 243). The person was last seen at 11.5s at (15, 263). The person was last seen at 21.7s at (598, 239). The person was last seen at 6.2s at (11, 146). The person was last seen at 25.5s at (575, 106). The person was last seen at 21.5s at (27, 230). The person was last seen at 24.9s at (623, 243). The person was last seen at 23.7s at (537, 188). The person was last seen at 17.0s at (271, 221). The person was last seen at 19.5s at (33, 127). The person was last seen at 21.9s at (508, 248). The person was last seen at 18.2s at (65, 229). The person was last seen at 32.0s at (126, 214). The person was last seen at 25.5s at (613, 250). The person was last seen at 23.7s at (626, 242). The person was last seen at 29.2s at (5, 253). The person was last seen at 23.2s at (599, 237). The person was last seen at 24.4s at (195, 230). The person was last seen at 35.0s at (602, 201). The person was last seen at 27.2s at (21, 233). The person was last seen at 28.2s at (14, 220). The person was last seen at 28.7s at (11, 246). The person was last seen at 32.2s at (153, 215). The person was last seen at 30.5s at (20, 236). The person was last seen at 59.5s at (610, 185). The person was last seen at 28.7s at (332, 236). The person was last seen at 58.7s at (609, 232). The person was last seen at 38.5s at (590, 237). The person was last seen at 38.7s at (36, 237). The person was last seen at 40.2s at (611, 248). The person was last seen at 40.9s at (27, 330). The person was last seen at 40.7s at (602, 229). The person was last seen at 40.2s at (7, 204). The person was last seen at 39.0s at (274, 209). The person was last seen at 40.0s at (568, 236). The person was last seen at 43.5s at (616, 405). The person was last seen at 59.7s at (363, 220). The person was last seen at 42.5s at (21, 206). The person was last seen at 44.0s at (82, 168). The person was last seen at 49.4s at (40, 260). The person was last seen at 59.7s at (433, 249). The person was last seen at 50.5s at (21, 285). The person was last seen at 59.2s at (13, 222). The person was last seen at 50.5s at (423, 201). The person was last seen at 59.7s at (191, 250). The person was last seen at 59.7s at (19, 224). The person was last seen at 50.4s at (17, 129). The person was last seen at 52.5s at (311, 225). The person was last seen at 56.2s at (18, 231). The person was last seen at 59.7s at (295, 219). The person was last seen at 59.7s at (121, 239). The person was last seen at 59.5s at (273, 211). The person was last seen at 59.7s at (250, 226).",
+        "confidence": 0.62,
+        "latency_s": 0.3338
+      }
+    }
+  ]
+}

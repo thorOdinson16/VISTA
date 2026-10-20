@@ -1,0 +1,123 @@
+{
+  "label": "cool-arm",
+  "opencv_version": "5.1.0-dev",
+  "opencv_file": "/opt/cool/python_3.12/site-packages/cv2/__init__.py",
+  "build": {
+    "Version control": "5.0.0-352-g565ed6d199-dirty",
+    "Baseline": "SVE NEON FP16 NEON_DOTPROD NEON_FP16 NEON_BF16",
+    "Dispatched": "",
+    "FFMPEG": "YES",
+    "Parallel framework": "pthreads",
+    "Custom HAL": "YES (carotene (ver 0.0.1) KleidiCV (ver 0.7.0))"
+  },
+  "cv_threads": 4,
+  "cpu": "Neoverse-V3",
+  "cpu_count": 4,
+  "machine": "aarch64",
+  "frame_size": "1440x1920",
+  "video": "video.MOV",
+  "repeats": 5,
+  "stages": {
+    "decode": {
+      "median_s": 0.6024,
+      "min_s": 0.5987,
+      "samples_s": [
+        0.6024,
+        0.5987,
+        0.6115,
+        0.6012,
+        0.6099
+      ],
+      "items": 120,
+      "items_per_s": 199.2
+    },
+    "resize": {
+      "median_s": 0.5747,
+      "min_s": 0.5746,
+      "samples_s": [
+        0.5746,
+        0.5747,
+        0.5747,
+        0.5751,
+        0.5751
+      ],
+      "items": 120,
+      "items_per_s": 208.8
+    },
+    "imgproc": {
+      "median_s": 0.0293,
+      "min_s": 0.0292,
+      "samples_s": [
+        0.0293,
+        0.0293,
+        0.0293,
+        0.0293,
+        0.0292
+      ],
+      "items": 120,
+      "items_per_s": 4095.56
+    },
+    "optical_flow": {
+      "median_s": 0.6771,
+      "min_s": 0.6765,
+      "samples_s": [
+        0.6765,
+        0.6771,
+        0.6768,
+        0.6772,
+        0.6771
+      ],
+      "items": 119,
+      "items_per_s": 175.75
+    },
+    "orb_features": {
+      "median_s": 0.4218,
+      "min_s": 0.4215,
+      "samples_s": [
+        0.4223,
+        0.4218,
+        0.4215,
+        0.4222,
+        0.4215
+      ],
+      "items": 40,
+      "items_per_s": 94.83
+    },
+    "background_mog2": {
+      "median_s": 0.1308,
+      "min_s": 0.1308,
+      "samples_s": [
+        0.1308,
+        0.1308,
+        0.1309,
+        0.1308,
+        0.1308
+      ],
+      "items": 120,
+      "items_per_s": 917.43
+    },
+    "dnn_yolo_640": {
+      "median_s": 1.2535,
+      "min_s": 1.2522,
+      "samples_s": [
+        1.2527,
+        1.2522,
+        1.2546,
+        1.2586,
+        1.2535
+      ],
+      "items": 20,
+      "items_per_s": 15.96
+    }
+  },
+  "total_median_s": 3.69,
+  "pipeline": {
+    "frames_processed": 229,
+    "median_s": 11.417,
+    "throughput_fps": 20.06,
+    "samples_s": [
+      11.433,
+      11.401
+    ]
+  }
+}

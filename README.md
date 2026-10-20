@@ -8,6 +8,9 @@ evidence.
 
 - Full design: [`VISTA_Architecture.md`](VISTA_Architecture.md)
 - Requirements: [`VISTA_Requirements.md`](VISTA_Requirements.md)
+- AWS deployment (S3 + EC2 Graviton + COOL): [`docs/AWS_DEPLOYMENT.md`](docs/AWS_DEPLOYMENT.md)
+- COOL / Graviton benchmark: [`docs/BENCHMARK.md`](docs/BENCHMARK.md)
+- Evaluation (MOT17, Objectron, hand-checked clips): [`docs/EVALUATION.md`](docs/EVALUATION.md)
 
 ---
 
