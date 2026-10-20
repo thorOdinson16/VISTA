@@ -15,7 +15,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 until "${SSH[@]}" true 2>/dev/null; do echo "waiting for ssh..."; sleep 6; done
 
 # Pinned runtime requirements, without anything that would shadow COOL's cv2/numpy.
-(cd "$ROOT" && uv export --frozen --no-dev --no-emit-project --no-hashes --group aws 2>/dev/null) \
+(cd "$ROOT" && uv export --frozen --no-dev --no-emit-project --no-hashes --group aws --group eval 2>/dev/null) \
   | grep -viE '^(opencv[-a-z]*|numpy)==' > "$STATE_DIR/requirements.txt"
 echo "$(wc -l < "$STATE_DIR/requirements.txt") pinned requirements (opencv/numpy excluded)"
 
@@ -39,7 +39,7 @@ mv -f /tmp/yolov8n.onnx /opt/vista-data/models/
 
 cd /opt/vista
 [ -d .venv ] || python3.12 -m venv .venv
-.venv/bin/pip install -q --disable-pip-version-check -r /tmp/requirements.txt
+.venv/bin/pip install -q --disable-pip-version-check --no-deps -r /tmp/requirements.txt
 
 sudo tee /etc/systemd/system/vista.service >/dev/null <<UNIT
 [Unit]
