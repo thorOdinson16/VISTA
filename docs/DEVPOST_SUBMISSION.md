@@ -12,7 +12,7 @@ Ask your video where things are. Every answer comes with the frame that proves i
 
 ## Team
 
-Solo entry: **Abhijna DS**, undergraduate at PES University, Bengaluru, India, interested in machine learning and computer vision. Designed and built everything: the OpenCV pipeline, tracking and memory, the verify agent, the AWS deployment, the evaluation and the interface. Has taken part in hackathons before. Contact: abhijnads16@gmail.com
+Solo entry: **Abhijna DS**, undergraduate at PES University, Bengaluru, India, interested in machine learning and computer vision. Designed and built everything: the OpenCV pipeline, tracking and memory, the verify agent, the AWS deployment, the evaluation and the interface. Has taken part in hackathons before, including the Amazon ML Challenge 2026, where their team ranked 212 on the public leaderboard. Contact: abhijnads16@gmail.com
 
 ## Competition paths
 
