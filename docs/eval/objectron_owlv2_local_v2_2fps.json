@@ -1,0 +1,4327 @@
+{
+  "detector": "OWLv2 (owlv2-base-patch16-ensemble, 6 labels, cuda) +labels",
+  "detector_mode": "owlv2",
+  "confidence_threshold": 0.2,
+  "sample_fps": 2.0,
+  "iou_hit": 0.3,
+  "opencv": "5.0.0",
+  "overall": {
+    "clips": 20,
+    "found_rate": 0.95,
+    "hit_rate_iou30": 0.9,
+    "hit_rate_center": 0.95,
+    "wrong_location": 0,
+    "not_found": 1,
+    "mean_frame_recall": 0.857,
+    "mean_processing_s": 30.45
+  },
+  "per_class": {
+    "cup": {
+      "clips": 4,
+      "found_rate": 1.0,
+      "hit_rate_iou30": 1.0,
+      "hit_rate_center": 1.0,
+      "wrong_location": 0,
+      "not_found": 0,
+      "mean_frame_recall": 1.0,
+      "mean_processing_s": 28.7
+    },
+    "bottle": {
+      "clips": 4,
+      "found_rate": 1.0,
+      "hit_rate_iou30": 0.75,
+      "hit_rate_center": 1.0,
+      "wrong_location": 0,
+      "not_found": 0,
+      "mean_frame_recall": 0.947,
+      "mean_processing_s": 29.49
+    },
+    "book": {
+      "clips": 4,
+      "found_rate": 0.75,
+      "hit_rate_iou30": 0.75,
+      "hit_rate_center": 0.75,
+      "wrong_location": 0,
+      "not_found": 1,
+      "mean_frame_recall": 0.345,
+      "mean_processing_s": 24.43
+    },
+    "laptop": {
+      "clips": 4,
+      "found_rate": 1.0,
+      "hit_rate_iou30": 1.0,
+      "hit_rate_center": 1.0,
+      "wrong_location": 0,
+      "not_found": 0,
+      "mean_frame_recall": 0.995,
+      "mean_processing_s": 41.79
+    },
+    "chair": {
+      "clips": 4,
+      "found_rate": 1.0,
+      "hit_rate_iou30": 1.0,
+      "hit_rate_center": 1.0,
+      "wrong_location": 0,
+      "not_found": 0,
+      "mean_frame_recall": 1.0,
+      "mean_processing_s": 27.84
+    }
+  },
+  "clips": [
+    {
+      "clip": "cup/batch-9/29",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 61,
+      "processing_seconds": 33.25,
+      "outcome": "hit",
+      "objects_returned": 3,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 300,
+          "iou": 0.761,
+          "center_in_gt": true,
+          "box": [
+            392.3,
+            568.3,
+            968.8,
+            1005.9
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 187,
+          "iou": 0.001,
+          "center_in_gt": false,
+          "box": [
+            1.0,
+            1.2,
+            333.7,
+            314.2
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1102.1,
+            0.6,
+            1404.0,
+            119.9
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The mug was last seen at 10.0s at (681, 787). Earlier: 6.2s at (167, 158). Earlier: 4.0s at (1253, 60).",
+      "confidence": 0.409,
+      "query_latency_s": 0.0118
+    },
+    {
+      "clip": "cup/batch-30/2",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 46,
+      "processing_seconds": 25.29,
+      "outcome": "hit",
+      "objects_returned": 23,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 225,
+          "iou": 0.652,
+          "center_in_gt": true,
+          "box": [
+            302.0,
+            679.1,
+            1065.7,
+            1642.0
+          ]
+        },
+        {
+          "object": "obj_31",
+          "frame": 225,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            261.6,
+            80.6,
+            312.0,
+            154.3
+          ]
+        },
+        {
+          "object": "obj_32",
+          "frame": 225,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            284.8,
+            166.8,
+            335.8,
+            197.9
+          ]
+        },
+        {
+          "object": "obj_33",
+          "frame": 225,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            401.2,
+            97.0,
+            437.5,
+            141.4
+          ]
+        },
+        {
+          "object": "obj_36",
+          "frame": 225,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            582.6,
+            105.1,
+            612.2,
+            157.2
+          ]
+        },
+        {
+          "object": "obj_37",
+          "frame": 217,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            586.0,
+            143.6,
+            611.4,
+            175.0
+          ]
+        },
+        {
+          "object": "obj_27",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            64.4,
+            215.1,
+            98.1,
+            265.7
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 149,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1380.0,
+            301.1,
+            1440.0,
+            555.2
+          ]
+        },
+        {
+          "object": "obj_14",
+          "frame": 142,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1182.1,
+            0.0,
+            1309.0,
+            220.4
+          ]
+        },
+        {
+          "object": "obj_24",
+          "frame": 142,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1039.2,
+            0.0,
+            1195.6,
+            314.2
+          ]
+        },
+        {
+          "object": "obj_25",
+          "frame": 135,
+          "iou": 0.002,
+          "center_in_gt": false,
+          "box": [
+            404.6,
+            446.8,
+            492.1,
+            576.5
+          ]
+        },
+        {
+          "object": "obj_11",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1355.2,
+            8.0,
+            1439.6,
+            141.8
+          ]
+        },
+        {
+          "object": "obj_22",
+          "frame": 127,
+          "iou": 0.004,
+          "center_in_gt": true,
+          "box": [
+            152.3,
+            484.7,
+            240.8,
+            629.0
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            974.7,
+            0.5,
+            1245.8,
+            123.8
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            985.2,
+            0.1,
+            1116.9,
+            121.3
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            714.1,
+            1.8,
+            823.3,
+            104.6
+          ]
+        },
+        {
+          "object": "obj_15",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1316.9,
+            119.1,
+            1440.0,
+            304.5
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 112,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            865.3,
+            144.6,
+            1005.4,
+            292.1
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 112,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            123.0,
+            0.0,
+            308.5,
+            265.8
+          ]
+        },
+        {
+          "object": "obj_12",
+          "frame": 112,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            768.1,
+            0.0,
+            886.3,
+            87.9
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 105,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            475.3,
+            0.4,
+            729.3,
+            97.7
+          ]
+        },
+        {
+          "object": "obj_10",
+          "frame": 105,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            77.6,
+            160.5,
+            290.2,
+            421.7
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 97,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            44.9,
+            12.4,
+            112.6,
+            112.0
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The mug was last seen at 7.5s at (684, 1161). Earlier: 7.5s at (287, 117). Earlier: 7.5s at (310, 182). (20 more tracked sighting(s) not listed.)",
+      "confidence": 0.314,
+      "query_latency_s": 0.0303
+    },
+    {
+      "clip": "cup/batch-49/23",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 41,
+      "processing_seconds": 31.08,
+      "outcome": "hit",
+      "objects_returned": 132,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 202,
+          "iou": 0.647,
+          "center_in_gt": true,
+          "box": [
+            337.1,
+            642.5,
+            1202.1,
+            1398.5
+          ]
+        },
+        {
+          "object": "obj_27",
+          "frame": 202,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1266.7,
+            0.5,
+            1440.0,
+            216.5
+          ]
+        },
+        {
+          "object": "obj_37",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            979.5,
+            2.9,
+            1265.6,
+            256.8
+          ]
+        },
+        {
+          "object": "obj_24",
+          "frame": 202,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1124.1,
+            1630.3,
+            1404.5,
+            1765.7
+          ]
+        },
+        {
+          "object": "obj_15",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1206.1,
+            403.0,
+            1330.5,
+            553.9
+          ]
+        },
+        {
+          "object": "obj_29",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            760.8,
+            1.1,
+            1436.7,
+            458.1
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1283.3,
+            440.5,
+            1417.2,
+            602.4
+          ]
+        },
+        {
+          "object": "obj_64",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            771.8,
+            0.0,
+            967.5,
+            107.1
+          ]
+        },
+        {
+          "object": "obj_21",
+          "frame": 202,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            318.1,
+            1827.6,
+            600.5,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_57",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            567.5,
+            0.8,
+            729.6,
+            114.9
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            844.9,
+            0.7,
+            1043.7,
+            145.7
+          ]
+        },
+        {
+          "object": "obj_20",
+          "frame": 195,
+          "iou": 0.2,
+          "center_in_gt": true,
+          "box": [
+            1008.0,
+            573.7,
+            1440.0,
+            1239.4
+          ]
+        },
+        {
+          "object": "obj_42",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            727.3,
+            1745.2,
+            869.3,
+            1829.6
+          ]
+        },
+        {
+          "object": "obj_23",
+          "frame": 187,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            855.7,
+            1694.8,
+            980.3,
+            1809.5
+          ]
+        },
+        {
+          "object": "obj_55",
+          "frame": 202,
+          "iou": 0.108,
+          "center_in_gt": true,
+          "box": [
+            1018.6,
+            581.8,
+            1425.9,
+            958.1
+          ]
+        },
+        {
+          "object": "obj_91",
+          "frame": 202,
+          "iou": 0.068,
+          "center_in_gt": true,
+          "box": [
+            1166.0,
+            848.2,
+            1438.3,
+            1281.1
+          ]
+        },
+        {
+          "object": "obj_31",
+          "frame": 202,
+          "iou": 0.053,
+          "center_in_gt": true,
+          "box": [
+            1009.5,
+            588.0,
+            1209.6,
+            863.9
+          ]
+        },
+        {
+          "object": "obj_32",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1265.1,
+            556.8,
+            1431.3,
+            762.5
+          ]
+        },
+        {
+          "object": "obj_73",
+          "frame": 202,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1125.4,
+            1678.1,
+            1270.1,
+            1768.8
+          ]
+        },
+        {
+          "object": "obj_82",
+          "frame": 187,
+          "iou": 0.05,
+          "center_in_gt": true,
+          "box": [
+            1154.6,
+            887.0,
+            1341.1,
+            1192.5
+          ]
+        },
+        {
+          "object": "obj_47",
+          "frame": 172,
+          "iou": 0.095,
+          "center_in_gt": true,
+          "box": [
+            933.1,
+            724.0,
+            1217.5,
+            966.1
+          ]
+        },
+        {
+          "object": "obj_66",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1159.8,
+            366.6,
+            1274.9,
+            489.5
+          ]
+        },
+        {
+          "object": "obj_53",
+          "frame": 172,
+          "iou": 0.024,
+          "center_in_gt": false,
+          "box": [
+            1055.1,
+            349.4,
+            1437.7,
+            751.9
+          ]
+        },
+        {
+          "object": "obj_105",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1362.8,
+            744.9,
+            1439.9,
+            1023.0
+          ]
+        },
+        {
+          "object": "obj_94",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1232.6,
+            597.5,
+            1436.5,
+            878.9
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            585.5,
+            0.0,
+            670.5,
+            66.4
+          ]
+        },
+        {
+          "object": "obj_70",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            978.7,
+            1670.3,
+            1112.3,
+            1762.9
+          ]
+        },
+        {
+          "object": "obj_60",
+          "frame": 179,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            622.9,
+            1742.0,
+            897.9,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_97",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1233.9,
+            865.4,
+            1439.6,
+            1115.9
+          ]
+        },
+        {
+          "object": "obj_71",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1230.8,
+            1766.5,
+            1348.0,
+            1852.2
+          ]
+        },
+        {
+          "object": "obj_90",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            955.2,
+            336.0,
+            1138.7,
+            517.4
+          ]
+        },
+        {
+          "object": "obj_88",
+          "frame": 202,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1125.3,
+            1711.7,
+            1431.2,
+            1913.1
+          ]
+        },
+        {
+          "object": "obj_76",
+          "frame": 202,
+          "iou": 0.053,
+          "center_in_gt": true,
+          "box": [
+            1118.9,
+            1266.0,
+            1429.6,
+            1761.4
+          ]
+        },
+        {
+          "object": "obj_68",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            234.9,
+            1710.3,
+            991.9,
+            1918.5
+          ]
+        },
+        {
+          "object": "obj_48",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1299.9,
+            34.2,
+            1437.4,
+            491.3
+          ]
+        },
+        {
+          "object": "obj_85",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1281.4,
+            1766.5,
+            1434.2,
+            1918.8
+          ]
+        },
+        {
+          "object": "obj_72",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1358.4,
+            1587.8,
+            1440.0,
+            1778.7
+          ]
+        },
+        {
+          "object": "obj_107",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            737.3,
+            0.7,
+            934.7,
+            179.9
+          ]
+        },
+        {
+          "object": "obj_102",
+          "frame": 172,
+          "iou": 0.013,
+          "center_in_gt": true,
+          "box": [
+            935.4,
+            725.4,
+            1041.5,
+            815.2
+          ]
+        },
+        {
+          "object": "obj_111",
+          "frame": 187,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1011.1,
+            0.7,
+            1261.0,
+            159.8
+          ]
+        },
+        {
+          "object": "obj_112",
+          "frame": 195,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1300.5,
+            1671.9,
+            1436.6,
+            1787.0
+          ]
+        },
+        {
+          "object": "obj_114",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1037.9,
+            342.2,
+            1173.5,
+            465.5
+          ]
+        },
+        {
+          "object": "obj_121",
+          "frame": 202,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1346.9,
+            1282.9,
+            1440.0,
+            1581.4
+          ]
+        },
+        {
+          "object": "obj_115",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1119.2,
+            1768.9,
+            1276.7,
+            1917.2
+          ]
+        },
+        {
+          "object": "obj_130",
+          "frame": 187,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            746.7,
+            1697.2,
+            971.1,
+            1802.4
+          ]
+        },
+        {
+          "object": "obj_119",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1244.8,
+            1317.0,
+            1440.0,
+            1633.6
+          ]
+        },
+        {
+          "object": "obj_131",
+          "frame": 202,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            383.5,
+            1855.5,
+            494.7,
+            1907.0
+          ]
+        },
+        {
+          "object": "obj_124",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1176.4,
+            1758.5,
+            1299.9,
+            1891.3
+          ]
+        },
+        {
+          "object": "obj_125",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            648.1,
+            1.3,
+            785.0,
+            104.1
+          ]
+        },
+        {
+          "object": "obj_129",
+          "frame": 179,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            432.8,
+            1800.0,
+            581.3,
+            1856.9
+          ]
+        },
+        {
+          "object": "obj_128",
+          "frame": 172,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            603.7,
+            1.0,
+            877.9,
+            181.1
+          ]
+        },
+        {
+          "object": "obj_132",
+          "frame": 187,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.1,
+            312.8,
+            42.7,
+            569.6
+          ]
+        },
+        {
+          "object": "obj_133",
+          "frame": 187,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            157.4,
+            1859.3,
+            337.6,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_40",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1268.5,
+            616.5,
+            1417.4,
+            704.3
+          ]
+        },
+        {
+          "object": "obj_54",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1158.2,
+            502.7,
+            1429.7,
+            696.4
+          ]
+        },
+        {
+          "object": "obj_59",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            812.6,
+            360.9,
+            918.0,
+            465.2
+          ]
+        },
+        {
+          "object": "obj_61",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1232.0,
+            1196.5,
+            1387.5,
+            1389.1
+          ]
+        },
+        {
+          "object": "obj_67",
+          "frame": 165,
+          "iou": 0.008,
+          "center_in_gt": false,
+          "box": [
+            943.2,
+            535.8,
+            1074.4,
+            658.7
+          ]
+        },
+        {
+          "object": "obj_74",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            340.5,
+            0.0,
+            471.4,
+            157.3
+          ]
+        },
+        {
+          "object": "obj_75",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1342.1,
+            1203.3,
+            1440.0,
+            1356.2
+          ]
+        },
+        {
+          "object": "obj_79",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1225.3,
+            1646.6,
+            1405.9,
+            1764.0
+          ]
+        },
+        {
+          "object": "obj_81",
+          "frame": 165,
+          "iou": 0.037,
+          "center_in_gt": true,
+          "box": [
+            828.9,
+            748.1,
+            956.5,
+            952.1
+          ]
+        },
+        {
+          "object": "obj_86",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1179.7,
+            189.0,
+            1437.6,
+            515.7
+          ]
+        },
+        {
+          "object": "obj_96",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            990.1,
+            433.6,
+            1088.0,
+            557.0
+          ]
+        },
+        {
+          "object": "obj_101",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            858.7,
+            376.5,
+            947.6,
+            471.9
+          ]
+        },
+        {
+          "object": "obj_113",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1139.1,
+            0.3,
+            1257.8,
+            61.9
+          ]
+        },
+        {
+          "object": "obj_116",
+          "frame": 165,
+          "iou": 0.007,
+          "center_in_gt": false,
+          "box": [
+            817.6,
+            413.6,
+            978.3,
+            647.7
+          ]
+        },
+        {
+          "object": "obj_117",
+          "frame": 165,
+          "iou": 0.048,
+          "center_in_gt": true,
+          "box": [
+            918.2,
+            894.5,
+            1091.4,
+            1089.4
+          ]
+        },
+        {
+          "object": "obj_123",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1220.9,
+            1078.1,
+            1331.7,
+            1211.6
+          ]
+        },
+        {
+          "object": "obj_126",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1233.6,
+            1673.3,
+            1321.1,
+            1751.4
+          ]
+        },
+        {
+          "object": "obj_127",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1368.6,
+            523.2,
+            1439.6,
+            644.4
+          ]
+        },
+        {
+          "object": "obj_46",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            337.8,
+            0.0,
+            429.7,
+            117.8
+          ]
+        },
+        {
+          "object": "obj_63",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1373.3,
+            1064.8,
+            1439.8,
+            1219.0
+          ]
+        },
+        {
+          "object": "obj_77",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1198.9,
+            1483.7,
+            1352.5,
+            1662.5
+          ]
+        },
+        {
+          "object": "obj_84",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            774.2,
+            349.6,
+            855.7,
+            453.9
+          ]
+        },
+        {
+          "object": "obj_122",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1111.1,
+            1371.7,
+            1275.9,
+            1503.4
+          ]
+        },
+        {
+          "object": "obj_28",
+          "frame": 157,
+          "iou": 0.033,
+          "center_in_gt": true,
+          "box": [
+            854.4,
+            867.9,
+            1002.2,
+            1009.2
+          ]
+        },
+        {
+          "object": "obj_38",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1119.6,
+            1302.0,
+            1188.7,
+            1391.7
+          ]
+        },
+        {
+          "object": "obj_44",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1160.6,
+            991.0,
+            1282.7,
+            1128.0
+          ]
+        },
+        {
+          "object": "obj_49",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1110.6,
+            641.5,
+            1269.8,
+            731.8
+          ]
+        },
+        {
+          "object": "obj_58",
+          "frame": 157,
+          "iou": 0.001,
+          "center_in_gt": false,
+          "box": [
+            1047.4,
+            1331.2,
+            1132.8,
+            1447.7
+          ]
+        },
+        {
+          "object": "obj_69",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            138.5,
+            112.8,
+            246.2,
+            231.8
+          ]
+        },
+        {
+          "object": "obj_78",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            223.4,
+            110.2,
+            373.0,
+            262.9
+          ]
+        },
+        {
+          "object": "obj_80",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            148.1,
+            116.9,
+            298.5,
+            269.1
+          ]
+        },
+        {
+          "object": "obj_93",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            47.1,
+            170.5,
+            490.9,
+            388.1
+          ]
+        },
+        {
+          "object": "obj_98",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            706.9,
+            445.1,
+            816.8,
+            552.8
+          ]
+        },
+        {
+          "object": "obj_99",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1381.4,
+            11.1,
+            1440.0,
+            187.4
+          ]
+        },
+        {
+          "object": "obj_106",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            56.5,
+            122.4,
+            137.7,
+            210.4
+          ]
+        },
+        {
+          "object": "obj_109",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1303.0,
+            0.2,
+            1410.2,
+            146.0
+          ]
+        },
+        {
+          "object": "obj_118",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1086.4,
+            1307.9,
+            1192.7,
+            1428.6
+          ]
+        },
+        {
+          "object": "obj_120",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1196.8,
+            1188.5,
+            1249.7,
+            1293.3
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            2.2,
+            1526.2,
+            156.7,
+            1882.2
+          ]
+        },
+        {
+          "object": "obj_35",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            528.9,
+            447.5,
+            593.1,
+            522.8
+          ]
+        },
+        {
+          "object": "obj_45",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1205.2,
+            871.7,
+            1433.4,
+            998.2
+          ]
+        },
+        {
+          "object": "obj_108",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            453.8,
+            404.6,
+            566.7,
+            506.0
+          ]
+        },
+        {
+          "object": "obj_110",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            662.0,
+            483.9,
+            739.1,
+            562.2
+          ]
+        },
+        {
+          "object": "obj_33",
+          "frame": 142,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1380.2,
+            265.1,
+            1440.0,
+            443.5
+          ]
+        },
+        {
+          "object": "obj_30",
+          "frame": 135,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1353.4,
+            1006.1,
+            1440.0,
+            1088.9
+          ]
+        },
+        {
+          "object": "obj_50",
+          "frame": 135,
+          "iou": 0.004,
+          "center_in_gt": false,
+          "box": [
+            338.8,
+            450.6,
+            528.9,
+            652.7
+          ]
+        },
+        {
+          "object": "obj_52",
+          "frame": 135,
+          "iou": 0.039,
+          "center_in_gt": true,
+          "box": [
+            393.8,
+            650.5,
+            613.2,
+            804.2
+          ]
+        },
+        {
+          "object": "obj_56",
+          "frame": 135,
+          "iou": 0.002,
+          "center_in_gt": false,
+          "box": [
+            398.3,
+            730.6,
+            508.7,
+            807.6
+          ]
+        },
+        {
+          "object": "obj_62",
+          "frame": 135,
+          "iou": 0.025,
+          "center_in_gt": true,
+          "box": [
+            494.7,
+            686.9,
+            605.2,
+            789.5
+          ]
+        },
+        {
+          "object": "obj_100",
+          "frame": 135,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1344.9,
+            413.7,
+            1440.0,
+            497.0
+          ]
+        },
+        {
+          "object": "obj_103",
+          "frame": 135,
+          "iou": 0.008,
+          "center_in_gt": true,
+          "box": [
+            563.0,
+            772.6,
+            613.8,
+            837.7
+          ]
+        },
+        {
+          "object": "obj_104",
+          "frame": 135,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            351.8,
+            456.9,
+            438.3,
+            556.3
+          ]
+        },
+        {
+          "object": "obj_95",
+          "frame": 134,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            53.0,
+            387.6,
+            344.5,
+            728.0
+          ]
+        },
+        {
+          "object": "obj_43",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            948.1,
+            1405.5,
+            1051.7,
+            1576.5
+          ]
+        },
+        {
+          "object": "obj_89",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            178.3,
+            155.6,
+            300.1,
+            384.2
+          ]
+        },
+        {
+          "object": "obj_92",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            227.7,
+            117.7,
+            420.8
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 120,
+          "iou": 0.019,
+          "center_in_gt": true,
+          "box": [
+            819.4,
+            582.4,
+            941.3,
+            684.9
+          ]
+        },
+        {
+          "object": "obj_36",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1381.0,
+            460.9,
+            1440.0,
+            536.6
+          ]
+        },
+        {
+          "object": "obj_83",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1277.0,
+            739.5,
+            1375.0,
+            869.7
+          ]
+        },
+        {
+          "object": "obj_87",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            921.2,
+            1834.3,
+            1014.4,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_51",
+          "frame": 119,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1329.2,
+            653.0,
+            1435.0,
+            796.4
+          ]
+        },
+        {
+          "object": "obj_18",
+          "frame": 112,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            771.5,
+            1582.5,
+            862.3,
+            1717.9
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 105,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            487.8,
+            1658.7,
+            744.2,
+            1914.5
+          ]
+        },
+        {
+          "object": "obj_39",
+          "frame": 105,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            107.5,
+            106.1,
+            535.8,
+            392.6
+          ]
+        },
+        {
+          "object": "obj_41",
+          "frame": 105,
+          "iou": 0.001,
+          "center_in_gt": false,
+          "box": [
+            1059.7,
+            1273.9,
+            1437.3,
+            1775.3
+          ]
+        },
+        {
+          "object": "obj_65",
+          "frame": 105,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1232.9,
+            1450.1,
+            1385.6,
+            1581.0
+          ]
+        },
+        {
+          "object": "obj_12",
+          "frame": 104,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1203.2,
+            1742.0,
+            1368.9,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_14",
+          "frame": 97,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1329.5,
+            1290.5,
+            1440.0,
+            1461.2
+          ]
+        },
+        {
+          "object": "obj_10",
+          "frame": 82,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            271.1,
+            1825.4,
+            550.6,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_34",
+          "frame": 75,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1059.9,
+            2.2,
+            1287.9,
+            112.7
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 67,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            1841.7,
+            104.2,
+            1918.3
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 37,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1125.0,
+            1486.5,
+            1246.0,
+            1602.7
+          ]
+        },
+        {
+          "object": "obj_16",
+          "frame": 37,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            1800.7,
+            98.1,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_19",
+          "frame": 37,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            1374.1,
+            57.4,
+            1549.3
+          ]
+        },
+        {
+          "object": "obj_22",
+          "frame": 37,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            89.7,
+            1843.8,
+            267.6,
+            1919.8
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 30,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            142.4,
+            1730.8,
+            296.0,
+            1892.8
+          ]
+        },
+        {
+          "object": "obj_11",
+          "frame": 30,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            281.2,
+            1832.0,
+            435.5,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 22,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.8,
+            1452.7,
+            70.7,
+            1577.3
+          ]
+        },
+        {
+          "object": "obj_17",
+          "frame": 15,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            79.3,
+            1148.1,
+            175.2,
+            1279.6
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The mug was last seen at 6.7s at (770, 1021). Earlier: 6.7s at (1353, 108). Earlier: 6.0s at (1123, 130). (129 more tracked sighting(s) not listed.)",
+      "confidence": 0.327,
+      "query_latency_s": 0.3226
+    },
+    {
+      "clip": "cup/batch-31/35",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 47,
+      "processing_seconds": 25.18,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 232,
+          "iou": 0.635,
+          "center_in_gt": true,
+          "box": [
+            284.3,
+            592.4,
+            1200.9,
+            1516.0
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The mug was last seen at 7.7s at (743, 1054).",
+      "confidence": 0.809,
+      "query_latency_s": 0.0157
+    },
+    {
+      "clip": "bottle/batch-31/32",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 50,
+      "processing_seconds": 35.39,
+      "outcome": "hit",
+      "objects_returned": 38,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 247,
+          "iou": 0.34,
+          "center_in_gt": true,
+          "box": [
+            421.4,
+            661.6,
+            970.7,
+            1350.4
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 247,
+          "iou": 0.1,
+          "center_in_gt": true,
+          "box": [
+            960.0,
+            1137.5,
+            1439.7,
+            1522.7
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            825.9,
+            1529.5,
+            1429.1,
+            1910.1
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 247,
+          "iou": 0.057,
+          "center_in_gt": true,
+          "box": [
+            360.8,
+            263.5,
+            603.8,
+            611.8
+          ]
+        },
+        {
+          "object": "obj_15",
+          "frame": 247,
+          "iou": 0.032,
+          "center_in_gt": true,
+          "box": [
+            1126.8,
+            1031.0,
+            1407.9,
+            1205.5
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 247,
+          "iou": 0.142,
+          "center_in_gt": true,
+          "box": [
+            0.0,
+            19.5,
+            817.0,
+            787.6
+          ]
+        },
+        {
+          "object": "obj_22",
+          "frame": 247,
+          "iou": 0.101,
+          "center_in_gt": true,
+          "box": [
+            912.2,
+            849.1,
+            1275.5,
+            1158.3
+          ]
+        },
+        {
+          "object": "obj_21",
+          "frame": 217,
+          "iou": 0.095,
+          "center_in_gt": true,
+          "box": [
+            266.9,
+            1.1,
+            613.7,
+            609.7
+          ]
+        },
+        {
+          "object": "obj_25",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            20.8,
+            116.3,
+            388.6
+          ]
+        },
+        {
+          "object": "obj_23",
+          "frame": 247,
+          "iou": 0.017,
+          "center_in_gt": false,
+          "box": [
+            1228.1,
+            5.1,
+            1437.9,
+            542.8
+          ]
+        },
+        {
+          "object": "obj_26",
+          "frame": 247,
+          "iou": 0.02,
+          "center_in_gt": false,
+          "box": [
+            42.1,
+            127.8,
+            390.7,
+            758.5
+          ]
+        },
+        {
+          "object": "obj_28",
+          "frame": 217,
+          "iou": 0.003,
+          "center_in_gt": false,
+          "box": [
+            123.4,
+            0.0,
+            324.9,
+            377.4
+          ]
+        },
+        {
+          "object": "obj_30",
+          "frame": 247,
+          "iou": 0.089,
+          "center_in_gt": true,
+          "box": [
+            553.3,
+            374.0,
+            816.5,
+            752.6
+          ]
+        },
+        {
+          "object": "obj_32",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1149.3,
+            1474.1,
+            1436.0,
+            1719.4
+          ]
+        },
+        {
+          "object": "obj_33",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1176.3,
+            1641.3,
+            1440.0,
+            1914.5
+          ]
+        },
+        {
+          "object": "obj_31",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            893.7,
+            1490.0,
+            1429.5,
+            1719.2
+          ]
+        },
+        {
+          "object": "obj_29",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.5,
+            279.9,
+            65.6,
+            570.0
+          ]
+        },
+        {
+          "object": "obj_35",
+          "frame": 225,
+          "iou": 0.003,
+          "center_in_gt": false,
+          "box": [
+            1262.9,
+            1267.5,
+            1439.4,
+            1477.2
+          ]
+        },
+        {
+          "object": "obj_36",
+          "frame": 225,
+          "iou": 0.091,
+          "center_in_gt": true,
+          "box": [
+            647.1,
+            10.4,
+            980.5,
+            580.8
+          ]
+        },
+        {
+          "object": "obj_37",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            814.3,
+            2.3,
+            1227.5,
+            120.5
+          ]
+        },
+        {
+          "object": "obj_20",
+          "frame": 210,
+          "iou": 0.001,
+          "center_in_gt": false,
+          "box": [
+            239.5,
+            0.0,
+            308.9,
+            194.5
+          ]
+        },
+        {
+          "object": "obj_34",
+          "frame": 209,
+          "iou": 0.002,
+          "center_in_gt": false,
+          "box": [
+            1273.6,
+            4.2,
+            1440.0,
+            236.1
+          ]
+        },
+        {
+          "object": "obj_16",
+          "frame": 180,
+          "iou": 0.025,
+          "center_in_gt": true,
+          "box": [
+            1028.5,
+            487.7,
+            1189.9,
+            823.0
+          ]
+        },
+        {
+          "object": "obj_24",
+          "frame": 172,
+          "iou": 0.048,
+          "center_in_gt": true,
+          "box": [
+            735.4,
+            24.9,
+            925.0,
+            626.2
+          ]
+        },
+        {
+          "object": "obj_27",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1285.1,
+            306.6,
+            1438.4,
+            756.3
+          ]
+        },
+        {
+          "object": "obj_19",
+          "frame": 157,
+          "iou": 0.026,
+          "center_in_gt": true,
+          "box": [
+            449.5,
+            367.0,
+            550.3,
+            920.3
+          ]
+        },
+        {
+          "object": "obj_10",
+          "frame": 112,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1186.9,
+            667.5,
+            1439.1,
+            1205.5
+          ]
+        },
+        {
+          "object": "obj_11",
+          "frame": 112,
+          "iou": 0.062,
+          "center_in_gt": true,
+          "box": [
+            411.8,
+            278.5,
+            572.0,
+            842.4
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 104,
+          "iou": 0.037,
+          "center_in_gt": false,
+          "box": [
+            1127.2,
+            655.6,
+            1376.9,
+            1163.4
+          ]
+        },
+        {
+          "object": "obj_17",
+          "frame": 97,
+          "iou": 0.089,
+          "center_in_gt": true,
+          "box": [
+            498.5,
+            259.4,
+            700.3,
+            861.2
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 90,
+          "iou": 0.072,
+          "center_in_gt": true,
+          "box": [
+            844.7,
+            626.4,
+            1028.9,
+            1175.1
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 82,
+          "iou": 0.015,
+          "center_in_gt": true,
+          "box": [
+            668.9,
+            617.2,
+            731.3,
+            970.7
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 82,
+          "iou": 0.207,
+          "center_in_gt": true,
+          "box": [
+            669.5,
+            244.1,
+            1017.3,
+            1152.1
+          ]
+        },
+        {
+          "object": "obj_14",
+          "frame": 75,
+          "iou": 0.028,
+          "center_in_gt": false,
+          "box": [
+            1239.5,
+            641.7,
+            1438.1,
+            1221.3
+          ]
+        },
+        {
+          "object": "obj_18",
+          "frame": 59,
+          "iou": 0.078,
+          "center_in_gt": true,
+          "box": [
+            520.8,
+            653.1,
+            702.8,
+            1375.5
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 45,
+          "iou": 0.014,
+          "center_in_gt": false,
+          "box": [
+            1324.1,
+            161.0,
+            1440.0,
+            731.4
+          ]
+        },
+        {
+          "object": "obj_12",
+          "frame": 45,
+          "iou": 0.049,
+          "center_in_gt": true,
+          "box": [
+            619.6,
+            130.4,
+            735.0,
+            847.4
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 37,
+          "iou": 0.062,
+          "center_in_gt": true,
+          "box": [
+            674.3,
+            125.2,
+            810.8,
+            876.9
+          ]
+        }
+      ],
+      "frame_recall": 0.88,
+      "answer": "The bottle was last seen at 8.2s at (696, 1006). Earlier: 8.2s at (1200, 1330). Earlier: 8.2s at (1128, 1720). (35 more tracked sighting(s) not listed.)",
+      "confidence": 0.275,
+      "query_latency_s": 0.1889
+    },
+    {
+      "clip": "bottle/batch-33/34",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 50,
+      "processing_seconds": 31.99,
+      "outcome": "hit",
+      "objects_returned": 75,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 247,
+          "iou": 0.555,
+          "center_in_gt": true,
+          "box": [
+            353.5,
+            861.9,
+            796.1,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_11",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            969.1,
+            928.7,
+            1220.7,
+            1909.7
+          ]
+        },
+        {
+          "object": "obj_26",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1353.9,
+            1041.7,
+            1440.0,
+            1827.5
+          ]
+        },
+        {
+          "object": "obj_47",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1103.6,
+            1.6,
+            1186.5,
+            150.1
+          ]
+        },
+        {
+          "object": "obj_63",
+          "frame": 232,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1391.8,
+            665.3,
+            1440.0,
+            947.2
+          ]
+        },
+        {
+          "object": "obj_68",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            948.2,
+            1.6,
+            1188.1,
+            610.1
+          ]
+        },
+        {
+          "object": "obj_69",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            708.2,
+            3.7,
+            964.6,
+            546.1
+          ]
+        },
+        {
+          "object": "obj_70",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1319.5,
+            0.0,
+            1440.0,
+            685.2
+          ]
+        },
+        {
+          "object": "obj_61",
+          "frame": 225,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1012.0,
+            460.2,
+            1136.8,
+            1349.5
+          ]
+        },
+        {
+          "object": "obj_71",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            246.4,
+            4.0,
+            745.4,
+            481.4
+          ]
+        },
+        {
+          "object": "obj_72",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1148.1,
+            0.0,
+            1315.6,
+            677.7
+          ]
+        },
+        {
+          "object": "obj_65",
+          "frame": 239,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            950.5,
+            0.0,
+            1013.6,
+            143.1
+          ]
+        },
+        {
+          "object": "obj_66",
+          "frame": 239,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            943.7,
+            0.0,
+            1131.2,
+            169.2
+          ]
+        },
+        {
+          "object": "obj_64",
+          "frame": 224,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            297.9,
+            1852.0,
+            510.1,
+            1918.4
+          ]
+        },
+        {
+          "object": "obj_73",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1.7,
+            1.4,
+            285.8,
+            316.0
+          ]
+        },
+        {
+          "object": "obj_67",
+          "frame": 239,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            719.1,
+            0.0,
+            779.6,
+            105.2
+          ]
+        },
+        {
+          "object": "obj_74",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1349.0,
+            296.2,
+            1396.1,
+            657.4
+          ]
+        },
+        {
+          "object": "obj_37",
+          "frame": 210,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1221.2,
+            657.2,
+            1258.2,
+            785.6
+          ]
+        },
+        {
+          "object": "obj_50",
+          "frame": 210,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1396.0,
+            623.4,
+            1440.0,
+            1262.6
+          ]
+        },
+        {
+          "object": "obj_15",
+          "frame": 195,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1106.4,
+            1733.4,
+            1192.7,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_60",
+          "frame": 195,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1314.5,
+            422.1,
+            1339.2,
+            619.0
+          ]
+        },
+        {
+          "object": "obj_62",
+          "frame": 195,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1081.8,
+            615.3,
+            1124.0,
+            750.0
+          ]
+        },
+        {
+          "object": "obj_59",
+          "frame": 194,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1041.0,
+            374.9,
+            1201.3,
+            1312.2
+          ]
+        },
+        {
+          "object": "obj_39",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1142.3,
+            587.5,
+            1294.4,
+            1119.8
+          ]
+        },
+        {
+          "object": "obj_54",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1348.4,
+            1690.5,
+            1436.9,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 157,
+          "iou": 0.072,
+          "center_in_gt": true,
+          "box": [
+            925.7,
+            1475.7,
+            1440.0,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_14",
+          "frame": 157,
+          "iou": 0.007,
+          "center_in_gt": true,
+          "box": [
+            925.0,
+            1806.5,
+            1094.6,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_51",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1356.3,
+            1475.8,
+            1439.3,
+            1724.1
+          ]
+        },
+        {
+          "object": "obj_55",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1259.2,
+            1508.3,
+            1399.8,
+            1840.9
+          ]
+        },
+        {
+          "object": "obj_16",
+          "frame": 150,
+          "iou": 0.005,
+          "center_in_gt": false,
+          "box": [
+            1102.9,
+            1736.8,
+            1247.0,
+            1912.5
+          ]
+        },
+        {
+          "object": "obj_20",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            828.0,
+            1812.5,
+            936.7,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_24",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1139.3,
+            1832.5,
+            1230.1,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_25",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1250.6,
+            256.2,
+            1402.1,
+            496.1
+          ]
+        },
+        {
+          "object": "obj_27",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1278.9,
+            1286.1,
+            1436.2,
+            1563.8
+          ]
+        },
+        {
+          "object": "obj_28",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1375.0,
+            1562.1,
+            1440.0,
+            1671.1
+          ]
+        },
+        {
+          "object": "obj_29",
+          "frame": 150,
+          "iou": 0.003,
+          "center_in_gt": false,
+          "box": [
+            1185.6,
+            1711.5,
+            1320.6,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_30",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1304.6,
+            1555.3,
+            1440.0,
+            1803.7
+          ]
+        },
+        {
+          "object": "obj_31",
+          "frame": 150,
+          "iou": 0.001,
+          "center_in_gt": false,
+          "box": [
+            1063.8,
+            1779.1,
+            1194.9,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_35",
+          "frame": 150,
+          "iou": 0.003,
+          "center_in_gt": true,
+          "box": [
+            1187.7,
+            1708.1,
+            1269.8,
+            1800.1
+          ]
+        },
+        {
+          "object": "obj_40",
+          "frame": 150,
+          "iou": 0.007,
+          "center_in_gt": false,
+          "box": [
+            1205.2,
+            1302.4,
+            1438.6,
+            1659.5
+          ]
+        },
+        {
+          "object": "obj_52",
+          "frame": 150,
+          "iou": 0.005,
+          "center_in_gt": false,
+          "box": [
+            1205.0,
+            1421.9,
+            1335.6,
+            1662.4
+          ]
+        },
+        {
+          "object": "obj_53",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1268.5,
+            1805.8,
+            1365.0,
+            1918.5
+          ]
+        },
+        {
+          "object": "obj_56",
+          "frame": 150,
+          "iou": 0.005,
+          "center_in_gt": true,
+          "box": [
+            941.1,
+            1713.4,
+            1029.4,
+            1859.2
+          ]
+        },
+        {
+          "object": "obj_57",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1357.6,
+            1722.0,
+            1417.2,
+            1815.3
+          ]
+        },
+        {
+          "object": "obj_58",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1257.7,
+            1648.1,
+            1373.0,
+            1783.8
+          ]
+        },
+        {
+          "object": "obj_43",
+          "frame": 142,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1256.8,
+            1256.0,
+            1358.6,
+            1499.3
+          ]
+        },
+        {
+          "object": "obj_45",
+          "frame": 142,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1354.9,
+            1169.5,
+            1440.0,
+            1362.5
+          ]
+        },
+        {
+          "object": "obj_22",
+          "frame": 135,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1387.5,
+            1119.8,
+            1440.0,
+            1315.5
+          ]
+        },
+        {
+          "object": "obj_36",
+          "frame": 135,
+          "iou": 0.063,
+          "center_in_gt": true,
+          "box": [
+            826.8,
+            170.0,
+            1020.4,
+            716.2
+          ]
+        },
+        {
+          "object": "obj_49",
+          "frame": 135,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1288.5,
+            247.5,
+            1440.0,
+            646.2
+          ]
+        },
+        {
+          "object": "obj_42",
+          "frame": 134,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1388.5,
+            1262.2,
+            1440.0,
+            1416.7
+          ]
+        },
+        {
+          "object": "obj_48",
+          "frame": 134,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1390.0,
+            1097.7,
+            1440.0,
+            1236.0
+          ]
+        },
+        {
+          "object": "obj_23",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1357.1,
+            178.3,
+            1437.7,
+            488.9
+          ]
+        },
+        {
+          "object": "obj_32",
+          "frame": 127,
+          "iou": 0.058,
+          "center_in_gt": true,
+          "box": [
+            791.2,
+            99.9,
+            948.0,
+            693.0
+          ]
+        },
+        {
+          "object": "obj_33",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1373.4,
+            852.0,
+            1440.0,
+            1070.7
+          ]
+        },
+        {
+          "object": "obj_41",
+          "frame": 127,
+          "iou": 0.002,
+          "center_in_gt": false,
+          "box": [
+            1257.7,
+            1071.7,
+            1325.3,
+            1285.2
+          ]
+        },
+        {
+          "object": "obj_46",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1348.6,
+            999.8,
+            1406.9,
+            1177.0
+          ]
+        },
+        {
+          "object": "obj_44",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            1674.0,
+            69.2,
+            1874.9
+          ]
+        },
+        {
+          "object": "obj_38",
+          "frame": 119,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1392.0,
+            502.7,
+            1438.6,
+            708.8
+          ]
+        },
+        {
+          "object": "obj_34",
+          "frame": 112,
+          "iou": 0.001,
+          "center_in_gt": false,
+          "box": [
+            1051.9,
+            1755.2,
+            1158.3,
+            1913.4
+          ]
+        },
+        {
+          "object": "obj_17",
+          "frame": 90,
+          "iou": 0.004,
+          "center_in_gt": true,
+          "box": [
+            1048.2,
+            1594.9,
+            1099.4,
+            1685.3
+          ]
+        },
+        {
+          "object": "obj_21",
+          "frame": 90,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            888.4,
+            1765.5,
+            963.8,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_18",
+          "frame": 67,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            630.6,
+            1717.0,
+            783.4,
+            1912.4
+          ]
+        },
+        {
+          "object": "obj_19",
+          "frame": 67,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            527.8,
+            1652.4,
+            1099.3,
+            1915.8
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 52,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            2.7,
+            1798.6,
+            149.2,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_12",
+          "frame": 52,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            119.6,
+            1793.3,
+            266.3,
+            1919.5
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 45,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.6,
+            632.4,
+            157.1,
+            1269.9
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 30,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            682.3,
+            142.1,
+            1401.8
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 22,
+          "iou": 0.044,
+          "center_in_gt": false,
+          "box": [
+            134.2,
+            308.1,
+            335.1,
+            980.9
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 22,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            461.9,
+            31.4,
+            754.2
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 22,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            1582.6,
+            83.0,
+            1916.8
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 22,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            56.3,
+            1741.0,
+            261.3,
+            1919.0
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 22,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            32.1,
+            1654.0,
+            504.4,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_10",
+          "frame": 15,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            56.9,
+            528.7,
+            117.0,
+            789.1
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 14,
+          "iou": 0.027,
+          "center_in_gt": true,
+          "box": [
+            656.1,
+            1260.6,
+            742.0,
+            1514.5
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The bottle was last seen at 8.2s at (575, 1391). Earlier: 8.2s at (1095, 1419). Earlier: 8.2s at (1397, 1435). (72 more tracked sighting(s) not listed.)",
+      "confidence": 0.272,
+      "query_latency_s": 0.1302
+    },
+    {
+      "clip": "bottle/batch-12/13",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 33,
+      "processing_seconds": 21.44,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 240,
+          "iou": 0.461,
+          "center_in_gt": true,
+          "box": [
+            583.2,
+            720.0,
+            999.0,
+            1472.1
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The bottle was last seen at 8.0s at (791, 1096).",
+      "confidence": 0.627,
+      "query_latency_s": 0.0093
+    },
+    {
+      "clip": "bottle/batch-22/35",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 54,
+      "processing_seconds": 29.13,
+      "outcome": "hit_loose",
+      "objects_returned": 2,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 270,
+          "iou": 0.268,
+          "center_in_gt": true,
+          "box": [
+            503.3,
+            761.8,
+            918.0,
+            1199.4
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 67,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            32.9,
+            89.9,
+            847.2
+          ]
+        }
+      ],
+      "frame_recall": 0.907,
+      "answer": "The bottle was last seen at 9.0s at (711, 981). Earlier: 2.2s at (45, 440).",
+      "confidence": 0.407,
+      "query_latency_s": 0.0258
+    },
+    {
+      "clip": "book/batch-30/0",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 41,
+      "processing_seconds": 21.76,
+      "outcome": "hit",
+      "objects_returned": 2,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 202,
+          "iou": 0.901,
+          "center_in_gt": true,
+          "box": [
+            395.2,
+            571.4,
+            1001.9,
+            1014.4
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 180,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1.9,
+            72.7,
+            383.5,
+            258.4
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The notebook was last seen at 6.7s at (699, 793). Earlier: 6.0s at (193, 166).",
+      "confidence": 0.251,
+      "query_latency_s": 0.016
+    },
+    {
+      "clip": "book/batch-7/8",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 54,
+      "processing_seconds": 28.33,
+      "outcome": "not_found",
+      "objects_returned": 0,
+      "claims": [],
+      "frame_recall": 0.0,
+      "answer": "I cannot determine where the notebook was last seen from the available visual evidence.",
+      "confidence": 0.0,
+      "query_latency_s": 0.0003
+    },
+    {
+      "clip": "book/batch-32/17",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 35,
+      "processing_seconds": 18.95,
+      "outcome": "hit",
+      "objects_returned": 2,
+      "claims": [
+        {
+          "object": "obj_2",
+          "frame": 135,
+          "iou": 0.48,
+          "center_in_gt": true,
+          "box": [
+            386.9,
+            318.6,
+            752.6,
+            1391.2
+          ]
+        },
+        {
+          "object": "obj_0",
+          "frame": 60,
+          "iou": 0.609,
+          "center_in_gt": true,
+          "box": [
+            566.1,
+            2.1,
+            1428.8,
+            1358.4
+          ]
+        }
+      ],
+      "frame_recall": 0.286,
+      "answer": "The notebook was last seen at 4.5s at (570, 855). Earlier: 2.0s at (997, 680).",
+      "confidence": 0.239,
+      "query_latency_s": 0.0065
+    },
+    {
+      "clip": "book/batch-11/33",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 53,
+      "processing_seconds": 28.67,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 89,
+          "iou": 0.551,
+          "center_in_gt": true,
+          "box": [
+            0.0,
+            365.4,
+            1363.7,
+            1720.9
+          ]
+        }
+      ],
+      "frame_recall": 0.094,
+      "answer": "The notebook was last seen at 3.0s at (682, 1043).",
+      "confidence": 0.216,
+      "query_latency_s": 0.0034
+    },
+    {
+      "clip": "laptop/batch-33/24",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 52,
+      "processing_seconds": 33.05,
+      "outcome": "hit",
+      "objects_returned": 8,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 262,
+          "iou": 0.535,
+          "center_in_gt": true,
+          "box": [
+            3.6,
+            218.1,
+            1313.8,
+            1696.1
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 262,
+          "iou": 0.114,
+          "center_in_gt": true,
+          "box": [
+            1067.5,
+            160.6,
+            1431.7,
+            1352.7
+          ]
+        },
+        {
+          "object": "obj_10",
+          "frame": 254,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            99.1,
+            0.5,
+            1332.2,
+            59.8
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 225,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            0.0,
+            62.4,
+            409.2,
+            173.3
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 217,
+          "iou": 0.043,
+          "center_in_gt": true,
+          "box": [
+            0.3,
+            359.7,
+            221.9,
+            1267.4
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            712.9,
+            0.0,
+            1394.4,
+            75.6
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 142,
+          "iou": 0.059,
+          "center_in_gt": true,
+          "box": [
+            1143.2,
+            163.2,
+            1431.8,
+            1920.0
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 30,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            3.3,
+            1069.8,
+            241.5,
+            1920.0
+          ]
+        }
+      ],
+      "frame_recall": 0.981,
+      "answer": "The laptop was last seen at 8.7s at (659, 957). Earlier: 8.7s at (1250, 757). Earlier: 8.5s at (716, 30). (5 more tracked sighting(s) not listed.)",
+      "confidence": 0.385,
+      "query_latency_s": 0.0431
+    },
+    {
+      "clip": "laptop/batch-35/4",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 109,
+      "processing_seconds": 60.28,
+      "outcome": "hit",
+      "objects_returned": 6,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 555,
+          "iou": 0.38,
+          "center_in_gt": true,
+          "box": [
+            659.1,
+            999.8,
+            1435.1,
+            1917.0
+          ]
+        },
+        {
+          "object": "obj_16",
+          "frame": 525,
+          "iou": 0.123,
+          "center_in_gt": false,
+          "box": [
+            319.1,
+            301.8,
+            1416.3,
+            1269.1
+          ]
+        },
+        {
+          "object": "obj_11",
+          "frame": 480,
+          "iou": 0.049,
+          "center_in_gt": false,
+          "box": [
+            379.6,
+            328.6,
+            1428.4,
+            965.3
+          ]
+        },
+        {
+          "object": "obj_10",
+          "frame": 277,
+          "iou": 0.109,
+          "center_in_gt": false,
+          "box": [
+            903.5,
+            458.2,
+            1440.0,
+            1059.0
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 104,
+          "iou": 0.461,
+          "center_in_gt": true,
+          "box": [
+            751.5,
+            1034.2,
+            1252.2,
+            1317.0
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 59,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1224.9,
+            1057.8,
+            1438.8,
+            1269.2
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The laptop was last seen at 18.5s at (1047, 1458). Earlier: 17.5s at (868, 785). Earlier: 16.0s at (904, 647). (3 more tracked sighting(s) not listed.)",
+      "confidence": 0.327,
+      "query_latency_s": 0.0702
+    },
+    {
+      "clip": "laptop/batch-10/21",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 62,
+      "processing_seconds": 35.07,
+      "outcome": "hit",
+      "objects_returned": 2,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 315,
+          "iou": 0.886,
+          "center_in_gt": true,
+          "box": [
+            173.8,
+            283.7,
+            1208.0,
+            1466.8
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            229.3,
+            0.0,
+            633.4,
+            164.4
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The laptop was last seen at 10.6s at (691, 875). Earlier: 8.3s at (431, 82).",
+      "confidence": 0.48,
+      "query_latency_s": 0.0161
+    },
+    {
+      "clip": "laptop/batch-26/39",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 69,
+      "processing_seconds": 38.75,
+      "outcome": "hit",
+      "objects_returned": 3,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 344,
+          "iou": 0.771,
+          "center_in_gt": true,
+          "box": [
+            387.9,
+            709.2,
+            1077.0,
+            1403.1
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 337,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1261.5,
+            113.9,
+            1440.0,
+            331.6
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 322,
+          "iou": 0.334,
+          "center_in_gt": true,
+          "box": [
+            485.1,
+            774.3,
+            1096.0,
+            1146.5
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The laptop was last seen at 11.5s at (732, 1056). Earlier: 11.2s at (1351, 223). Earlier: 10.7s at (791, 960).",
+      "confidence": 0.46,
+      "query_latency_s": 0.05
+    },
+    {
+      "clip": "chair/batch-31/17",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 47,
+      "processing_seconds": 29.29,
+      "outcome": "hit",
+      "objects_returned": 12,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 232,
+          "iou": 0.506,
+          "center_in_gt": true,
+          "box": [
+            204.8,
+            8.7,
+            1187.6,
+            1892.4
+          ]
+        },
+        {
+          "object": "obj_16",
+          "frame": 232,
+          "iou": 0.012,
+          "center_in_gt": true,
+          "box": [
+            0.0,
+            14.1,
+            173.5,
+            263.8
+          ]
+        },
+        {
+          "object": "obj_17",
+          "frame": 232,
+          "iou": 0.198,
+          "center_in_gt": true,
+          "box": [
+            303.9,
+            6.7,
+            1119.6,
+            894.6
+          ]
+        },
+        {
+          "object": "obj_10",
+          "frame": 224,
+          "iou": 0.007,
+          "center_in_gt": true,
+          "box": [
+            295.6,
+            0.0,
+            509.9,
+            117.8
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 225,
+          "iou": 0.007,
+          "center_in_gt": true,
+          "box": [
+            582.7,
+            0.1,
+            820.0,
+            101.1
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 90,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1121.5,
+            0.2,
+            1433.2,
+            121.2
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 60,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            135.5,
+            0.0,
+            373.2,
+            93.1
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 45,
+          "iou": 0.038,
+          "center_in_gt": true,
+          "box": [
+            1292.5,
+            145.7,
+            1440.0,
+            846.7
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 37,
+          "iou": 0.02,
+          "center_in_gt": true,
+          "box": [
+            1282.4,
+            499.2,
+            1439.3,
+            808.6
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 22,
+          "iou": 0.014,
+          "center_in_gt": false,
+          "box": [
+            1228.5,
+            221.6,
+            1438.7,
+            545.2
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 14,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1290.5,
+            262.9,
+            1440.0,
+            542.7
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 7,
+          "iou": 0.03,
+          "center_in_gt": false,
+          "box": [
+            996.9,
+            7.8,
+            1267.6,
+            494.9
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The chair was last seen at 7.7s at (696, 951). Earlier: 7.7s at (87, 139). Earlier: 7.7s at (712, 451). (9 more tracked sighting(s) not listed.)",
+      "confidence": 0.288,
+      "query_latency_s": 0.0429
+    },
+    {
+      "clip": "chair/batch-32/7",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 35,
+      "processing_seconds": 20.65,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 180,
+          "iou": 0.616,
+          "center_in_gt": true,
+          "box": [
+            353.9,
+            368.2,
+            1069.7,
+            1637.5
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The chair was last seen at 6.0s at (712, 1003).",
+      "confidence": 0.684,
+      "query_latency_s": 0.0122
+    },
+    {
+      "clip": "chair/batch-11/30",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 62,
+      "processing_seconds": 37.84,
+      "outcome": "hit",
+      "objects_returned": 10,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 314,
+          "iou": 0.507,
+          "center_in_gt": true,
+          "box": [
+            256.1,
+            48.8,
+            1245.8,
+            1513.7
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 284,
+          "iou": 0.011,
+          "center_in_gt": true,
+          "box": [
+            0.0,
+            478.8,
+            100.5,
+            798.7
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 270,
+          "iou": 0.048,
+          "center_in_gt": true,
+          "box": [
+            3.0,
+            0.0,
+            200.1,
+            771.0
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 209,
+          "iou": 0.001,
+          "center_in_gt": true,
+          "box": [
+            50.8,
+            23.7,
+            147.5,
+            108.5
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 127,
+          "iou": 0.021,
+          "center_in_gt": true,
+          "box": [
+            1056.4,
+            2.2,
+            1342.2,
+            299.6
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 119,
+          "iou": 0.02,
+          "center_in_gt": true,
+          "box": [
+            1224.8,
+            0.0,
+            1440.0,
+            371.1
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 45,
+          "iou": 0.04,
+          "center_in_gt": true,
+          "box": [
+            869.3,
+            0.0,
+            1439.1,
+            393.1
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 44,
+          "iou": 0.004,
+          "center_in_gt": true,
+          "box": [
+            608.7,
+            0.0,
+            878.6,
+            102.1
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 30,
+          "iou": 0.008,
+          "center_in_gt": true,
+          "box": [
+            591.0,
+            2.5,
+            866.5,
+            201.0
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 30,
+          "iou": 0.016,
+          "center_in_gt": true,
+          "box": [
+            580.1,
+            0.3,
+            1157.5,
+            199.8
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The chair was last seen at 10.5s at (751, 781). Earlier: 9.5s at (50, 639). Earlier: 9.0s at (102, 385). (7 more tracked sighting(s) not listed.)",
+      "confidence": 0.259,
+      "query_latency_s": 0.0343
+    },
+    {
+      "clip": "chair/batch-25/15",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 40,
+      "processing_seconds": 23.6,
+      "outcome": "hit",
+      "objects_returned": 6,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 195,
+          "iou": 0.684,
+          "center_in_gt": true,
+          "box": [
+            274.7,
+            65.1,
+            1099.6,
+            1191.9
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 165,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1364.3,
+            240.7,
+            1440.0,
+            430.9
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 164,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1358.7,
+            236.1,
+            1440.0,
+            703.4
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 150,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1363.0,
+            840.6,
+            1440.0,
+            1019.3
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 142,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1285.3,
+            1015.4,
+            1440.0,
+            1673.7
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 120,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1269.0,
+            1456.4,
+            1440.0,
+            1914.1
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The chair was last seen at 6.5s at (687, 629). Earlier: 5.5s at (1402, 336). Earlier: 5.5s at (1399, 470). (3 more tracked sighting(s) not listed.)",
+      "confidence": 0.288,
+      "query_latency_s": 0.0217
+    }
+  ]
+}

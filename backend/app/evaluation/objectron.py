@@ -13,7 +13,8 @@ Schema (annotation_data.proto)::
                        double timestamp = 4; }
     ObjectAnnotation { int32 object_id = 1; repeated AnnotatedKeyPoint keypoints = 2;
                        float visibility = 3; }
-    AnnotatedKeyPoint{ int32 id = 1; Point3D point_3d = 2; NormalizedPoint2D point_2d = 3; }
+    AnnotatedKeyPoint{ int32 id = 1; Point3D point_3d = 2;
+                       NormalizedPoint2D point_2d = 3; }
     NormalizedPoint2D{ float x = 1; float y = 2; float depth = 3; }
 
 Keypoint 0 is the box centre; 1..8 are the box corners. Objectron data is

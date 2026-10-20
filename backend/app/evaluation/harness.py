@@ -117,11 +117,7 @@ def match_events(
         if (true_positives + false_negatives)
         else 0.0
     )
-    f1 = (
-        2 * precision * recall / (precision + recall)
-        if (precision + recall)
-        else 0.0
-    )
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
     return {
         "true_positives": true_positives,
         "false_positives": false_positives,
@@ -168,9 +164,7 @@ def evaluate_queries(memory: VisualMemory, video: str, fps: float) -> dict:
         text = answer.text.lower()
         ok = any(token.lower() in text for token in accepted)
         passed += int(ok)
-        results.append(
-            {"question": question, "answer": answer.text, "passed": ok}
-        )
+        results.append({"question": question, "answer": answer.text, "passed": ok})
     total = len(QUERY_SUITE) or 1
     return {
         "accuracy": round(passed / total, 3),
@@ -198,9 +192,7 @@ def run_evaluation(
     fps = result.video_info.fps if result.video_info else 30.0
     queries = evaluate_queries(result.memory, str(video), fps)
 
-    throughput = (
-        result.frames_processed / elapsed if elapsed > 0 else 0.0
-    )
+    throughput = result.frames_processed / elapsed if elapsed > 0 else 0.0
     return {
         "video": str(video),
         "frames_processed": result.frames_processed,
@@ -211,8 +203,7 @@ def run_evaluation(
         "tracking": tracking,
         "queries": queries,
         "passed": (
-            events["f1"] >= EVENT_F1_MIN
-            and queries["accuracy"] >= QUERY_ACCURACY_MIN
+            events["f1"] >= EVENT_F1_MIN and queries["accuracy"] >= QUERY_ACCURACY_MIN
         ),
     }
 
@@ -225,16 +216,14 @@ def format_report(report: dict) -> str:
         f"Video: {report['video']}",
         f"Frames: {report['frames_processed']} processed, "
         f"{report['frames_sampled']} sampled",
-        f"Throughput: {report['throughput_fps']} fps "
-        f"({report['processing_seconds']}s)",
+        f"Throughput: {report['throughput_fps']} fps ({report['processing_seconds']}s)",
         "",
         "Events (annotated types only):",
         f"  precision={ev['precision']}  recall={ev['recall']}  f1={ev['f1']}",
         f"  TP={ev['true_positives']} FP={ev['false_positives']} "
         f"FN={ev['false_negatives']}",
         "",
-        f"Tracking: {tr['track_fragments']} fragment(s) "
-        f"{tr['tracks_per_object']}",
+        f"Tracking: {tr['track_fragments']} fragment(s) {tr['tracks_per_object']}",
         "",
         f"Queries: {qr['passed']}/{qr['total']} "
         f"(accuracy={qr['accuracy']}, mean latency "

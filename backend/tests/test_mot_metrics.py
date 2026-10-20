@@ -20,7 +20,9 @@ def test_iou_basics():
 
 def test_perfect_tracking():
     gt = seq({1: [(1, 0), (2, 50)], 2: [(1, 1), (2, 51)], 3: [(1, 2), (2, 52)]})
-    pred = seq({1: [("a", 0), ("b", 50)], 2: [("a", 1), ("b", 51)], 3: [("a", 2), ("b", 52)]})
+    pred = seq(
+        {1: [("a", 0), ("b", 50)], 2: [("a", 1), ("b", 51)], 3: [("a", 2), ("b", 52)]}
+    )
     m = evaluate_mot(gt, pred)
     assert m["mota"] == 1.0 and m["idf1"] == 1.0 and m["id_switches"] == 0
     assert m["mostly_tracked"] == 1.0

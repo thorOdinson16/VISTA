@@ -1,0 +1,1040 @@
+{
+  "detector": "YOLO ONNX (yolov8n.onnx) +labels",
+  "detector_mode": "real",
+  "sample_fps": 2.0,
+  "overall": {
+    "clips": 20,
+    "baseline_lead_hit": 0.8,
+    "agent_verified": 17,
+    "agent_verified_precision": 0.882,
+    "agent_deferred_to_human": 1,
+    "agent_not_found": 2,
+    "agent_auto_success": 0.75,
+    "agent_success_with_human": 0.8,
+    "mean_tool_calls": 2.45,
+    "mean_rescans": 0.05,
+    "mean_agent_seconds": 1.19
+  },
+  "per_class": {
+    "cup": {
+      "clips": 4,
+      "baseline_lead_hit": 1.0,
+      "agent_verified": 4,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 0,
+      "agent_not_found": 0,
+      "agent_auto_success": 1.0,
+      "agent_success_with_human": 1.0,
+      "mean_tool_calls": 2.0,
+      "mean_rescans": 0.0,
+      "mean_agent_seconds": 0.18
+    },
+    "bottle": {
+      "clips": 4,
+      "baseline_lead_hit": 1.0,
+      "agent_verified": 3,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 1,
+      "agent_not_found": 0,
+      "agent_auto_success": 0.75,
+      "agent_success_with_human": 1.0,
+      "mean_tool_calls": 3.5,
+      "mean_rescans": 0.25,
+      "mean_agent_seconds": 5.19
+    },
+    "book": {
+      "clips": 4,
+      "baseline_lead_hit": 0.5,
+      "agent_verified": 2,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 0,
+      "agent_not_found": 2,
+      "agent_auto_success": 0.5,
+      "agent_success_with_human": 0.5,
+      "mean_tool_calls": 2.5,
+      "mean_rescans": 0.0,
+      "mean_agent_seconds": 0.07
+    },
+    "laptop": {
+      "clips": 4,
+      "baseline_lead_hit": 1.0,
+      "agent_verified": 4,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 0,
+      "agent_not_found": 0,
+      "agent_auto_success": 1.0,
+      "agent_success_with_human": 1.0,
+      "mean_tool_calls": 2.0,
+      "mean_rescans": 0.0,
+      "mean_agent_seconds": 0.17
+    },
+    "chair": {
+      "clips": 4,
+      "baseline_lead_hit": 0.5,
+      "agent_verified": 4,
+      "agent_verified_precision": 0.5,
+      "agent_deferred_to_human": 0,
+      "agent_not_found": 0,
+      "agent_auto_success": 0.5,
+      "agent_success_with_human": 0.5,
+      "mean_tool_calls": 2.25,
+      "mean_rescans": 0.0,
+      "mean_agent_seconds": 0.31
+    }
+  },
+  "clips": [
+    {
+      "clip": "cup/batch-16/49",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 4,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.17,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 4
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 292
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.904,
+            "iou": 0.977,
+            "zoom": 1.0,
+            "support": 59
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "cup/batch-4/31",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.19,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 157
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.953,
+            "iou": 0.983,
+            "zoom": 1.0,
+            "support": 32
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "cup/batch-9/3",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 8,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.19,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 8
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_22",
+            "frame": 735
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.667,
+            "iou": 0.756,
+            "zoom": 1.0,
+            "support": 32
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "cup/batch-6/6",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.19,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 255
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.879,
+            "iou": 0.953,
+            "zoom": 1.0,
+            "support": 50
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-17/27",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 4,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.19,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 4
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 195
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.828,
+            "iou": 0.92,
+            "zoom": 1.0,
+            "support": 40
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-42/13",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 7,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.19,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 7
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 217
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.836,
+            "iou": 0.953,
+            "zoom": 1.0,
+            "support": 23
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-13/20",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 2,
+      "baseline_hit": true,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": true,
+      "tool_calls": 8,
+      "rescans": 1,
+      "agent_seconds": 20.14,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_6",
+            "frame": 204
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.254,
+            "iou": 0.987,
+            "zoom": 1.0,
+            "support": 10
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 127
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 23
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 8
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 5,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 6,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_7",
+            "frame": 205
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 22
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 117
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 42
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 8,
+          "tool": "ask_human",
+          "args": {
+            "options": 2
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-22/2",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 2,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.24,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_7",
+            "frame": 285
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.695,
+            "iou": 0.981,
+            "zoom": 1.0,
+            "support": 14
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-16/11",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 0,
+      "baseline_hit": false,
+      "status": "not_found",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": false,
+      "tool_calls": 3,
+      "rescans": 0,
+      "agent_seconds": 0.0,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 0
+          },
+          "decision": "nothing remembered"
+        },
+        {
+          "step": 2,
+          "tool": "rescan",
+          "args": {
+            "labels": [
+              "notebook"
+            ]
+          },
+          "observation": {
+            "objects_in_memory": 1
+          },
+          "decision": "look up again with the new vocabulary"
+        },
+        {
+          "step": 3,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 0
+          },
+          "decision": "nothing remembered"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-41/9",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.15,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_2",
+            "frame": 292
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.624,
+            "iou": 0.947,
+            "zoom": 1.0,
+            "support": 56
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-8/42",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 0,
+      "baseline_hit": false,
+      "status": "not_found",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": false,
+      "tool_calls": 3,
+      "rescans": 0,
+      "agent_seconds": 0.0,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 0
+          },
+          "decision": "nothing remembered"
+        },
+        {
+          "step": 2,
+          "tool": "rescan",
+          "args": {
+            "labels": [
+              "notebook"
+            ]
+          },
+          "observation": {
+            "objects_in_memory": 8
+          },
+          "decision": "look up again with the new vocabulary"
+        },
+        {
+          "step": 3,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 0
+          },
+          "decision": "nothing remembered"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-12/27",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.15,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 202
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.462,
+            "iou": 0.695,
+            "zoom": 1.0,
+            "support": 38
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-17/47",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 7,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.17,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 7
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_1",
+            "frame": 307
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.787,
+            "iou": 0.973,
+            "zoom": 1.0,
+            "support": 61
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-9/40",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 7,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.17,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 7
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 420
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.884,
+            "iou": 0.963,
+            "zoom": 1.0,
+            "support": 85
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-12/11",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 4,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.16,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 4
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 262
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.877,
+            "iou": 0.974,
+            "zoom": 1.0,
+            "support": 51
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-26/30",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 2,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.17,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_3",
+            "frame": 330
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.71,
+            "iou": 0.982,
+            "zoom": 1.0,
+            "support": 28
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-17/42",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 5,
+      "baseline_hit": false,
+      "status": "verified",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.64,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 5
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 269
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.465,
+            "iou": 0.983,
+            "zoom": 1.0,
+            "support": 48
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-41/28",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 4,
+      "baseline_hit": false,
+      "status": "verified",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": false,
+      "tool_calls": 3,
+      "rescans": 0,
+      "agent_seconds": 0.3,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 4
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_2",
+            "frame": 195
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 17
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_4",
+            "frame": 142
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.376,
+            "iou": 0.53,
+            "zoom": 1.0,
+            "support": 1
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-13/32",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 5,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.16,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 5
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 202
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.395,
+            "iou": 0.938,
+            "zoom": 1.0,
+            "support": 21
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-24/49",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 2,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.15,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_3",
+            "frame": 180
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.614,
+            "iou": 0.989,
+            "zoom": 1.0,
+            "support": 3
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    }
+  ]
+}

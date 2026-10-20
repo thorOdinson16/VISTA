@@ -21,9 +21,9 @@ COLORS = {
     "desk": (190, 190, 190),
     "shelf": (150, 150, 150),
     "occluder": (60, 60, 60),
-    "notebook": (0, 0, 220),   # red
-    "mug": (220, 0, 0),        # blue
-    "person": (200, 0, 200),   # magenta
+    "notebook": (0, 0, 220),  # red
+    "mug": (220, 0, 0),  # blue
+    "person": (200, 0, 200),  # magenta
 }
 
 NOTEBOOK_SIZE = (60, 40)
@@ -59,12 +59,25 @@ GROUND_TRUTH: dict = {
     "objects": {"notebook": "red", "mug": "blue", "person": "magenta"},
     "events": [
         {"type": "person_entered", "subject": "person", "start_time": 35.0},
-        {"type": "object_picked_up", "subject": "notebook", "actor": "person",
-         "start_time": 48.0},
-        {"type": "object_carried", "subject": "notebook", "actor": "person",
-         "start_time": 48.0, "end_time": 84.0},
-        {"type": "object_placed", "subject": "notebook", "actor": "person",
-         "start_time": 84.0},
+        {
+            "type": "object_picked_up",
+            "subject": "notebook",
+            "actor": "person",
+            "start_time": 48.0,
+        },
+        {
+            "type": "object_carried",
+            "subject": "notebook",
+            "actor": "person",
+            "start_time": 48.0,
+            "end_time": 84.0,
+        },
+        {
+            "type": "object_placed",
+            "subject": "notebook",
+            "actor": "person",
+            "start_time": 84.0,
+        },
         {"type": "person_exited", "subject": "person", "start_time": 120.0},
     ],
 }

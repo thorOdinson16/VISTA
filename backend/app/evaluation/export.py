@@ -72,9 +72,7 @@ def locate_grounding(
         if votes:
             gid, _ = votes.most_common(1)[0]
             gt_frames = [
-                f
-                for f in sample_frames
-                if any(g == gid for g, _ in gt.get(f, []))
+                f for f in sample_frames if any(g == gid for g, _ in gt.get(f, []))
             ]
             if gt_frames:
                 true_last = max(gt_frames)

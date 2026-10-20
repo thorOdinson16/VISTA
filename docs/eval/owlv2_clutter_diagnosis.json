@@ -1,0 +1,16 @@
+{
+  "note": "Diagnosis of the clip with the most returned objects (Objectron cup/batch-49/23, OWLv2, 2 fps sampling, confidence threshold 0.2).",
+  "clip": "cup/batch-49/23",
+  "sampled_frames": 41,
+  "target_category_objects": 132,
+  "target_detections_per_sampled_frame": 34.9,
+  "objects_overlapping_ground_truth": 4,
+  "best_supported_object": {"observations": 41, "mean_confidence": 0.65, "frames_overlapping_ground_truth": 41},
+  "next_best_supported_objects": [
+    {"observations": 33, "mean_confidence": 0.33, "frames_overlapping_ground_truth": 0},
+    {"observations": 32, "mean_confidence": 0.52, "frames_overlapping_ground_truth": 0},
+    {"observations": 31, "mean_confidence": 0.35, "frames_overlapping_ground_truth": 0}
+  ],
+  "single_observation_objects": 6,
+  "conclusion": "Returned objects are mostly persistent false-positive tracks (patterned tabletop), not identity fragments of the real object; the real object has the highest support x confidence."
+}

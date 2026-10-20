@@ -74,6 +74,8 @@ def main() -> int:
                     "passed": passed,
                     "searched_on_demand": resp.get("searched_on_demand", False),
                     "answer": resp.get("answer", {}).get("text"),
+                    "agent_status": resp.get("agent_status"),
+                    "agent_trace": resp.get("agent_trace", []),
                     "latency_s": round(latency, 3),
                 }
             )

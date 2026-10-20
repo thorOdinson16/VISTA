@@ -51,9 +51,7 @@ def _gt_boxes(item: dict) -> list[tuple[str, BoundingBox]]:
     return out
 
 
-def average_precision(
-    predictions: list[tuple[float, bool]], total_gt: int
-) -> float:
+def average_precision(predictions: list[tuple[float, bool]], total_gt: int) -> float:
     """All-point-interpolated AP from confidence-sorted match flags."""
     if total_gt == 0:
         return 0.0
@@ -115,18 +113,14 @@ def evaluate_detection(
                 total_tp += 1
             else:
                 total_fp += 1
-            per_class_preds.setdefault(pred.category, []).append(
-                (pred.confidence, hit)
-            )
+            per_class_preds.setdefault(pred.category, []).append((pred.confidence, hit))
         total_fn += len(ground_truth) - len(matched)
 
     aps = {
         label: average_precision(per_class_preds.get(label, []), count)
         for label, count in gt_counts.items()
     }
-    precision = (
-        total_tp / (total_tp + total_fp) if (total_tp + total_fp) else 0.0
-    )
+    precision = total_tp / (total_tp + total_fp) if (total_tp + total_fp) else 0.0
     recall = total_tp / (total_tp + total_fn) if (total_tp + total_fn) else 0.0
     return {
         "images": len(items),

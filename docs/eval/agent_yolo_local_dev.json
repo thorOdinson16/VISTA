@@ -1,0 +1,1744 @@
+{
+  "detector": "YOLO ONNX (yolov8n.onnx) +labels",
+  "detector_mode": "real",
+  "sample_fps": 2.0,
+  "overall": {
+    "clips": 20,
+    "baseline_lead_hit": 0.75,
+    "agent_verified": 12,
+    "agent_verified_precision": 1.0,
+    "agent_deferred_to_human": 7,
+    "agent_not_found": 1,
+    "agent_auto_success": 0.6,
+    "agent_success_with_human": 0.9,
+    "mean_tool_calls": 5.0,
+    "mean_rescans": 0.5,
+    "mean_agent_seconds": 13.43
+  },
+  "per_class": {
+    "cup": {
+      "clips": 4,
+      "baseline_lead_hit": 1.0,
+      "agent_verified": 4,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 0,
+      "agent_not_found": 0,
+      "agent_auto_success": 1.0,
+      "agent_success_with_human": 1.0,
+      "mean_tool_calls": 3.25,
+      "mean_rescans": 0.25,
+      "mean_agent_seconds": 11.58
+    },
+    "bottle": {
+      "clips": 4,
+      "baseline_lead_hit": 1.0,
+      "agent_verified": 1,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 3,
+      "agent_not_found": 0,
+      "agent_auto_success": 0.25,
+      "agent_success_with_human": 1.0,
+      "mean_tool_calls": 6.5,
+      "mean_rescans": 0.75,
+      "mean_agent_seconds": 19.98
+    },
+    "book": {
+      "clips": 4,
+      "baseline_lead_hit": 0.5,
+      "agent_verified": 0,
+      "agent_verified_precision": null,
+      "agent_deferred_to_human": 4,
+      "agent_not_found": 0,
+      "agent_auto_success": 0.0,
+      "agent_success_with_human": 0.75,
+      "mean_tool_calls": 7.5,
+      "mean_rescans": 1.0,
+      "mean_agent_seconds": 17.02
+    },
+    "laptop": {
+      "clips": 4,
+      "baseline_lead_hit": 1.0,
+      "agent_verified": 4,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 0,
+      "agent_not_found": 0,
+      "agent_auto_success": 1.0,
+      "agent_success_with_human": 1.0,
+      "mean_tool_calls": 2.0,
+      "mean_rescans": 0.0,
+      "mean_agent_seconds": 0.19
+    },
+    "chair": {
+      "clips": 4,
+      "baseline_lead_hit": 0.25,
+      "agent_verified": 3,
+      "agent_verified_precision": 1.0,
+      "agent_deferred_to_human": 0,
+      "agent_not_found": 1,
+      "agent_auto_success": 0.75,
+      "agent_success_with_human": 0.75,
+      "mean_tool_calls": 5.75,
+      "mean_rescans": 0.5,
+      "mean_agent_seconds": 18.35
+    }
+  },
+  "clips": [
+    {
+      "clip": "cup/batch-9/29",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 3,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 7,
+      "rescans": 1,
+      "agent_seconds": 45.83,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 3
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_6",
+            "frame": 277
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.318,
+            "iou": 0.988,
+            "zoom": 1.0,
+            "support": 38
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_20",
+            "frame": 209
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.11,
+            "support": 2
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_8",
+            "frame": 194
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.34,
+            "support": 12
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 5,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 30
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 6,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 4
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_9",
+            "frame": 279
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.501,
+            "iou": 0.991,
+            "zoom": 1.0,
+            "support": 113
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "cup/batch-30/2",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 5,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.18,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 5
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 225
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.391,
+            "iou": 0.986,
+            "zoom": 1.0,
+            "support": 41
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "cup/batch-49/23",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 4,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.17,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 4
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_7",
+            "frame": 202
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.764,
+            "iou": 0.825,
+            "zoom": 1.0,
+            "support": 41
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "cup/batch-31/35",
+      "class": "cup",
+      "target": "mug",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.15,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "mug"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 232
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.927,
+            "iou": 0.994,
+            "zoom": 1.0,
+            "support": 47
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-31/32",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 13,
+      "baseline_hit": true,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": true,
+      "tool_calls": 10,
+      "rescans": 1,
+      "agent_seconds": 31.92,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 13
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_1",
+            "frame": 247
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 46
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_14",
+            "frame": 247
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 25
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_18",
+            "frame": 225
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.16,
+            "support": 8
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 5,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 36
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 6,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 19
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_1",
+            "frame": 252
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 130
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 8,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_21",
+            "frame": 252
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 80
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 9,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_24",
+            "frame": 229
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.14,
+            "support": 42
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 10,
+          "tool": "ask_human",
+          "args": {
+            "options": 3
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-33/34",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 15,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.18,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 15
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_3",
+            "frame": 247
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.891,
+            "iou": 0.968,
+            "zoom": 1.0,
+            "support": 50
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-12/13",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": true,
+      "tool_calls": 6,
+      "rescans": 1,
+      "agent_seconds": 15.17,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 225
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 14
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 5
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 4,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 5,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 235
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 26
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 6,
+          "tool": "ask_human",
+          "args": {
+            "options": 1
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "bottle/batch-22/35",
+      "class": "bottle",
+      "target": "bottle",
+      "candidates_in_memory": 2,
+      "baseline_hit": true,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": true,
+      "tool_calls": 8,
+      "rescans": 1,
+      "agent_seconds": 32.66,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 224
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 44
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_3",
+            "frame": 59
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 2
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 11
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 5,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "bottle"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 6,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 234
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 125
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_3",
+            "frame": 59
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 5
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 8,
+          "tool": "ask_human",
+          "args": {
+            "options": 2
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-30/0",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 2,
+      "baseline_hit": false,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": true,
+      "tool_calls": 9,
+      "rescans": 1,
+      "agent_seconds": 13.85,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_2",
+            "frame": 82
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.02,
+            "support": 11
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_3",
+            "frame": 14
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.326,
+            "iou": 0.952,
+            "zoom": 1.0,
+            "support": 1
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 13
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 5,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 3
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 6,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_12",
+            "frame": 169
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 1
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_2",
+            "frame": 94
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.25,
+            "support": 27
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 8,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_6",
+            "frame": 20
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 3
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 9,
+          "tool": "ask_human",
+          "args": {
+            "options": 3
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-7/8",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": true,
+      "tool_calls": 6,
+      "rescans": 1,
+      "agent_seconds": 20.58,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_1",
+            "frame": 29
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 1
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 5
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 4,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 5,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_1",
+            "frame": 29
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 1
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 6,
+          "tool": "ask_human",
+          "args": {
+            "options": 1
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-32/17",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 2,
+      "baseline_hit": true,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": true,
+      "tool_calls": 9,
+      "rescans": 1,
+      "agent_seconds": 16.25,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_14",
+            "frame": 172
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.227,
+            "iou": 0.803,
+            "zoom": 1.0,
+            "support": 3
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_6",
+            "frame": 52
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 4
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 19
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 5,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 3
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 6,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_18",
+            "frame": 172
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.227,
+            "iou": 0.803,
+            "zoom": 1.0,
+            "support": 11
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_9",
+            "frame": 52
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 3
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 8,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_4",
+            "frame": 50
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 21
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 9,
+          "tool": "ask_human",
+          "args": {
+            "options": 3
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "book/batch-11/33",
+      "class": "book",
+      "target": "notebook",
+      "candidates_in_memory": 1,
+      "baseline_hit": false,
+      "status": "needs_confirmation",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": false,
+      "tool_calls": 6,
+      "rescans": 1,
+      "agent_seconds": 17.42,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_3",
+            "frame": 187
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 1
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 11
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 4,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "notebook"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 5,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_5",
+            "frame": 187
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 1
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 6,
+          "tool": "ask_human",
+          "args": {
+            "options": 1
+          },
+          "observation": {
+            "verified": 0
+          },
+          "decision": "no candidate verified; request confirmation"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-33/24",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 4,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.16,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 4
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 262
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.924,
+            "iou": 0.782,
+            "zoom": 1.0,
+            "support": 51
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-35/4",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 1,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.23,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 1
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 555
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.856,
+            "iou": 0.984,
+            "zoom": 1.0,
+            "support": 108
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-10/21",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 2,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.16,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 2
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_4",
+            "frame": 315
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.51,
+            "iou": 0.973,
+            "zoom": 1.0,
+            "support": 59
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "laptop/batch-26/39",
+      "class": "laptop",
+      "target": "laptop",
+      "candidates_in_memory": 3,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 2,
+      "rescans": 0,
+      "agent_seconds": 0.22,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "laptop"
+          },
+          "observation": {
+            "candidates": 3
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_0",
+            "frame": 300
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.777,
+            "iou": 0.87,
+            "zoom": 1.0,
+            "support": 55
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-31/17",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 7,
+      "baseline_hit": false,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 9,
+      "rescans": 1,
+      "agent_seconds": 31.88,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 7
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_2",
+            "frame": 202
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 39
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_18",
+            "frame": 195
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.84,
+            "support": 2
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_19",
+            "frame": 195
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.88,
+            "support": 2
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 5,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 28
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 6,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 10
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_23",
+            "frame": 230
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 5
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 8,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_27",
+            "frame": 227
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.68,
+            "support": 2
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 9,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_2",
+            "frame": 195
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.74,
+            "iou": 0.937,
+            "zoom": 1.0,
+            "support": 111
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-32/7",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 3,
+      "baseline_hit": false,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 3,
+      "rescans": 0,
+      "agent_seconds": 0.28,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 3
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_1",
+            "frame": 180
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 29
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_6",
+            "frame": 180
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.712,
+            "iou": 0.91,
+            "zoom": 1.0,
+            "support": 8
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-11/30",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 10,
+      "baseline_hit": true,
+      "status": "verified",
+      "agent_auto_hit": true,
+      "agent_assisted_hit": false,
+      "tool_calls": 8,
+      "rescans": 1,
+      "agent_seconds": 41.24,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 10
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 2,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_14",
+            "frame": 299
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 22
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 3,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_15",
+            "frame": 300
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 11
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 4,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_17",
+            "frame": 314
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.46,
+            "support": 8
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 5,
+          "tool": "rescan",
+          "args": {
+            "sample_fps": 6.0
+          },
+          "observation": {
+            "objects_in_memory": 21
+          },
+          "decision": "no candidate verified; look again with denser sampling"
+        },
+        {
+          "step": 6,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 8
+          },
+          "decision": "inspect candidates"
+        },
+        {
+          "step": 7,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_11",
+            "frame": 305
+          },
+          "observation": {
+            "verified": false,
+            "confidence": 0.0,
+            "iou": 0.0,
+            "zoom": 1.0,
+            "support": 67
+          },
+          "decision": "reject, try next"
+        },
+        {
+          "step": 8,
+          "tool": "inspect_crop",
+          "args": {
+            "object": "obj_15",
+            "frame": 310
+          },
+          "observation": {
+            "verified": true,
+            "confidence": 0.707,
+            "iou": 0.934,
+            "zoom": 1.0,
+            "support": 67
+          },
+          "decision": "accept as the answer"
+        }
+      ]
+    },
+    {
+      "clip": "chair/batch-25/15",
+      "class": "chair",
+      "target": "chair",
+      "candidates_in_memory": 0,
+      "baseline_hit": false,
+      "status": "not_found",
+      "agent_auto_hit": false,
+      "agent_assisted_hit": false,
+      "tool_calls": 3,
+      "rescans": 0,
+      "agent_seconds": 0.0,
+      "trace": [
+        {
+          "step": 1,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 0
+          },
+          "decision": "nothing remembered"
+        },
+        {
+          "step": 2,
+          "tool": "rescan",
+          "args": {
+            "labels": [
+              "chair"
+            ]
+          },
+          "observation": {
+            "objects_in_memory": 4
+          },
+          "decision": "look up again with the new vocabulary"
+        },
+        {
+          "step": 3,
+          "tool": "lookup_memory",
+          "args": {
+            "category": "chair"
+          },
+          "observation": {
+            "candidates": 0
+          },
+          "decision": "nothing remembered"
+        }
+      ]
+    }
+  ]
+}

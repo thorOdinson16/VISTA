@@ -77,7 +77,7 @@ class CropDetector:
 def video(tmp_path):
     path = tmp_path / "clip.mp4"
     writer = cv2.VideoWriter(str(path), cv2.VideoWriter_fourcc(*"mp4v"), 10.0, (W, H))
-    for i in range(30):
+    for _ in range(30):
         frame = np.full((H, W, 3), 40, np.uint8)
         cv2.rectangle(frame, (100, 80), (220, 160), (200, 200, 200), -1)
         writer.write(frame)
@@ -132,7 +132,9 @@ def test_rejected_candidate_triggers_dense_rescan_then_human(video):
 def test_rescan_can_recover_a_verification(video):
     memory = build_memory(video)
     # First look fails (0.1), after the denser re-scan the crop verifies (0.7).
-    outcome = make_agent(video, memory, [0.1, 0.7], rescan=lambda fps, labels: memory).locate("mug")
+    outcome = make_agent(
+        video, memory, [0.1, 0.7], rescan=lambda fps, labels: memory
+    ).locate("mug")
     assert outcome.status == VERIFIED
     assert outcome.rescans == 1
     assert "rescan" in [s["tool"] for s in outcome.trace]

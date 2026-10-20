@@ -36,9 +36,7 @@ def _iou_matrix(gt: list[Box], pred: list[Box]) -> np.ndarray:
     return mat
 
 
-def evaluate_mot(
-    gt: Sequence, pred: Sequence, iou_threshold: float = 0.5
-) -> dict:
+def evaluate_mot(gt: Sequence, pred: Sequence, iou_threshold: float = 0.5) -> dict:
     """Score ``pred`` against ``gt`` on the frames present in ``pred``."""
     frames = sorted(pred)
     last_match: dict = {}  # gt id -> pred id it was last matched to
@@ -80,7 +78,7 @@ def evaluate_mot(
         if free_g and free_p:
             sub = mat[np.ix_(free_g, free_p)]
             rows, cols = linear_sum_assignment(-sub)
-            for r, c in zip(rows, cols):
+            for r, c in zip(rows, cols, strict=True):
                 if sub[r, c] >= iou_threshold:
                     matches.append((free_g[r], free_p[c]))
         for gi, pj in matches:
@@ -120,9 +118,7 @@ def evaluate_mot(
     mostly_tracked = sum(
         1 for g, n in gt_frames.items() if matched_frames[g] / n >= 0.8
     )
-    mostly_lost = sum(
-        1 for g, n in gt_frames.items() if matched_frames[g] / n <= 0.2
-    )
+    mostly_lost = sum(1 for g, n in gt_frames.items() if matched_frames[g] / n <= 0.2)
     return {
         "frames_scored": len(frames),
         "gt_tracks": len(gt_frames),

@@ -26,8 +26,8 @@ the loop deterministic and testable.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Callable
 
 import cv2
 
@@ -102,7 +102,9 @@ class LocateAgent:
             }
         )
 
-    def _lookup(self, category: str, attributes: list[str] | None) -> list[ObjectRecord]:
+    def _lookup(
+        self, category: str, attributes: list[str] | None
+    ) -> list[ObjectRecord]:
         retriever = Retriever(self.memory, source_video=self.video_path, fps=self.fps)
         return retriever.rank_sightings(
             retriever._match_objects(category, attributes)  # noqa: SLF001
@@ -117,12 +119,32 @@ class LocateAgent:
         if frame is None:
             return {"verified": False, "reason": "frame_unreadable", "confidence": 0.0}
         h, w = frame.shape[:2]
-        mx, my = box.width * self.cfg.crop_margin, box.height * self.cfg.crop_margin
-        x1, y1 = max(0, int(box.x_min - mx)), max(0, int(box.y_min - my))
-        x2, y2 = min(w, int(box.x_max + mx)), min(h, int(box.y_max + my))
-        if x2 - x1 < 4 or y2 - y1 < 4:
+        # Square window around the box (side = longest box edge plus context),
+        # padded with grey where it leaves the frame. A square keeps the object's
+        # proportions when the detector resizes its input to a square; a tall or
+        # wide crop would be stretched and thin objects (bottles) would not match.
+        side = max(box.width, box.height) * (1 + 2 * self.cfg.crop_margin)
+        cx, cy = box.center
+        x1, y1 = int(round(cx - side / 2)), int(round(cy - side / 2))
+        size = max(8, int(round(side)))
+        x2, y2 = x1 + size, y1 + size
+        if size < 8 or box.width < 2 or box.height < 2:
             return {"verified": False, "reason": "empty_crop", "confidence": 0.0}
-        crop = frame[y1:y2, x1:x2]
+        left, top = max(0, -x1), max(0, -y1)
+        right, bottom = max(0, x2 - w), max(0, y2 - h)
+        crop = frame[max(0, y1) : min(h, y2), max(0, x1) : min(w, x2)]
+        if crop.size == 0:
+            return {"verified": False, "reason": "empty_crop", "confidence": 0.0}
+        if left or top or right or bottom:
+            crop = cv2.copyMakeBorder(
+                crop,
+                top,
+                bottom,
+                left,
+                right,
+                cv2.BORDER_CONSTANT,
+                value=(114, 114, 114),
+            )
         scale = min(
             self.cfg.max_upscale,
             max(1.0, self.cfg.crop_target / max(crop.shape[:2])),
@@ -180,7 +202,9 @@ class LocateAgent:
                 )
                 continue
             if not candidates:
-                return AgentOutcome(NOT_FOUND, [], self.memory, self.trace, rescans=rescans)
+                return AgentOutcome(
+                    NOT_FOUND, [], self.memory, self.trace, rescans=rescans
+                )
 
             checked: list[tuple[ObjectRecord, dict]] = []
             for obj in candidates[: self.cfg.max_candidates]:
@@ -190,7 +214,9 @@ class LocateAgent:
                     "inspect_crop",
                     {"object": obj.object_id, "frame": result.get("frame")},
                     {k: v for k, v in result.items() if k != "frame"},
-                    "accept as the answer" if result["verified"] else "reject, try next",
+                    "accept as the answer"
+                    if result["verified"]
+                    else "reject, try next",
                 )
                 if result["verified"]:
                     ordered = [obj] + [c for c in candidates if c is not obj]
