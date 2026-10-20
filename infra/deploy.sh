@@ -3,12 +3,14 @@
 set -euo pipefail
 source "$(dirname "$0")/common.sh"
 MODE="${1:?mode}"; mode_config "$MODE"
+# COOL images ship OpenCV under /opt/cool: no Docker, dedicated deploy.
+[ "$MODE" = cool-arm ] && exec bash "$(dirname "$0")/deploy_cool.sh" "$MODE"
 IP="$(instance_ip "$MODE")"
 SSH=(ssh -i "$KEY_FILE" -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 "ubuntu@$IP")
 
 until "${SSH[@]}" true 2>/dev/null; do echo "waiting for ssh..."; sleep 6; done
 
-git archive --format=tar.gz -o "$STATE_DIR/src.tgz" HEAD
+git archive --format=tar.gz -o infra/.state/src.tgz HEAD
 scp -i "$KEY_FILE" "$STATE_DIR/src.tgz" "ubuntu@$IP:/tmp/vista-src.tgz"
 
 "${SSH[@]}" bash -s "$MODE" "$TORCH_INDEX" "$BUCKET" "$REGION" <<'REMOTE'
