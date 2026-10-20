@@ -1,0 +1,1230 @@
+{
+  "detector": "YOLO ONNX (yolov8n.onnx) +labels",
+  "detector_mode": "real",
+  "confidence_threshold": 0.25,
+  "sample_fps": 2.0,
+  "iou_hit": 0.3,
+  "opencv": "5.1.0-dev",
+  "overall": {
+    "clips": 20,
+    "found_rate": 0.9,
+    "hit_rate_iou30": 0.75,
+    "hit_rate_center": 0.8,
+    "wrong_location": 2,
+    "not_found": 2,
+    "mean_frame_recall": 0.596,
+    "mean_processing_s": 12.79
+  },
+  "per_class": {
+    "cup": {
+      "clips": 4,
+      "found_rate": 1.0,
+      "hit_rate_iou30": 1.0,
+      "hit_rate_center": 1.0,
+      "wrong_location": 0,
+      "not_found": 0,
+      "mean_frame_recall": 0.861,
+      "mean_processing_s": 13.04
+    },
+    "bottle": {
+      "clips": 4,
+      "found_rate": 1.0,
+      "hit_rate_iou30": 1.0,
+      "hit_rate_center": 1.0,
+      "wrong_location": 0,
+      "not_found": 0,
+      "mean_frame_recall": 0.725,
+      "mean_processing_s": 12.98
+    },
+    "book": {
+      "clips": 4,
+      "found_rate": 0.75,
+      "hit_rate_iou30": 0.25,
+      "hit_rate_center": 0.25,
+      "wrong_location": 2,
+      "not_found": 1,
+      "mean_frame_recall": 0.007,
+      "mean_processing_s": 9.77
+    },
+    "laptop": {
+      "clips": 4,
+      "found_rate": 1.0,
+      "hit_rate_iou30": 1.0,
+      "hit_rate_center": 1.0,
+      "wrong_location": 0,
+      "not_found": 0,
+      "mean_frame_recall": 0.909,
+      "mean_processing_s": 17.02
+    },
+    "chair": {
+      "clips": 4,
+      "found_rate": 0.75,
+      "hit_rate_iou30": 0.5,
+      "hit_rate_center": 0.75,
+      "wrong_location": 0,
+      "not_found": 1,
+      "mean_frame_recall": 0.479,
+      "mean_processing_s": 11.13
+    }
+  },
+  "clips": [
+    {
+      "clip": "cup/batch-9/29",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 61,
+      "processing_seconds": 15.93,
+      "outcome": "hit",
+      "objects_returned": 2,
+      "claims": [
+        {
+          "object": "obj_6",
+          "frame": 277,
+          "iou": 0.756,
+          "center_in_gt": true,
+          "box": [
+            386.7,
+            579.6,
+            963.5,
+            1012.4
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 209,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1.2,
+            2.5,
+            117.6,
+            387.5
+          ]
+        }
+      ],
+      "frame_recall": 0.574,
+      "answer": "The mug was last seen at 9.2s at (675, 796). Earlier: 7.0s at (59, 195).",
+      "confidence": 0.436,
+      "query_latency_s": 0.0064
+    },
+    {
+      "clip": "cup/batch-30/2",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 46,
+      "processing_seconds": 12.54,
+      "outcome": "hit",
+      "objects_returned": 4,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 225,
+          "iou": 0.675,
+          "center_in_gt": true,
+          "box": [
+            298.4,
+            671.5,
+            1070.7,
+            1656.5
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 142,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1107.1,
+            230.5,
+            1319.2,
+            490.6
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 112,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1279.1,
+            160.0,
+            1438.6,
+            432.4
+          ]
+        },
+        {
+          "object": "obj_12",
+          "frame": 112,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            126.7,
+            0.1,
+            307.1,
+            267.0
+          ]
+        }
+      ],
+      "frame_recall": 0.87,
+      "answer": "The mug was last seen at 7.5s at (685, 1164). Earlier: 4.7s at (1213, 361). Earlier: 3.7s at (1359, 296). (1 more tracked sighting(s) not listed.)",
+      "confidence": 0.627,
+      "query_latency_s": 0.0094
+    },
+    {
+      "clip": "cup/batch-49/23",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 41,
+      "processing_seconds": 10.55,
+      "outcome": "hit",
+      "objects_returned": 4,
+      "claims": [
+        {
+          "object": "obj_7",
+          "frame": 202,
+          "iou": 0.635,
+          "center_in_gt": true,
+          "box": [
+            323.5,
+            646.6,
+            1177.0,
+            1399.4
+          ]
+        },
+        {
+          "object": "obj_17",
+          "frame": 157,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            493.6,
+            0.0,
+            1010.8,
+            367.4
+          ]
+        },
+        {
+          "object": "obj_15",
+          "frame": 105,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            988.7,
+            23.2,
+            1425.0,
+            533.0
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 90,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1011.8,
+            1527.4,
+            1307.3,
+            1782.6
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The mug was last seen at 6.7s at (750, 1023). Earlier: 5.2s at (752, 184). Earlier: 3.5s at (1207, 278). (1 more tracked sighting(s) not listed.)",
+      "confidence": 0.489,
+      "query_latency_s": 0.0106
+    },
+    {
+      "clip": "cup/batch-31/35",
+      "class": "cup",
+      "target_category": "mug",
+      "frame_size": "1440x1920",
+      "frames_sampled": 47,
+      "processing_seconds": 13.12,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 232,
+          "iou": 0.648,
+          "center_in_gt": true,
+          "box": [
+            277.0,
+            587.1,
+            1191.2,
+            1531.4
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The mug was last seen at 7.7s at (734, 1059).",
+      "confidence": 0.94,
+      "query_latency_s": 0.0102
+    },
+    {
+      "clip": "bottle/batch-31/32",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 50,
+      "processing_seconds": 12.53,
+      "outcome": "hit",
+      "objects_returned": 13,
+      "claims": [
+        {
+          "object": "obj_1",
+          "frame": 247,
+          "iou": 0.349,
+          "center_in_gt": true,
+          "box": [
+            422.2,
+            654.8,
+            974.1,
+            1358.1
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 247,
+          "iou": 0.032,
+          "center_in_gt": false,
+          "box": [
+            29.8,
+            10.4,
+            432.1,
+            764.2
+          ]
+        },
+        {
+          "object": "obj_12",
+          "frame": 225,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            3.9,
+            1.2,
+            190.4,
+            369.5
+          ]
+        },
+        {
+          "object": "obj_21",
+          "frame": 247,
+          "iou": 0.067,
+          "center_in_gt": true,
+          "box": [
+            554.2,
+            420.6,
+            778.3,
+            751.3
+          ]
+        },
+        {
+          "object": "obj_16",
+          "frame": 194,
+          "iou": 0.041,
+          "center_in_gt": true,
+          "box": [
+            778.1,
+            607.9,
+            1009.5,
+            900.0
+          ]
+        },
+        {
+          "object": "obj_18",
+          "frame": 194,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1.8,
+            398.6,
+            125.1,
+            773.2
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 180,
+          "iou": 0.056,
+          "center_in_gt": true,
+          "box": [
+            1117.3,
+            778.6,
+            1439.6,
+            1412.7
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 135,
+          "iou": 0.125,
+          "center_in_gt": true,
+          "box": [
+            229.7,
+            191.3,
+            513.0,
+            1013.3
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 127,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1107.2,
+            906.8,
+            1439.3,
+            1687.6
+          ]
+        },
+        {
+          "object": "obj_14",
+          "frame": 105,
+          "iou": 0.06,
+          "center_in_gt": true,
+          "box": [
+            416.2,
+            454.8,
+            560.1,
+            1063.4
+          ]
+        },
+        {
+          "object": "obj_0",
+          "frame": 75,
+          "iou": 0.088,
+          "center_in_gt": true,
+          "box": [
+            1182.6,
+            483.2,
+            1440.0,
+            1585.2
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 67,
+          "iou": 0.099,
+          "center_in_gt": true,
+          "box": [
+            415.5,
+            96.8,
+            608.6,
+            979.2
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 52,
+          "iou": 0.018,
+          "center_in_gt": false,
+          "box": [
+            1302.5,
+            857.8,
+            1440.0,
+            1441.7
+          ]
+        }
+      ],
+      "frame_recall": 0.72,
+      "answer": "The bottle was last seen at 8.2s at (698, 1006). Earlier: 8.2s at (231, 387). Earlier: 7.5s at (97, 185). (10 more tracked sighting(s) not listed.)",
+      "confidence": 0.484,
+      "query_latency_s": 0.0415
+    },
+    {
+      "clip": "bottle/batch-33/34",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 50,
+      "processing_seconds": 13.89,
+      "outcome": "hit",
+      "objects_returned": 12,
+      "claims": [
+        {
+          "object": "obj_4",
+          "frame": 247,
+          "iou": 0.552,
+          "center_in_gt": true,
+          "box": [
+            356.3,
+            862.7,
+            796.5,
+            1919.3
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            963.4,
+            923.1,
+            1211.7,
+            1918.3
+          ]
+        },
+        {
+          "object": "obj_11",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1151.2,
+            2.0,
+            1316.1,
+            925.3
+          ]
+        },
+        {
+          "object": "obj_12",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            350.4,
+            0.0,
+            746.1,
+            486.7
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1.5,
+            0.2,
+            281.7,
+            357.8
+          ]
+        },
+        {
+          "object": "obj_14",
+          "frame": 247,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            710.2,
+            0.5,
+            966.9,
+            525.5
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 134,
+          "iou": 0.019,
+          "center_in_gt": false,
+          "box": [
+            1136.6,
+            1565.2,
+            1372.5,
+            1918.3
+          ]
+        },
+        {
+          "object": "obj_9",
+          "frame": 134,
+          "iou": 0.117,
+          "center_in_gt": true,
+          "box": [
+            811.9,
+            175.4,
+            1138.4,
+            774.7
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 37,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1.5,
+            314.5,
+            210.3,
+            1450.4
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 30,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1.7,
+            707.5,
+            149.4,
+            1386.0
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 29,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            71.6,
+            329.5,
+            269.2,
+            972.3
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 15,
+          "iou": 0.088,
+          "center_in_gt": true,
+          "box": [
+            246.3,
+            378.1,
+            432.0,
+            1003.9
+          ]
+        }
+      ],
+      "frame_recall": 1.0,
+      "answer": "The bottle was last seen at 8.2s at (576, 1391). Earlier: 8.2s at (1088, 1421). Earlier: 8.2s at (1234, 464). (9 more tracked sighting(s) not listed.)",
+      "confidence": 0.514,
+      "query_latency_s": 0.0217
+    },
+    {
+      "clip": "bottle/batch-12/13",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 33,
+      "processing_seconds": 10.18,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 225,
+          "iou": 0.553,
+          "center_in_gt": true,
+          "box": [
+            493.0,
+            624.1,
+            897.3,
+            1444.9
+          ]
+        }
+      ],
+      "frame_recall": 0.364,
+      "answer": "The bottle was last seen at 7.5s at (695, 1035).",
+      "confidence": 0.572,
+      "query_latency_s": 0.0023
+    },
+    {
+      "clip": "bottle/batch-22/35",
+      "class": "bottle",
+      "target_category": "bottle",
+      "frame_size": "1440x1920",
+      "frames_sampled": 54,
+      "processing_seconds": 15.32,
+      "outcome": "hit",
+      "objects_returned": 2,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 224,
+          "iou": 0.38,
+          "center_in_gt": true,
+          "box": [
+            386.1,
+            856.2,
+            788.0,
+            1410.8
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 52,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            2.6,
+            0.4,
+            220.9,
+            822.8
+          ]
+        }
+      ],
+      "frame_recall": 0.815,
+      "answer": "The bottle was last seen at 7.5s at (587, 1134). Earlier: 1.7s at (112, 412).",
+      "confidence": 0.636,
+      "query_latency_s": 0.0116
+    },
+    {
+      "clip": "book/batch-30/0",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 41,
+      "processing_seconds": 8.66,
+      "outcome": "wrong_location",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_1",
+          "frame": 30,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            8.2,
+            0.6,
+            425.4,
+            484.4
+          ]
+        }
+      ],
+      "frame_recall": 0.0,
+      "answer": "The notebook was last seen at 1.0s at (217, 243).",
+      "confidence": 0.436,
+      "query_latency_s": 0.0014
+    },
+    {
+      "clip": "book/batch-7/8",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 54,
+      "processing_seconds": 12.46,
+      "outcome": "not_found",
+      "objects_returned": 0,
+      "claims": [],
+      "frame_recall": 0.0,
+      "answer": "I cannot determine where the notebook was last seen from the available visual evidence.",
+      "confidence": 0.0,
+      "query_latency_s": 0.0001
+    },
+    {
+      "clip": "book/batch-32/17",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 35,
+      "processing_seconds": 7.91,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_10",
+          "frame": 172,
+          "iou": 0.433,
+          "center_in_gt": true,
+          "box": [
+            600.9,
+            330.1,
+            1010.8,
+            1246.4
+          ]
+        }
+      ],
+      "frame_recall": 0.029,
+      "answer": "The notebook was last seen at 5.7s at (806, 788).",
+      "confidence": 0.263,
+      "query_latency_s": 0.0006
+    },
+    {
+      "clip": "book/batch-11/33",
+      "class": "book",
+      "target_category": "notebook",
+      "frame_size": "1440x1920",
+      "frames_sampled": 53,
+      "processing_seconds": 10.05,
+      "outcome": "wrong_location",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_2",
+          "frame": 187,
+          "iou": 0.042,
+          "center_in_gt": false,
+          "box": [
+            3.0,
+            431.2,
+            376.3,
+            1099.2
+          ]
+        }
+      ],
+      "frame_recall": 0.0,
+      "answer": "The notebook was last seen at 6.2s at (190, 765).",
+      "confidence": 0.257,
+      "query_latency_s": 0.0005
+    },
+    {
+      "clip": "laptop/batch-33/24",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 52,
+      "processing_seconds": 13.89,
+      "outcome": "hit",
+      "objects_returned": 4,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 262,
+          "iou": 0.489,
+          "center_in_gt": true,
+          "box": [
+            1.4,
+            61.2,
+            1354.8,
+            1886.3
+          ]
+        },
+        {
+          "object": "obj_11",
+          "frame": 262,
+          "iou": 0.111,
+          "center_in_gt": true,
+          "box": [
+            1068.5,
+            157.3,
+            1440.0,
+            1304.6
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 225,
+          "iou": 0.022,
+          "center_in_gt": true,
+          "box": [
+            0.0,
+            292.1,
+            108.6,
+            1101.4
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 127,
+          "iou": 0.017,
+          "center_in_gt": false,
+          "box": [
+            1035.6,
+            126.2,
+            1440.0,
+            1910.0
+          ]
+        }
+      ],
+      "frame_recall": 0.981,
+      "answer": "The laptop was last seen at 8.7s at (678, 974). Earlier: 8.7s at (1254, 731). Earlier: 7.5s at (54, 697). (1 more tracked sighting(s) not listed.)",
+      "confidence": 0.768,
+      "query_latency_s": 0.0249
+    },
+    {
+      "clip": "laptop/batch-35/4",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 109,
+      "processing_seconds": 24.13,
+      "outcome": "hit",
+      "objects_returned": 1,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 555,
+          "iou": 0.38,
+          "center_in_gt": true,
+          "box": [
+            658.5,
+            1001.5,
+            1440.0,
+            1914.2
+          ]
+        }
+      ],
+      "frame_recall": 0.982,
+      "answer": "The laptop was last seen at 18.5s at (1049, 1458).",
+      "confidence": 0.776,
+      "query_latency_s": 0.0341
+    },
+    {
+      "clip": "laptop/batch-10/21",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 62,
+      "processing_seconds": 14.89,
+      "outcome": "hit",
+      "objects_returned": 2,
+      "claims": [
+        {
+          "object": "obj_4",
+          "frame": 315,
+          "iou": 0.851,
+          "center_in_gt": true,
+          "box": [
+            144.4,
+            259.5,
+            1205.7,
+            1460.4
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 30,
+          "iou": 0.012,
+          "center_in_gt": false,
+          "box": [
+            1149.9,
+            2.0,
+            1440.0,
+            672.3
+          ]
+        }
+      ],
+      "frame_recall": 0.935,
+      "answer": "The laptop was last seen at 10.6s at (675, 860). Earlier: 1.0s at (1295, 337).",
+      "confidence": 0.504,
+      "query_latency_s": 0.0101
+    },
+    {
+      "clip": "laptop/batch-26/39",
+      "class": "laptop",
+      "target_category": "laptop",
+      "frame_size": "1440x1920",
+      "frames_sampled": 69,
+      "processing_seconds": 15.15,
+      "outcome": "hit",
+      "objects_returned": 3,
+      "claims": [
+        {
+          "object": "obj_6",
+          "frame": 322,
+          "iou": 0.0,
+          "center_in_gt": false,
+          "box": [
+            1153.1,
+            100.8,
+            1427.3,
+            297.3
+          ]
+        },
+        {
+          "object": "obj_0",
+          "frame": 277,
+          "iou": 0.688,
+          "center_in_gt": true,
+          "box": [
+            319.1,
+            849.7,
+            1046.7,
+            1413.2
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 52,
+          "iou": 0.583,
+          "center_in_gt": true,
+          "box": [
+            505.7,
+            588.8,
+            963.1,
+            1199.4
+          ]
+        }
+      ],
+      "frame_recall": 0.739,
+      "answer": "The laptop was last seen at 10.7s at (1290, 199). Earlier: 9.2s at (683, 1131). Earlier: 1.7s at (734, 894).",
+      "confidence": 0.459,
+      "query_latency_s": 0.0139
+    },
+    {
+      "clip": "chair/batch-31/17",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 47,
+      "processing_seconds": 11.88,
+      "outcome": "hit_loose",
+      "objects_returned": 6,
+      "claims": [
+        {
+          "object": "obj_2",
+          "frame": 202,
+          "iou": 0.193,
+          "center_in_gt": true,
+          "box": [
+            292.6,
+            2.2,
+            1115.0,
+            833.9
+          ]
+        },
+        {
+          "object": "obj_17",
+          "frame": 195,
+          "iou": 0.011,
+          "center_in_gt": true,
+          "box": [
+            362.0,
+            0.0,
+            593.2,
+            210.9
+          ]
+        },
+        {
+          "object": "obj_18",
+          "frame": 194,
+          "iou": 0.013,
+          "center_in_gt": true,
+          "box": [
+            504.8,
+            0.1,
+            866.3,
+            203.3
+          ]
+        },
+        {
+          "object": "obj_7",
+          "frame": 60,
+          "iou": 0.262,
+          "center_in_gt": true,
+          "box": [
+            523.2,
+            225.3,
+            1103.2,
+            799.4
+          ]
+        },
+        {
+          "object": "obj_5",
+          "frame": 22,
+          "iou": 0.013,
+          "center_in_gt": false,
+          "box": [
+            1238.1,
+            282.5,
+            1438.9,
+            580.7
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 15,
+          "iou": 0.101,
+          "center_in_gt": true,
+          "box": [
+            989.5,
+            191.7,
+            1440.0,
+            794.7
+          ]
+        }
+      ],
+      "frame_recall": 0.766,
+      "answer": "The chair was last seen at 6.7s at (704, 418). Earlier: 6.5s at (478, 105). Earlier: 6.5s at (686, 102). (3 more tracked sighting(s) not listed.)",
+      "confidence": 0.427,
+      "query_latency_s": 0.0105
+    },
+    {
+      "clip": "chair/batch-32/7",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 35,
+      "processing_seconds": 7.92,
+      "outcome": "hit",
+      "objects_returned": 3,
+      "claims": [
+        {
+          "object": "obj_0",
+          "frame": 180,
+          "iou": 0.2,
+          "center_in_gt": true,
+          "box": [
+            433.4,
+            375.9,
+            1056.6,
+            848.3
+          ]
+        },
+        {
+          "object": "obj_4",
+          "frame": 180,
+          "iou": 0.601,
+          "center_in_gt": true,
+          "box": [
+            356.2,
+            378.1,
+            1063.9,
+            1728.3
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 74,
+          "iou": 0.216,
+          "center_in_gt": true,
+          "box": [
+            407.1,
+            315.9,
+            1034.5,
+            764.3
+          ]
+        }
+      ],
+      "frame_recall": 0.829,
+      "answer": "The chair was last seen at 6.0s at (745, 612). Earlier: 6.0s at (710, 1053). Earlier: 2.5s at (721, 540).",
+      "confidence": 0.478,
+      "query_latency_s": 0.009
+    },
+    {
+      "clip": "chair/batch-11/30",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 62,
+      "processing_seconds": 16.51,
+      "outcome": "hit",
+      "objects_returned": 9,
+      "claims": [
+        {
+          "object": "obj_14",
+          "frame": 314,
+          "iou": 0.011,
+          "center_in_gt": true,
+          "box": [
+            1.4,
+            480.0,
+            113.1,
+            772.9
+          ]
+        },
+        {
+          "object": "obj_13",
+          "frame": 292,
+          "iou": 0.524,
+          "center_in_gt": true,
+          "box": [
+            184.1,
+            6.1,
+            1210.1,
+            1508.2
+          ]
+        },
+        {
+          "object": "obj_17",
+          "frame": 270,
+          "iou": 0.01,
+          "center_in_gt": true,
+          "box": [
+            1.1,
+            471.1,
+            106.6,
+            764.4
+          ]
+        },
+        {
+          "object": "obj_8",
+          "frame": 90,
+          "iou": 0.004,
+          "center_in_gt": true,
+          "box": [
+            1320.0,
+            0.0,
+            1440.0,
+            166.7
+          ]
+        },
+        {
+          "object": "obj_6",
+          "frame": 60,
+          "iou": 0.015,
+          "center_in_gt": true,
+          "box": [
+            1078.8,
+            0.4,
+            1357.4,
+            282.6
+          ]
+        },
+        {
+          "object": "obj_0",
+          "frame": 44,
+          "iou": 0.368,
+          "center_in_gt": true,
+          "box": [
+            377.3,
+            38.3,
+            1440.0,
+            1905.2
+          ]
+        },
+        {
+          "object": "obj_2",
+          "frame": 30,
+          "iou": 0.008,
+          "center_in_gt": true,
+          "box": [
+            852.8,
+            0.0,
+            1162.7,
+            191.7
+          ]
+        },
+        {
+          "object": "obj_3",
+          "frame": 29,
+          "iou": 0.171,
+          "center_in_gt": true,
+          "box": [
+            497.8,
+            1036.1,
+            1437.6,
+            1917.2
+          ]
+        },
+        {
+          "object": "obj_1",
+          "frame": 0,
+          "iou": 0.008,
+          "center_in_gt": true,
+          "box": [
+            442.3,
+            0.0,
+            733.2,
+            115.0
+          ]
+        }
+      ],
+      "frame_recall": 0.323,
+      "answer": "The chair was last seen at 10.5s at (57, 626). Earlier: 9.7s at (697, 757). Earlier: 9.0s at (54, 618). (6 more tracked sighting(s) not listed.)",
+      "confidence": 0.356,
+      "query_latency_s": 0.0102
+    },
+    {
+      "clip": "chair/batch-25/15",
+      "class": "chair",
+      "target_category": "chair",
+      "frame_size": "1440x1920",
+      "frames_sampled": 40,
+      "processing_seconds": 8.22,
+      "outcome": "not_found",
+      "objects_returned": 0,
+      "claims": [],
+      "frame_recall": 0.0,
+      "answer": "I cannot determine where the chair was last seen from the available visual evidence.",
+      "confidence": 0.0,
+      "query_latency_s": 0.0001
+    }
+  ]
+}

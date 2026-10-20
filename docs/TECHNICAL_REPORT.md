@@ -9,7 +9,7 @@ VISTA turns video into a persistent, queryable memory of objects and events and 
 Headline results (details in `docs/EVALUATION.md` and `docs/BENCHMARK.md`):
 
 - On Graviton, the full pipeline runs at 20.1 fps (COOL) / 19.5 fps (stock pip OpenCV) against 14.6 fps on an x86 instance of similar price: about 1.33x faster and 31% cheaper per processed frame. COOL itself is within noise of stock OpenCV on the same Arm hardware (+2.8%), because the pip arm64 wheel already includes KleidiCV.
-- "Where is the X?" on 20 real phone videos: the lead answer is right 75% of the time with a closed-set YOLOv8n (from 55% before the ranking and tracker fix) and 90% with open-vocabulary OWLv2.
+- "Where is the X?" on 20 real phone videos: the lead answer is right 75% of the time with a closed-set YOLOv8n (from 55% before the ranking and tracker fix) and 90% with open-vocabulary OWLv2 (laptop runs). Re-run on the deployed COOL instance, YOLOv8n's lead answer was 60%; the cause of the gap is not isolated.
 - Tracking on MOT17 is modest: MOTA 0.15-0.53, IDF1 0.22-0.54; precision 0.81-0.90 but recall only 0.23-0.68 (lowest on the crowded 1080p scenes).
 - On two hand-checked clips: 2/5 with YOLOv8n and 4/5 with OWLv2 plus on-demand re-scan.
 
@@ -81,7 +81,7 @@ Three public or hand-checked evaluations with failure cases (`docs/EVALUATION.md
 
 - Small samples (20 Objectron clips; four MOT17 sequences; five hand-checked questions). Differences of one clip move a class by 25 points.
 - The closed-set detector is weak on flat or unusual views; the open-vocabulary detector is slower and produces persistent false-positive tracks at a low confidence threshold (132 tracks on one clip, one correct).
-- MOT17 results predate the tracker re-link change and the detector is nano-sized; a larger model or tiled inference would help crowded scenes.
+- The MOT17 detector is nano-sized; a larger model or tiled inference would help crowded scenes.
 - Single session, no API authentication (relies on the security group), no multi-user store.
 - Next: detector-independent verification (e.g. a second model), confidence calibration, multi-clip memory.
 

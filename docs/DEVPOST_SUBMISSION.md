@@ -55,14 +55,14 @@ KleidiCV. We report that as measured. Caveats: COOL is 5.1.0-dev versus pip 5.0.
 ## Agentic Vision path
 
 Workflow diagram: `docs/agent_workflow.png`. On 20 held-out Objectron clips the agent answered 17 automatically with 88%
-precision, deferred one to the human and reported two as not found; its automatic accuracy (75%) is about equal to the plain
+precision (16 at 94% on the COOL instance), deferred one to the human and reported two as not found; its automatic accuracy (75%) is about equal to the plain
 answer (80%), so its value is checkability and safe failure handling, not accuracy. A trace for every question, the
 human-confirmation endpoint and the evaluation of failure handling are in `docs/EVALUATION.md`, section 4.
 
 ## Evaluation (with failures)
 
-- **Objectron** (20 real phone videos, "where is the X?"): lead answer correct 75% with YOLOv8n (55% before our ranking and
-  tracker fix) and 90% with OWLv2.
+- **Objectron** (20 real phone videos, "where is the X?"): lead answer correct 75% with YOLOv8n on a laptop (55% before our ranking and
+  tracker fix) and 90% with OWLv2; the same YOLOv8n re-run on the deployed COOL instance scored 60% (cause not isolated).
 - **MOT17** (4 sequences): MOTA 0.15-0.53, IDF1 0.22-0.54; precision high, recall low on crowded 1080p scenes.
 - **Hand-checked clips**: 2/5 with YOLOv8n, 4/5 with OWLv2 plus on-demand re-scan.
 - **Failures we found**: a flat book missed on a shop shelf, a flashlight package reported as a notebook, crowded pedestrians

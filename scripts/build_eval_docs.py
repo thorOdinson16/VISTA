@@ -215,6 +215,9 @@ def evaluation_md() -> str:
         path = EVAL / name
         return json.loads(path.read_text()) if path.exists() else None
 
+    cool_obj = lead_stats(load("objectron_cool_v2_2fps.json"))
+    lap_obj = lead_stats(load("objectron_yolo_local_v2_2fps.json"))
+    cool_agent = load("agent_cool_heldout.json")["overall"]
     agent_dev = _agent("agent_yolo_local_dev.json")
     agent_held = _agent("agent_yolo_local_heldout.json")
     agent_v1 = _agent("agent_yolo_local.json")
@@ -290,11 +293,11 @@ def evaluation_md() -> str:
         "Four MOT17 training sequences (FRCNN detections are not used; VISTA runs its own detector): 09 (static, easier), "
         "02 and 04 (static, crowded, 1080p), 05 (moving camera, 640x480). Scored on the frames the pipeline sampled, "
         "with CLEAR-MOT and IDF1 (own implementation, unit-tested on hand-computed cases), IoU >= 0.5, "
-        "distractor regions ignored. YOLOv8n on the COOL box. **These runs used the tracker before the re-link change.**",
+        "distractor regions ignored. YOLOv8n on the COOL box. **The 2 fps table is the final tracker (re-run on the COOL instance after the re-link change); the 10 fps table was run before that change.**",
         "",
     ]
     for fps in (2, 10):
-        r = load(f"mot17_cool_{fps}fps.json")
+        r = load("mot17_cool_v2_2fps.json" if fps == 2 else f"mot17_cool_{fps}fps.json")
         lines += [
             f"**Sampling {fps} fps**",
             "",
@@ -316,7 +319,8 @@ def evaluation_md() -> str:
         "camera (MOT17-05). Sampling at 10 fps instead of 2 fps gives small MOTA gains (+0.01 to +0.05) on all four "
         "sequences but roughly triples processing time and does not consistently reduce ID switches, so association, "
         "not only sampling, is limiting. These figures are for a lightweight memory pipeline with a small detector, "
-        "not a state-of-the-art tracker.",
+        "not a state-of-the-art tracker. The re-link change made almost no difference here (MOTA moved by at most 0.003; ID switches on MOT17-05 went from 145 to 136), "
+        "so it was not the main limit on MOT17.",
         "",
         "## 3. Hand-checked clips (small, qualitative)",
         "",
@@ -402,9 +406,25 @@ def evaluation_md() -> str:
             "",
         ]
     lines += [
+        "## Re-run on the COOL instance (final commit)",
+        "",
+        f"The final commit was deployed to the Graviton5 COOL instance and Objectron and the verify agent were re-run there "
+        f"(`docs/eval/objectron_cool_v2_2fps.json`, `docs/eval/agent_cool_heldout.json`). Lead answer correct "
+        f"{cool_obj['lead']:.0%} (found {cool_obj['found']:.0%}) with YOLOv8n, against "
+        f"{lap_obj['lead']:.0%} (found {lap_obj['found']:.0%}) for the same detector on the laptop: "
+        "the same code and detector gave a different result on the deployed machine (a gap of "
+        f"{round((lap_obj['lead'] - cool_obj['lead']) * 20)} of 20 clips). I did not isolate the cause; the machines differ in OpenCV "
+        "build (5.1.0-dev on COOL, pip on the laptop), CPU versus laptop execution and numerics, and I did not test which matters. "
+        "Treat the laptop figure as the detector's accuracy and this one as what the deployed system delivered. The agent on the held-out clips: "
+        f"{cool_agent['agent_verified']} verified at {cool_agent['agent_verified_precision']:.0%} precision, "
+        f"{cool_agent['agent_deferred_to_human']} deferred, {cool_agent['agent_not_found']} not found; "
+        f"automatic {cool_agent['agent_auto_success']:.0%}, with the human {cool_agent['agent_success_with_human']:.0%}, "
+        f"plain answer {cool_agent['baseline_lead_hit']:.0%}. This is the same conclusion as the laptop run: it does not "
+        "raise accuracy, it makes answers checkable.",
+        "",
         "## Limitations",
         "",
-        "- MOT17 covers pedestrians only and was run before the tracker re-link change; everyday-object evidence comes "
+        "- MOT17 covers pedestrians only (its 10 fps table predates the tracker re-link change); everyday-object evidence comes "
         "from 20 Objectron clips, a small sample (per-class n = 4, so one clip moves a class by 25 points).",
         "- Objectron ground truth annotates only the target object, so precision for other objects cannot be measured.",
         "- The hand-checked set is tiny and labelled by one person; it illustrates behaviour, it does not measure it.",
@@ -453,7 +473,8 @@ def report_md() -> str:
     yolo_old = lead_stats(load("objectron_yolo_local_v1_2fps.json"))
     yolo_new = lead_stats(load("objectron_yolo_local_v2_2fps.json"))
     owl = lead_stats(load("objectron_owlv2_local_v2_2fps.json"))
-    mot = load("mot17_cool_2fps.json")["sequences"]
+    cool_lead = lead_stats(load("objectron_cool_v2_2fps.json"))
+    mot = load("mot17_cool_v2_2fps.json")["sequences"]
     mota = [s["tracking"]["mota"] for s in mot]
     idf1 = [s["tracking"]["idf1"] for s in mot]
     prec = [s["tracking"]["precision"] for s in mot]
@@ -503,7 +524,7 @@ def report_md() -> str:
         f"{(1 - cost['base-arm'] / cost['base-x86']) * 100:.0f}% cheaper per processed frame. COOL itself is within noise of stock "
         f"OpenCV on the same Arm hardware ({(fps['cool-arm'] / fps['base-arm'] - 1) * 100:+.1f}%), because the pip arm64 wheel already includes KleidiCV.",
         f"- \"Where is the X?\" on 20 real phone videos: the lead answer is right {pct(yolo_new['lead'])} of the time with a closed-set "
-        f"YOLOv8n (from {pct(yolo_old['lead'])} before the ranking and tracker fix) and {pct(owl['lead'])} with open-vocabulary OWLv2.",
+        f"YOLOv8n (from {pct(yolo_old['lead'])} before the ranking and tracker fix) and {pct(owl['lead'])} with open-vocabulary OWLv2 (laptop runs). Re-run on the deployed COOL instance, YOLOv8n's lead answer was {pct(cool_lead['lead'])}; the cause of the gap is not isolated.",
         f"- Tracking on MOT17 is modest: MOTA {min(mota):.2f}-{max(mota):.2f}, IDF1 {min(idf1):.2f}-{max(idf1):.2f}; precision "
         f"{min(prec):.2f}-{max(prec):.2f} but recall only {min(rec):.2f}-{max(rec):.2f} (lowest on the crowded 1080p scenes).",
         f"- On two hand-checked clips: {clips_y['passed']}/{clips_y['total']} with YOLOv8n and {clips_o['passed']}/{clips_o['total']} with OWLv2 "
@@ -596,7 +617,7 @@ def report_md() -> str:
         "a class by 25 points.",
         "- The closed-set detector is weak on flat or unusual views; the open-vocabulary detector is slower and produces "
         "persistent false-positive tracks at a low confidence threshold (132 tracks on one clip, one correct).",
-        "- MOT17 results predate the tracker re-link change and the detector is nano-sized; a larger model or tiled inference "
+        "- The MOT17 detector is nano-sized; a larger model or tiled inference "
         "would help crowded scenes.",
         "- Single session, no API authentication (relies on the security group), no multi-user store.",
         "- Next: detector-independent verification (e.g. a second model), confidence calibration, multi-clip memory.",

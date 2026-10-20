@@ -42,16 +42,16 @@ Failure cases (figures in `docs/eval/objectron_figs/`, green = ground truth, red
 
 ## 2. Tracking and memory: MOT17
 
-Four MOT17 training sequences (FRCNN detections are not used; VISTA runs its own detector): 09 (static, easier), 02 and 04 (static, crowded, 1080p), 05 (moving camera, 640x480). Scored on the frames the pipeline sampled, with CLEAR-MOT and IDF1 (own implementation, unit-tested on hand-computed cases), IoU >= 0.5, distractor regions ignored. YOLOv8n on the COOL box. **These runs used the tracker before the re-link change.**
+Four MOT17 training sequences (FRCNN detections are not used; VISTA runs its own detector): 09 (static, easier), 02 and 04 (static, crowded, 1080p), 05 (moving camera, 640x480). Scored on the frames the pipeline sampled, with CLEAR-MOT and IDF1 (own implementation, unit-tested on hand-computed cases), IoU >= 0.5, distractor regions ignored. YOLOv8n on the COOL box. **The 2 fps table is the final tracker (re-run on the COOL instance after the re-link change); the 10 fps table was run before that change.**
 
 **Sampling 2 fps**
 
 | Sequence | MOTA | IDF1 | ID switches | Precision | Recall | Mostly tracked / lost | "Where is the person" grounded | Throughput |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| MOT17-09-FRCNN (1920x1080) | 0.528 | 0.539 | 64 | 0.88 | 0.68 | 0.38 / 0.15 | 0.59 | 29.4 fps |
-| MOT17-02-FRCNN (1920x1080) | 0.151 | 0.221 | 54 | 0.82 | 0.23 | 0.12 / 0.64 | 0.65 | 44.3 fps |
-| MOT17-04-FRCNN (1920x1080) | 0.359 | 0.478 | 42 | 0.90 | 0.42 | 0.13 / 0.47 | 0.71 | 48.08 fps |
-| MOT17-05-FRCNN (640x480) | 0.433 | 0.441 | 145 | 0.81 | 0.63 | 0.28 / 0.18 | 0.35 | 19.48 fps |
+| MOT17-09-FRCNN (1920x1080) | 0.528 | 0.539 | 64 | 0.88 | 0.68 | 0.38 / 0.15 | 0.61 | 29.43 fps |
+| MOT17-02-FRCNN (1920x1080) | 0.151 | 0.221 | 54 | 0.82 | 0.23 | 0.12 / 0.64 | 0.65 | 44.36 fps |
+| MOT17-04-FRCNN (1920x1080) | 0.359 | 0.477 | 41 | 0.90 | 0.42 | 0.13 / 0.47 | 0.70 | 48.15 fps |
+| MOT17-05-FRCNN (640x480) | 0.436 | 0.439 | 136 | 0.81 | 0.63 | 0.28 / 0.18 | 0.39 | 19.62 fps |
 
 **Sampling 10 fps**
 
@@ -62,7 +62,7 @@ Four MOT17 training sequences (FRCNN detections are not used; VISTA runs its own
 | MOT17-04-FRCNN (1920x1080) | 0.370 | 0.479 | 69 | 0.90 | 0.42 | 0.13 / 0.47 | 0.68 | 9.98 fps |
 | MOT17-05-FRCNN (640x480) | 0.463 | 0.487 | 141 | 0.81 | 0.63 | 0.29 / 0.20 | 0.25 | 7.83 fps |
 
-**Reading this honestly.** Precision is high (0.8-0.9) but recall is low on crowded 1080p scenes (0.23 on MOT17-02): the likely cause is that a nano-size YOLO at 640 px input misses small pedestrians (not isolated by a separate experiment), which caps MOTA and IDF1. ID switches are highest with a moving camera (MOT17-05). Sampling at 10 fps instead of 2 fps gives small MOTA gains (+0.01 to +0.05) on all four sequences but roughly triples processing time and does not consistently reduce ID switches, so association, not only sampling, is limiting. These figures are for a lightweight memory pipeline with a small detector, not a state-of-the-art tracker.
+**Reading this honestly.** Precision is high (0.8-0.9) but recall is low on crowded 1080p scenes (0.23 on MOT17-02): the likely cause is that a nano-size YOLO at 640 px input misses small pedestrians (not isolated by a separate experiment), which caps MOTA and IDF1. ID switches are highest with a moving camera (MOT17-05). Sampling at 10 fps instead of 2 fps gives small MOTA gains (+0.01 to +0.05) on all four sequences but roughly triples processing time and does not consistently reduce ID switches, so association, not only sampling, is limiting. These figures are for a lightweight memory pipeline with a small detector, not a state-of-the-art tracker. The re-link change made almost no difference here (MOTA moved by at most 0.003; ID switches on MOT17-05 went from 145 to 136), so it was not the main limit on MOT17.
 
 ## 3. Hand-checked clips (small, qualitative)
 
@@ -104,9 +104,13 @@ The agent (`backend/app/agent`, diagram in `docs/agent_workflow.png`) checks the
 
 Per-clip traces (tool, observation, decision) are in `docs/eval/agent_yolo_local_dev.json` and `docs/eval/agent_yolo_local_heldout.json`; the UI shows the same trace under each answer.
 
+## Re-run on the COOL instance (final commit)
+
+The final commit was deployed to the Graviton5 COOL instance and Objectron and the verify agent were re-run there (`docs/eval/objectron_cool_v2_2fps.json`, `docs/eval/agent_cool_heldout.json`). Lead answer correct 60% (found 90%) with YOLOv8n, against 75% (found 95%) for the same detector on the laptop: the same code and detector gave a different result on the deployed machine (a gap of 3 of 20 clips). I did not isolate the cause; the machines differ in OpenCV build (5.1.0-dev on COOL, pip on the laptop), CPU versus laptop execution and numerics, and I did not test which matters. Treat the laptop figure as the detector's accuracy and this one as what the deployed system delivered. The agent on the held-out clips: 16 verified at 94% precision, 2 deferred, 2 not found; automatic 75%, with the human 80%, plain answer 80%. This is the same conclusion as the laptop run: it does not raise accuracy, it makes answers checkable.
+
 ## Limitations
 
-- MOT17 covers pedestrians only and was run before the tracker re-link change; everyday-object evidence comes from 20 Objectron clips, a small sample (per-class n = 4, so one clip moves a class by 25 points).
+- MOT17 covers pedestrians only (its 10 fps table predates the tracker re-link change); everyday-object evidence comes from 20 Objectron clips, a small sample (per-class n = 4, so one clip moves a class by 25 points).
 - Objectron ground truth annotates only the target object, so precision for other objects cannot be measured.
 - The hand-checked set is tiny and labelled by one person; it illustrates behaviour, it does not measure it.
 - OWLv2 and the before/after comparisons ran on a laptop (GPU for OWLv2), not on the AWS COOL instance; OWLv2 needs PyTorch and is not part of the COOL claim.

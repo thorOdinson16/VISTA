@@ -1,0 +1,170 @@
+{
+  "detector": "YOLO ONNX (yolov8n.onnx) +labels",
+  "detector_mode": "real",
+  "confidence_threshold": 0.25,
+  "sample_fps": 2.0,
+  "opencv": "5.1.0-dev",
+  "opencv_file": "/opt/cool/python_3.12/site-packages/cv2/__init__.py",
+  "sequences": [
+    {
+      "sequence": "MOT17-09-FRCNN",
+      "resolution": "1920x1080",
+      "source_fps": 30.0,
+      "frames": 525,
+      "frames_sampled": 95,
+      "processing_seconds": 17.84,
+      "throughput_fps": 29.43,
+      "tracking": {
+        "frames_scored": 95,
+        "gt_tracks": 26,
+        "gt_detections": 968,
+        "pred_detections": 751,
+        "mota": 0.5279,
+        "motp_iou": 0.81,
+        "idf1": 0.5387,
+        "precision": 0.8828,
+        "recall": 0.6849,
+        "id_switches": 64,
+        "false_positives": 88,
+        "false_negatives": 305,
+        "mostly_tracked": 0.3846,
+        "mostly_lost": 0.1538
+      },
+      "locate_grounding": {
+        "objects": 36,
+        "grounded": 22,
+        "grounding_accuracy": 0.6111,
+        "last_seen_median_error_s": 0.767,
+        "last_seen_matched_objects": 32
+      },
+      "objects_remembered": 56,
+      "events": 206,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 16.7s at (1900, 529). Earlier: 17.2s at (748, 576). Earlier: 17.2s at (1357, 555). (33 more tracked sighting(s) not listed.)",
+        "confidence": 0.626,
+        "latency_s": 0.2043
+      }
+    },
+    {
+      "sequence": "MOT17-02-FRCNN",
+      "resolution": "1920x1080",
+      "source_fps": 30.0,
+      "frames": 600,
+      "frames_sampled": 58,
+      "processing_seconds": 13.53,
+      "throughput_fps": 44.36,
+      "tracking": {
+        "frames_scored": 58,
+        "gt_tracks": 58,
+        "gt_detections": 1840,
+        "pred_detections": 520,
+        "mota": 0.1511,
+        "motp_iou": 0.8044,
+        "idf1": 0.2212,
+        "precision": 0.8192,
+        "recall": 0.2315,
+        "id_switches": 54,
+        "false_positives": 94,
+        "false_negatives": 1414,
+        "mostly_tracked": 0.1207,
+        "mostly_lost": 0.6379
+      },
+      "locate_grounding": {
+        "objects": 37,
+        "grounded": 24,
+        "grounding_accuracy": 0.6486,
+        "last_seen_median_error_s": 0.5,
+        "last_seen_matched_objects": 35
+      },
+      "objects_remembered": 64,
+      "events": 288,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 19.5s at (1028, 553). Earlier: 19.0s at (1868, 657). Earlier: 19.5s at (1262, 573). (34 more tracked sighting(s) not listed.)",
+        "confidence": 0.547,
+        "latency_s": 0.1173
+      }
+    },
+    {
+      "sequence": "MOT17-04-FRCNN",
+      "resolution": "1920x1080",
+      "source_fps": 30.0,
+      "frames": 1050,
+      "frames_sampled": 70,
+      "processing_seconds": 21.81,
+      "throughput_fps": 48.15,
+      "tracking": {
+        "frames_scored": 70,
+        "gt_tracks": 83,
+        "gt_detections": 3165,
+        "pred_detections": 1463,
+        "mota": 0.3589,
+        "motp_iou": 0.8136,
+        "idf1": 0.4767,
+        "precision": 0.9023,
+        "recall": 0.4171,
+        "id_switches": 41,
+        "false_positives": 143,
+        "false_negatives": 1845,
+        "mostly_tracked": 0.1325,
+        "mostly_lost": 0.4699
+      },
+      "locate_grounding": {
+        "objects": 57,
+        "grounded": 40,
+        "grounding_accuracy": 0.7018,
+        "last_seen_median_error_s": 0.5,
+        "last_seen_matched_objects": 54
+      },
+      "objects_remembered": 76,
+      "events": 261,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 34.5s at (1758, 561). Earlier: 34.5s at (926, 1010). Earlier: 34.5s at (1630, 710). (54 more tracked sighting(s) not listed.)",
+        "confidence": 0.524,
+        "latency_s": 0.1883
+      }
+    },
+    {
+      "sequence": "MOT17-05-FRCNN",
+      "resolution": "640x480",
+      "source_fps": 14.0,
+      "frames": 837,
+      "frames_sampled": 349,
+      "processing_seconds": 42.66,
+      "throughput_fps": 19.62,
+      "tracking": {
+        "frames_scored": 349,
+        "gt_tracks": 132,
+        "gt_detections": 2870,
+        "pred_detections": 2240,
+        "mota": 0.4362,
+        "motp_iou": 0.7587,
+        "idf1": 0.4391,
+        "precision": 0.8098,
+        "recall": 0.6321,
+        "id_switches": 136,
+        "false_positives": 426,
+        "false_negatives": 1056,
+        "mostly_tracked": 0.2803,
+        "mostly_lost": 0.1818
+      },
+      "locate_grounding": {
+        "objects": 56,
+        "grounded": 22,
+        "grounding_accuracy": 0.3929,
+        "last_seen_median_error_s": 0.714,
+        "last_seen_matched_objects": 53
+      },
+      "objects_remembered": 159,
+      "events": 959,
+      "query": {
+        "question": "Where was the person last seen?",
+        "answer": "The person was last seen at 58.7s at (609, 232). Earlier: 59.5s at (610, 185). Earlier: 59.7s at (363, 220). (53 more tracked sighting(s) not listed.)",
+        "confidence": 0.627,
+        "latency_s": 0.3332
+      }
+    }
+  ]
+}
