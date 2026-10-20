@@ -17,8 +17,10 @@ Schema (annotation_data.proto)::
     NormalizedPoint2D{ float x = 1; float y = 2; float depth = 3; }
 
 Keypoint 0 is the box centre; 1..8 are the box corners. Objectron data is
-research-licensed (CC BY 4.0 / C-UDA): it is downloaded at run time and
-never committed.
+downloaded at run time from the public bucket and is not stored in the
+repository; only a few annotated thumbnails are kept under docs/eval/ with
+attribution (Ahmadyan et al., CVPR 2021, "Objectron"). Check the dataset
+licence before redistributing anything further.
 """
 
 from __future__ import annotations
