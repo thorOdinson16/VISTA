@@ -33,6 +33,7 @@ class PipelineResult:
     evidence_refs: list[dict] = field(default_factory=list)
     frames_processed: int = 0
     frames_sampled: int = 0
+    sampled_frame_ids: list[int] = field(default_factory=list)
 
 
 class Pipeline:
@@ -50,6 +51,7 @@ class Pipeline:
         saliency_min_overlap: float = 0.1,
         scene_change_threshold: float = 0.15,
         scene_change_motion_gate: float = 2.0,
+        sample_fps: float = 2.0,
     ) -> None:
         self.detector = detector
         self.tracker = tracker or MultiObjectTracker()
@@ -65,6 +67,7 @@ class Pipeline:
         self.saliency_confirmer = SaliencyConfirmer(min_overlap=saliency_min_overlap)
         self.scene_change_threshold = scene_change_threshold
         self.scene_change_motion_gate = scene_change_motion_gate
+        self.sample_fps = sample_fps
 
     def run(self, video_path: str | Path) -> PipelineResult:
         video_path = Path(video_path)
@@ -74,7 +77,7 @@ class Pipeline:
             motion = MotionAnalyzer()
             sampler = self.sampler or FrameSampler(
                 strategy="adaptive",
-                sample_fps=2.0,
+                sample_fps=self.sample_fps,
                 source_fps=fps,
                 motion=motion,
             )
@@ -91,6 +94,7 @@ class Pipeline:
 
             frames_processed = 0
             frames_sampled = 0
+            sampled_frame_ids: list[int] = []
             for frame in reader.frames():
                 frames_processed += 1
                 foreground_mask, foreground_score = motion.foreground(frame.image)
@@ -104,6 +108,7 @@ class Pipeline:
                 if not sampled:
                     continue
                 frames_sampled += 1
+                sampled_frame_ids.append(frame.frame_id)
                 detections = self.detector.detect(
                     frame.image, frame.frame_id, frame.timestamp
                 )
@@ -145,6 +150,7 @@ class Pipeline:
             evidence_refs=evidence_refs,
             frames_processed=frames_processed,
             frames_sampled=frames_sampled,
+            sampled_frame_ids=sampled_frame_ids,
         )
 
     @staticmethod

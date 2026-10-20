@@ -19,6 +19,7 @@ dependencies = [
 detection = ["ultralytics>=8.3"]
 owlv2 = ["transformers>=4.45"]
 aws = ["boto3>=1.34"]
+eval = ["scipy>=1.11"]
 vector = ["faiss-cpu>=1.8"]
 llm = ["openai>=1.30", "anthropic>=0.34", "ollama>=0.2"]
 dev = [
