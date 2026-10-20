@@ -11,6 +11,13 @@ from ..reasoning.answerer import Answer
 
 class QueryRequest(BaseModel):
     question: str
+    # Run the verify loop for locate questions (None = server default).
+    agent: bool | None = None
+
+
+class ConfirmRequest(BaseModel):
+    object_id: str
+    accepted: bool = True
 
 
 class IngestResult(BaseModel):
@@ -29,6 +36,12 @@ class QueryResponse(BaseModel):
     answer: Answer
     evidence: list[dict[str, Any]] = Field(default_factory=list)
     searched_on_demand: bool = False
+    # Verify loop: status, the tool-call trace, and (when nothing could be
+    # verified) the candidate sightings the human is asked to choose from.
+    agent_status: str | None = None
+    agent_trace: list[dict[str, Any]] = Field(default_factory=list)
+    needs_confirmation: bool = False
+    candidates: list[dict[str, Any]] = Field(default_factory=list)
 
 
 class StatusResponse(BaseModel):

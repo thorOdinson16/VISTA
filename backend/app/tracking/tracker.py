@@ -215,7 +215,11 @@ class MultiObjectTracker:
         return track_id
 
     def _relink(
-        self, detection: Detection, timestamp: float, image: np.ndarray | None
+        self,
+        detection: Detection,
+        timestamp: float,
+        image: np.ndarray | None,
+        extra: list[_Tracklet] | None = None,
     ) -> _Tracklet | None:
         """Try to re-identify an unmatched detection as a lost track.
 
@@ -224,6 +228,12 @@ class MultiObjectTracker:
         agreement is never enough on its own: candidates whose local
         visual features contribute nothing must also be spatiotemporally
         plausible, and the returned confidence reflects the breakdown.
+
+        ``extra`` are still-active tracks that found no detection this frame
+        (occluded, or the camera moved too far for the motion gate). They are
+        candidates alongside the lost tracks: without them a moving camera
+        spawns a new object for every sampled frame and one physical object
+        fragments into many.
         """
         from ..perception.appearance import encode_crop as _encode
 
@@ -234,7 +244,7 @@ class MultiObjectTracker:
         )
         best: _Tracklet | None = None
         best_score = -1.0
-        for lost in self._lost:
+        for lost in [*self._lost, *(extra or [])]:
             if lost.status is TrackStatus.INACTIVE:
                 continue
             if lost.category != detection.category:
@@ -259,7 +269,8 @@ class MultiObjectTracker:
                 best = lost
 
         if best is not None and best_score >= self.reid.threshold:
-            self._lost.remove(best)
+            if best in self._lost:
+                self._lost.remove(best)
             confidence = float(best_score)
             best.update(detection, timestamp, image, association_confidence=confidence)
             self._tracks[best.track_id] = best
@@ -336,10 +347,17 @@ class MultiObjectTracker:
             matched_ids.add(track.track_id)
             track.update(det, timestamp, image, association_confidence=a.confidence)
 
+        unmatched_active = [
+            active[i] for i in unmatched_tracks if active[i].track_id not in matched_ids
+        ]
         for j in unmatched_dets:
             det = detections[j]
-            if self._relink(det, timestamp, image) is None:
+            relinked = self._relink(det, timestamp, image, extra=unmatched_active)
+            if relinked is None:
                 self._spawn(det, timestamp, image)
+            elif relinked in unmatched_active:
+                unmatched_active.remove(relinked)
+                matched_ids.add(relinked.track_id)
 
         for i in unmatched_tracks:
             track = active[i]

@@ -46,6 +46,10 @@ _ANSWER_PROMPT = (
 )
 
 
+# Extra "earlier" sightings listed after the best one in a locate answer.
+_MAX_EARLIER = 2
+
+
 class TimelineEntry(BaseModel):
     time: float
     label: str
@@ -159,14 +163,20 @@ class Answerer:
     def _locate(self, plan, result, evidence_refs) -> Answer:
         observed: list[str] = []
         parts: list[str] = []
-        for obj in result.objects:
+        for rank, obj in enumerate(result.objects):
             loc = ""
             if obj.trajectory:
                 p = obj.trajectory[-1]
                 loc = f" at ({p.x:.0f}, {p.y:.0f})"
             t = obj.last_seen
-            parts.append(f"The {obj.category} was last seen at {t:.1f}s{loc}.")
+            if rank == 0:
+                parts.append(f"The {obj.category} was last seen at {t:.1f}s{loc}.")
+            elif rank <= _MAX_EARLIER:
+                parts.append(f"Earlier: {t:.1f}s{loc}.")
             observed.append(f"The {obj.category} is visible at {t:.1f}s.")
+        extra = len(result.objects) - 1 - _MAX_EARLIER
+        if parts and extra > 0:
+            parts.append(f"({extra} more tracked sighting(s) not listed.)")
         if not parts:
             category = plan.target_category or "object"
             return Answer(

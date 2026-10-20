@@ -25,6 +25,10 @@ class VistaSession:
         # Labels requested by queries that were not in the configured
         # vocabulary; the detector is re-prompted with them on demand.
         self.extra_labels: list[str] = []
+        # Detector used for the last run (the agent re-uses it to verify crops)
+        # and candidate sightings awaiting human confirmation.
+        self.detector = None
+        self.pending: list[str] = []
 
     @property
     def ready(self) -> bool:
@@ -57,3 +61,5 @@ class VistaSession:
         self.detector_mode = None
         self.detector_name = None
         self.extra_labels = []
+        self.detector = None
+        self.pending = []

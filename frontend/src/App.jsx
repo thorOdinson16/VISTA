@@ -198,6 +198,23 @@ export default function App() {
     }
   }
 
+  async function confirmSighting(objectId, accepted) {
+    setQuerying(true);
+    setError(null);
+    try {
+      const d = await api("/api/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ object_id: objectId, accepted }),
+      });
+      setAnswer(d);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setQuerying(false);
+    }
+  }
+
   async function showSimilar(objectId) {
     try {
       const d = await api(
@@ -452,6 +469,36 @@ export default function App() {
                       </div>
                     )}
 
+                    {answer.needs_confirmation && (
+                      <div className="notice confirm">
+                        VISTA could not verify this on a zoomed crop and is asking you to
+                        decide. Pick the frame that shows it.
+                      </div>
+                    )}
+
+                    {answer.agent_trace && answer.agent_trace.length > 0 && (
+                      <details className="trace">
+                        <summary>
+                          Agent trace · {answer.agent_trace.length} step
+                          {answer.agent_trace.length === 1 ? "" : "s"}
+                          {answer.agent_status ? ` · ${answer.agent_status.replace(/_/g, " ")}` : ""}
+                        </summary>
+                        <ol>
+                          {answer.agent_trace.map((s) => (
+                            <li key={s.step}>
+                              <span className="tool">{s.tool}</span>
+                              <span className="obs">
+                                {Object.entries(s.observation || {})
+                                  .map(([k, v]) => `${k}=${typeof v === "number" ? +v.toFixed(2) : v}`)
+                                  .join("  ")}
+                              </span>
+                              <span className="decision">→ {s.decision}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </details>
+                    )}
+
                     {answer.answer.observed.length > 0 && (
                       <>
                         <div className="section-label">Observed</div>
@@ -521,6 +568,28 @@ export default function App() {
                                   </div>
                                 )}
                                 <span className="meta">{fmtTime(ev.timestamp_start)}</span>
+                                {answer.needs_confirmation && ev.object_refs && ev.object_refs[0] && (
+                                  <span className="confirm-actions">
+                                    <button
+                                      className="btn-small"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        confirmSighting(ev.object_refs[0], true);
+                                      }}
+                                    >
+                                      This is it
+                                    </button>
+                                    <button
+                                      className="btn-small ghost"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        confirmSighting(ev.object_refs[0], false);
+                                      }}
+                                    >
+                                      Not this
+                                    </button>
+                                  </span>
+                                )}
                               </div>
                             );
                           })}

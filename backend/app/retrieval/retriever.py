@@ -280,8 +280,28 @@ class Retriever:
             out.extend(self.evidence.for_event_all(e))
         return out
 
+    @staticmethod
+    def rank_sightings(objects: list[ObjectRecord]) -> list[ObjectRecord]:
+        """Order candidate objects for \"where is X?\", best answer first.
+
+        The answer to *where is it* is the most recent sighting, so recency
+        leads. Sightings within one second of the latest are a tie that is
+        broken by support (observation count x mean confidence), which keeps a
+        single stray low-confidence box from beating the well-tracked object.
+        """
+        if not objects:
+            return []
+        latest = max((o.last_seen or 0.0) for o in objects)
+
+        def key(o: ObjectRecord) -> tuple[int, float, float]:
+            recent = 1 if (o.last_seen or 0.0) >= latest - 1.0 else 0
+            support = len(o.observations) * (o.confidence or 0.0)
+            return (recent, support if recent else 0.0, o.last_seen or 0.0)
+
+        return sorted(objects, key=key, reverse=True)
+
     def _locate(self, plan: QueryPlan) -> RetrievalResult:
-        objects = self._objects_for_plan(plan)
+        objects = self.rank_sightings(self._objects_for_plan(plan))
         evidence = [
             e
             for o in objects

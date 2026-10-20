@@ -673,3 +673,69 @@ button.mini:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.notice.confirm {
+  border-left-color: var(--gold);
+  color: var(--text);
+}
+
+.trace {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.trace summary {
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: var(--faint);
+}
+
+.trace ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.trace li {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.trace .tool {
+  color: var(--gold);
+  font-family: ui-monospace, Menlo, monospace;
+  margin-right: 8px;
+}
+
+.trace .obs {
+  color: var(--muted);
+  margin-right: 8px;
+}
+
+.trace .decision {
+  color: var(--text);
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.btn-small {
+  background: var(--gold);
+  color: #0a0a0a;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.btn-small.ghost {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line, #333);
+}

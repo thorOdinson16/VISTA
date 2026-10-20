@@ -12,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from ..agent import NEEDS_CONFIRMATION, NOT_FOUND, VERIFIED, LocateAgent
 from ..config import settings
 from ..llm.factory import create_llm_from_settings
 from ..perception.vocabulary import load_label_map, query_terms
@@ -22,6 +23,7 @@ from ..retrieval.retriever import Retriever
 from ..services.session import VistaSession
 from ..storage import create_object_store
 from .schemas import (
+    ConfirmRequest,
     IngestResult,
     QueryRequest,
     QueryResponse,
@@ -47,7 +49,7 @@ STORE = create_object_store(
 )
 
 
-def _run_pipeline(video_path: Path, labels: list[str]):
+def _run_pipeline(video_path: Path, labels: list[str], sample_fps: float | None = None):
     """Detect + track + remember ``video_path`` with an open-vocab ``labels`` list."""
     detector = build_default_detector(
         model_path=settings.yolo_model_path,
@@ -70,6 +72,7 @@ def _run_pipeline(video_path: Path, labels: list[str]):
         saliency_min_overlap=settings.saliency_min_persistence_overlap,
         scene_change_threshold=settings.scene_change_threshold,
         scene_change_motion_gate=settings.scene_change_motion_gate,
+        sample_fps=sample_fps or 2.0,
     )
     return pipeline.run(video_path), detector
 
@@ -153,6 +156,8 @@ async def ingest(file: Annotated[UploadFile, File()]) -> IngestResult:
         video_path.unlink(missing_ok=True)
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
+    SESSION.detector = detector
+    SESSION.pending = []
     SESSION.detector_name = detector_name(detector)
     SESSION.detector_mode = settings.detector_mode
     SESSION.attach(result.memory, str(video_path), result.video_info)
@@ -166,6 +171,39 @@ async def ingest(file: Annotated[UploadFile, File()]) -> IngestResult:
         frames_sampled=result.frames_sampled,
         evidence_refs=result.evidence_refs,
     )
+
+
+def _open_vocab_mode() -> bool:
+    return settings.detector_mode in ("openvocab", "owlv2", "hybrid")
+
+
+def _agent_rescan(fps: float, labels: list[str] | None):
+    """Agent tool: re-run detection (new vocabulary and/or denser sampling)."""
+    if labels:
+        if not _open_vocab_mode():
+            return SESSION.memory  # a closed-set detector cannot learn new labels
+        for label in labels:
+            if label not in SESSION.extra_labels and label not in settings.detector_label_list:
+                SESSION.extra_labels.append(label)
+    result, detector = _run_pipeline(
+        Path(SESSION.source_video),
+        settings.detector_label_list + SESSION.extra_labels,
+        sample_fps=fps or None,
+    )
+    SESSION.detector = detector
+    SESSION.detector_name = detector_name(detector)
+    SESSION.attach(result.memory, SESSION.source_video, result.video_info)
+    return SESSION.memory
+
+
+def _answer_for(objects, plan, question, retriever, llm, confidence):
+    """Answer a locate question from an explicit, ordered list of objects."""
+    from ..retrieval.retriever import RetrievalResult
+
+    evidence = [e for o in objects if (e := retriever.evidence.for_object_last(o)) is not None]
+    result = RetrievalResult(objects=objects, evidence=evidence, confidence=confidence)
+    answer = Answerer(memory=SESSION.memory, llm=llm).answer(question, plan, result)
+    return answer, result
 
 
 @app.post("/api/query", response_model=QueryResponse)
@@ -183,11 +221,35 @@ def query(request: QueryRequest) -> QueryResponse:
         ),
     ).parse(request.question)
 
-    searched = False
+    use_agent = (
+        settings.agent_enabled if request.agent is None else request.agent
+    ) and plan.query_type == "locate" and bool(plan.target_category) and SESSION.detector is not None
     target = (plan.target_category or "").strip().lower()
-    if (
+
+    agent_status: str | None = None
+    trace: list[dict] = []
+    candidates: list[dict] = []
+    searched = False
+    outcome = None
+
+    if use_agent:
+        outcome = LocateAgent(
+            memory=memory,
+            detector=SESSION.detector,
+            video_path=SESSION.source_video or "",
+            fps=SESSION.fps,
+            rescan=_agent_rescan,
+        ).locate(target, plan.attributes)
+        memory = SESSION.memory
+        agent_status = outcome.status
+        trace = outcome.trace
+        candidates = outcome.candidates
+        searched = any(
+            s["tool"] == "rescan" and s["args"].get("labels") for s in trace
+        )
+    elif (
         target
-        and settings.detector_mode in ("openvocab", "owlv2", "hybrid")
+        and _open_vocab_mode()
         and SESSION.source_video
         and target not in _known_categories()
         and target not in SESSION.extra_labels
@@ -203,11 +265,12 @@ def query(request: QueryRequest) -> QueryResponse:
             )
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+        SESSION.detector = detector
         SESSION.detector_name = detector_name(detector)
         SESSION.attach(result.memory, SESSION.source_video, result.video_info)
-        _mirror_to_store(Path(SESSION.source_video))
         memory = SESSION.memory
         searched = True
+
     retriever = Retriever(
         memory,
         source_video=SESSION.source_video or "",
@@ -215,10 +278,24 @@ def query(request: QueryRequest) -> QueryResponse:
         llm=llm,
         semantic_threshold=settings.semantic_retrieval_threshold,
     )
-    result = retriever.retrieve(plan)
-    answer = Answerer(memory=memory, llm=llm).answer(
-        request.question, plan, result
-    )
+    if outcome is not None and outcome.status == VERIFIED:
+        answer, result = _answer_for(
+            outcome.objects, plan, request.question, retriever, llm,
+            max(outcome.confidence, 0.0),
+        )
+        answer.text += " (verified on a zoomed crop)"
+    elif outcome is not None and outcome.status == NEEDS_CONFIRMATION:
+        top = outcome.objects[:2]
+        SESSION.pending = [o.object_id for o in outcome.objects[: settings.agent_max_candidates]]
+        answer, result = _answer_for(top, plan, request.question, retriever, llm, 0.0)
+        answer.text = (
+            f"I found possible sightings of the {target} but could not verify them. "
+            "Please confirm which one is correct."
+        )
+        answer.confidence = 0.0
+    else:
+        result = retriever.retrieve(plan)
+        answer = Answerer(memory=memory, llm=llm).answer(request.question, plan, result)
 
     return QueryResponse(
         question=request.question,
@@ -227,6 +304,68 @@ def query(request: QueryRequest) -> QueryResponse:
         answer=answer,
         evidence=[e.model_dump(mode="json") for e in result.evidence],
         searched_on_demand=searched,
+        agent_status=agent_status,
+        agent_trace=trace,
+        needs_confirmation=bool(outcome and outcome.status == NEEDS_CONFIRMATION),
+        candidates=candidates,
+    )
+
+
+@app.post("/api/confirm", response_model=QueryResponse)
+def confirm(request: ConfirmRequest) -> QueryResponse:
+    """Human decision on a sighting the agent could not verify."""
+    memory = SESSION.memory
+    if memory is None:
+        raise HTTPException(status_code=400, detail="No video ingested yet")
+    obj = memory.object_memory.get(request.object_id)
+    if obj is None or request.object_id not in SESSION.pending:
+        raise HTTPException(status_code=404, detail="No such pending sighting")
+    from ..retrieval.query_parser import QueryPlan
+
+    plan = QueryPlan(query_type="locate", target_category=obj.category)
+    retriever = Retriever(memory, source_video=SESSION.source_video or "", fps=SESSION.fps)
+    trace = [
+        {
+            "step": 1,
+            "tool": "human_confirmation",
+            "args": {"object": request.object_id},
+            "observation": {"accepted": request.accepted},
+            "decision": "use the sighting" if request.accepted else "discard the sighting",
+        }
+    ]
+    if request.accepted:
+        SESSION.pending = []
+        answer, result = _answer_for(
+            [obj], plan, f"Where is the {obj.category}?", retriever, None, 1.0
+        )
+        answer.text += " (confirmed by you)"
+        status, remaining = "confirmed_by_human", []
+    else:
+        SESSION.pending = [i for i in SESSION.pending if i != request.object_id]
+        nxt = [memory.object_memory.get(i) for i in SESSION.pending]
+        nxt = [o for o in nxt if o is not None]
+        if nxt:
+            answer, result = _answer_for(
+                nxt[:1], plan, f"Where is the {obj.category}?", retriever, None, 0.0
+            )
+            answer.text = "Understood. Is this sighting the right one?"
+            answer.confidence = 0.0
+            status, remaining = NEEDS_CONFIRMATION, [
+                {"object_id": o.object_id, "last_seen": o.last_seen} for o in nxt
+            ]
+        else:
+            answer, result = _answer_for([], plan, f"Where is the {obj.category}?", retriever, None, 0.0)
+            status, remaining = NOT_FOUND, []
+    return QueryResponse(
+        question=f"Where is the {obj.category}?",
+        query_type="locate",
+        target_category=obj.category,
+        answer=answer,
+        evidence=[e.model_dump(mode="json") for e in result.evidence],
+        agent_status=status,
+        agent_trace=trace,
+        needs_confirmation=status == NEEDS_CONFIRMATION,
+        candidates=remaining,
     )
 
 

@@ -53,12 +53,20 @@ class Settings(BaseSettings):
     detector_label_map: str | None = None
     # Open-vocabulary (YOLO-World) text labels, comma-separated.
     detector_labels: str = (
-        "notebook,desk,shelf,coin,mug,backpack,laptop,phone,person,chair,bottle,tablet"
+        "coin,key,wallet,pen,remote,phone,phone charger,charging cable,"
+        "power adapter,earbuds,glasses,watch,mug,bottle,notebook,laptop,"
+        "backpack,person,chair,tablet"
     )
     openvocab_model: str = "yolov8s-worldv2.pt"
     owlv2_model: str = "google/owlv2-base-patch16-ensemble"
     model_size: str = "yolov8s"
     detection_confidence_threshold: float = 0.25
+
+    # --- Agent ---
+    # Verify "where is X?" answers with a zoomed crop check, re-scan or ask
+    # the human when nothing verifies (see backend/app/agent).
+    agent_enabled: bool = True
+    agent_max_candidates: int = 3
 
     @property
     def detector_label_list(self) -> list[str]:

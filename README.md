@@ -69,6 +69,8 @@ Key settings (all prefixed `VISTA_`):
 | `VISTA_DETECTOR_LABEL_MAP` | *(empty)* | JSON raw→canonical label map override |
 | `VISTA_DETECTOR_LABELS` | canonical list | open-vocab text labels (comma-separated) |
 | `VISTA_OPENVOCAB_MODEL` | `yolov8s-worldv2.pt` | YOLO-World weights |
+| `VISTA_AGENT_ENABLED` | `true` | verify "where is X?" answers with a zoomed-crop check; re-scan or ask the human when nothing verifies |
+| `VISTA_STORAGE` / `VISTA_S3_BUCKET` | `local` | `s3` mirrors video, memory DB and evidence to Amazon S3 (see [AWS deployment](docs/AWS_DEPLOYMENT.md)) |
 | `VISTA_SEMANTIC_RETRIEVAL_THRESHOLD` | `0.85` | min cosine similarity for semantic match |
 | `VISTA_SAMPLING_STRATEGY` | `adaptive` | `adaptive`, `fixed`, `all` |
 | `VISTA_SCENE_CHANGE_MOTION_GATE` | `2.0` | flow magnitude above which camera motion suppresses scene-change |
@@ -196,6 +198,26 @@ when a re-scan happened. Compound nouns are kept intact ("phone charger" is
 not reduced to "phone"). This applies to the `owlv2`, `openvocab` and
 `hybrid` modes.
 
+### Verify agent (perception, decision, action)
+
+For "where is X?" questions a plain memory lookup can return stray or
+fragmented tracks. The agent (`backend/app/agent`) checks the answer with
+OpenCV before committing to it, and what it sees decides what it does next:
+
+1. **lookup_memory**: ranked candidate sightings (most recent first, ties
+   broken by support). Nothing remembered: **rescan** with the target label.
+2. **inspect_crop**: crop the candidate's last box from the source frame,
+   upscale it, and re-run the detector on the crop. Verified: answer.
+   Rejected: inspect the next candidate.
+3. Nothing verifies: **rescan at denser sampling** (6 fps), then look again.
+4. Still nothing: **ask the human** to pick among the top sightings
+   (`POST /api/confirm`). The agent never guesses a location.
+
+Every step (tool, numeric observation, decision) is returned as
+`agent_trace` and shown in the UI under the answer. Disable with
+`VISTA_AGENT_ENABLED=false` or per query (`{"question": "...", "agent": false}`).
+Diagram: [`docs/agent_workflow.png`](docs/agent_workflow.png).
+
 ### Canonical vocabulary & label mapping
 
 Detector labels are mapped to one canonical vocabulary
@@ -278,7 +300,9 @@ accuracy.
 | --- | --- | --- |
 | `GET` | `/api/status` | Ingest status (objects, events, fps, duration) |
 | `POST` | `/api/ingest` | Upload and index a video (multipart `file`) |
-| `POST` | `/api/query` | Ask a natural-language question |
+| `POST` | `/api/query` | Ask a natural-language question (response includes `agent_trace`, `needs_confirmation`, `candidates`) |
+| `POST` | `/api/confirm` | Human decision on a sighting the agent could not verify |
+| `GET` | `/api/health` | Liveness check |
 | `GET` | `/api/timeline` | Chronological events |
 | `GET` | `/api/objects` | Object records |
 | `GET` | `/api/scene?t=` | Scene snapshot (spatial relationships) |
@@ -319,7 +343,12 @@ backend/app/
   reasoning/   answer synthesis + evidence grounding
   llm/         pluggable providers (rule-based/OpenAI/Anthropic/Ollama)
   pipeline/    end-to-end orchestration
+  agent/       verify loop (inspect crop, rescan, ask human)
+  storage/     local / Amazon S3 object store
+  evaluation/  MOT metrics, MOT17/Objectron loaders, harnesses
   api/         FastAPI app
 frontend/      React + Vite UI
-scripts/       demo video generation, ONNX export, evaluation
+infra/         AWS provisioning, launch, deploy, benchmark scripts
+docs/          AWS deployment, benchmark, evaluation, report, diagrams
+scripts/       demo video generation, ONNX export, benchmark, evaluation
 ```
