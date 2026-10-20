@@ -16,19 +16,24 @@ KEY_FILE="$HOME/.ssh/vista-key.pem"
 STATE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.state"
 mkdir -p "$STATE_DIR"
 
-# mode -> instance type / AMI parameter / docker build arg
+# mode -> instance type / AMI / root volume (GB) / docker build arg
+#   cool-arm : Graviton4 + COOL (Cloud-Optimized OpenCV) Marketplace AMI
+#   base-arm : same hardware, plain Ubuntu + pip OpenCV  (COOL baseline)
+#   base-x86 : x86 (c8i) + pip OpenCV                    (architecture baseline)
+#   gpu      : optional Graviton2 + T4G GPU for OWLv2
+COOL_AMI="ami-01db31139bc5615d8"
 mode_config() {
+  AMI=""; VOLUME=40; TORCH_INDEX=
   case "$1" in
-    gpu)     ITYPE=g5g.xlarge
-             AMI_PARAM=/aws/service/deeplearning/ami/arm64/base-oss-nvidia-driver-gpu-ubuntu-24.04/latest/ami-id
-             TORCH_INDEX=https://download.pytorch.org/whl/cu130 ;;
-    cpu-arm) ITYPE=c7g.xlarge
-             AMI_PARAM=/aws/service/canonical/ubuntu/server/24.04/stable/current/arm64/hvm/ebs-gp3/ami-id
-             TORCH_INDEX= ;;
-    cpu-x86) ITYPE=c7i.xlarge
-             AMI_PARAM=/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id
-             TORCH_INDEX= ;;
-    *) echo "mode must be gpu | cpu-arm | cpu-x86" >&2; exit 1 ;;
+    cool-arm) ITYPE=c8g.xlarge; AMI="$COOL_AMI"; VOLUME=50 ;;
+    base-arm) ITYPE=c8g.xlarge
+              AMI_PARAM=/aws/service/canonical/ubuntu/server/24.04/stable/current/arm64/hvm/ebs-gp3/ami-id ;;
+    base-x86) ITYPE=c8i.xlarge
+              AMI_PARAM=/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id ;;
+    gpu)      ITYPE=g5g.xlarge; VOLUME=100
+              AMI_PARAM=/aws/service/deeplearning/ami/arm64/base-oss-nvidia-driver-gpu-ubuntu-24.04/latest/ami-id
+              TORCH_INDEX=https://download.pytorch.org/whl/cu130 ;;
+    *) echo "mode must be cool-arm | base-arm | base-x86 | gpu" >&2; exit 1 ;;
   esac
 }
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Usage: infra/deploy.sh gpu|cpu-arm|cpu-x86 -- ship the current commit, build the image, run it.
+# Usage: infra/deploy.sh cool-arm|base-arm|base-x86|gpu -- ship the current commit, build the image, run it.
 set -euo pipefail
 source "$(dirname "$0")/common.sh"
 MODE="${1:?mode}"; mode_config "$MODE"

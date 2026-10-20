@@ -2,7 +2,7 @@
 # Terminate instances. With --all also delete the bucket, IAM role and key pair.
 set -euo pipefail
 source "$(dirname "$0")/common.sh"
-for m in gpu cpu-arm cpu-x86; do
+for m in cool-arm base-arm base-x86 gpu; do
   id="$(instance_id "$m")"; [ -z "$id" ] && continue
   aws ec2 terminate-instances --instance-ids "$id" >/dev/null && rm -f "$STATE_DIR/$m.id"
   echo "terminated $m ($id)"

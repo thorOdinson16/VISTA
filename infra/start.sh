@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Usage: infra/start.sh gpu|cpu-arm|cpu-x86 -- start a stopped instance (its public IP changes).
+# Usage: infra/start.sh cool-arm|base-arm|base-x86|gpu -- start a stopped instance (its public IP changes).
 set -euo pipefail
 source "$(dirname "$0")/common.sh"
 MODE="${1:?mode}"
