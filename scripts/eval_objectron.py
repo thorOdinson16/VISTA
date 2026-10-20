@@ -19,6 +19,7 @@ import json
 import random
 import sys
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -47,18 +48,33 @@ from backend.app.retrieval.retriever import Retriever
 IOU_HIT = 0.3
 
 
+def _retry(fn, attempts: int = 6):
+    """Network calls on shared / flaky links: retry with growing backoff."""
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except (OSError, urllib.error.URLError):
+            if attempt == attempts:
+                raise
+            time.sleep(3 * attempt)
+
+
 def _download(url: str, dest: Path) -> None:
     if dest.exists() and dest.stat().st_size > 0:
         return
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".part")
-    urllib.request.urlretrieve(url, tmp)
+    _retry(lambda: urllib.request.urlretrieve(url, tmp))
     tmp.replace(dest)
 
 
-def select_clips(cls: str, n: int, seed: int) -> list[str]:
-    with urllib.request.urlopen(INDEX_URL.format(cls=cls), timeout=60) as resp:
-        index = sorted(line.strip() for line in resp.read().decode().splitlines() if line.strip())
+def select_clips(cls: str, n: int, seed: int, cache: Path) -> list[str]:
+    index_file = cache / "index" / f"{cls}_annotations_test"
+    if not index_file.exists():
+        _download(INDEX_URL.format(cls=cls), index_file)
+    index = sorted(
+        line.strip() for line in index_file.read_text().splitlines() if line.strip()
+    )
     return random.Random(seed).sample(index, min(n, len(index)))
 
 
@@ -221,7 +237,7 @@ def main() -> int:
     fig_dir = Path(args.figs) if args.figs else None
     rows: list[dict] = []
     for cls in args.classes:
-        for clip in select_clips(cls, args.per_class, args.seed):
+        for clip in select_clips(cls, args.per_class, args.seed, cache):
             print(f"== {cls} {clip}", flush=True)
             row = evaluate_clip(clip, cls, cache, detector, args, fig_dir)
             print(f"   {row['outcome']}  recall {row['frame_recall']}  {row['processing_seconds']}s", flush=True)
