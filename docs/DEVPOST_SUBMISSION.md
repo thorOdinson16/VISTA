@@ -1,6 +1,6 @@
 # Devpost submission text (draft)
 
-Fields marked **[YOU]** need information only the submitter has.
+All fields are filled in.
 
 ## Project name
 
@@ -89,6 +89,6 @@ The AWS deployment is torn down after the recording to save credits; it is rebui
 ## Links
 
 - Code: https://github.com/thorOdinson16/VISTA (public)
-- Video (5 minutes or less, shows the team): **[YOU]**
+- Video (under 5 minutes, shows the team): https://www.youtube.com/watch?v=JEdilPk-5u4
 - Technical report: `docs/TECHNICAL_REPORT.md`
 - Architecture: `docs/architecture.png`, agent workflow: `docs/agent_workflow.png`
